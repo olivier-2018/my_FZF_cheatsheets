@@ -1,0 +1,122 @@
+# whois - query domain and IP address information from registrars
+
+whois example.com # [Basic] - Look up domain registration
+
+    # Query domain WHOIS information (registrar, owner, dates)
+whois 8.8.8.8 # [Basic] - Look up IP address
+
+    # Query IP ownership (ARIN, RIPE, APNIC, LACNIC)
+whois -h whois.verisign-grs.com example.com # [Registrar] - Query specific registrar
+
+    # Use custom WHOIS server for lookup
+whois --help # [Basic] - Show usage
+
+    # Display command options and examples
+
+
+
+whois -a example.com # [Options] - All WHOIS data
+
+    # Request all available records
+whois -B example.com # [Options] - Suppress legal notices
+
+    # Omit disclaimer text
+whois -G example.com # [Options] - Contact data only
+
+    # Show only contact information (brief)
+whois -H example.com # [Options] - Header only
+
+    # Display server header without data
+whois -l example.com # [Lookup] - Single-level lookup
+
+    # Query only the specified server
+whois -r example.com # [Lookup] - Recursive lookup
+
+    # Follow referrals (get complete info)
+whois -R example.com # [Lookup] - Non-recursive
+
+    # Don't follow referrals to other servers
+
+
+
+whois example.com | grep "Registrar" # [Parse] - Find registrar name
+
+    # Extract registrar information
+whois example.com | grep "Creation Date" # [Parse] - Domain registration date
+
+    # Show when domain was registered
+whois example.com | grep "Expiration Date" # [Parse] - Domain expiration
+
+    # Find renewal deadline
+whois example.com | grep "Registrant" # [Parse] - Registrant contact
+
+    # Show domain owner information
+whois example.com | grep "Admin" # [Parse] - Admin contact
+
+    # Display admin contact details
+whois 192.168.1.1 # [IP Lookup] - Private IP info
+
+    # Attempt to query private/local IP (usually fails)
+whois 8.8.8.8 | grep "OrgName" # [IP Lookup] - IP organization
+
+    # Identify who owns/operates IP address
+whois 8.8.8.8 | grep -E "(NetRange|CIDR)" # [IP Lookup] - IP address range
+
+    # Show network range for IP block
+
+
+
+whois -h whois.apnic.net 1.1.1.1 # [Regional] - APNIC (Asia-Pacific)
+
+    # Query Asia-Pacific IP address registry
+whois -h whois.ripe.net 81.0.0.1 # [Regional] - RIPE (Europe)
+
+    # Query European IP registry
+whois -h whois.arin.net 8.8.8.8 # [Regional] - ARIN (North America)
+
+    # Query North American IP registry
+whois -h whois.lacnic.net 200.1.1.1 # [Regional] - LACNIC (Latin America)
+
+    # Query Latin American registry
+whois -h whois.afrinic.net 41.0.0.1 # [Regional] - AFRINIC (Africa)
+
+    # Query African registry
+
+
+
+whois -c JP example.jp # [Country] - Country code lookup
+
+    # Query registrar for specific country
+whois example.co.uk # [Country] - UK domain
+
+    # Look up .co.uk domain
+whois example.de # [Country] - German domain
+
+    # Look up .de domain
+whois example.fr # [Country] - French domain
+
+    # Look up .fr domain
+whois example.cn # [Country] - China domain
+
+    # Look up .cn domain
+
+
+
+whois example.com 2>&1 | head -20 # [Output] - First 20 lines
+
+    # Show initial WHOIS response
+whois example.com | tail -10 # [Output] - Last 10 lines
+
+    # Show footer information
+whois -q example.com # [Output] - Quiet mode
+
+    # Minimal output (some servers only)
+whois example.com | wc -l # [Output] - Line count
+
+    # How many lines of WHOIS data
+whois -p 43 example.com # [Server] - Custom port
+
+    # Use non-standard WHOIS port
+whois example.com | grep -i "nameserver" # [DNS] - Find nameservers
+
+    # Show DNS servers for domain

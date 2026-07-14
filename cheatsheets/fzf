@@ -1,0 +1,27 @@
+# Fuzzy Find
+
+fzf <cmd>   # String search
+
+#   Ctrl-t              search & review files  (multi-select with tab)
+#   Ctrl-r              search & review history 
+#   Alt-c               search & review folders tree (enter to cd into the folder)
+
+#   '<string>           Strict search for <string> (no fuzzy search)
+
+#   ^<string>           search files starting with <string> (Ex: ^.zsh)
+
+#   <string>$           search file ending with <string> (Ex: json$)
+
+#   tab                 select file 
+#   shft-tab            deselect file
+
+#   cd ** + Tab         only show directories 
+#   export ** + Tab     only show env variables
+#   unset ** + Tab      only show env variables to unset
+#   ssh ** + Tab        only show past ssh hosts 
+#   ps ** + Tab         only show processes
+#   kill ** + Tab       only show processes
+#   unalias ** + Tab    only show aliases
+
+
+

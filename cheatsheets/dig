@@ -1,0 +1,146 @@
+# dig - DNS lookup utility for querying DNS servers
+
+dig example.com # [Basic Query] - Lookup domain A record
+
+    # Query default DNS for IPv4 address of domain
+dig example.com A # [Basic Query] - Query A record (explicit)
+
+    # Resolve domain to IPv4 address
+dig example.com AAAA # [Basic Query] - Query AAAA record (IPv6)
+
+    # Lookup IPv6 address
+dig example.com MX # [Basic Query] - Mail server records
+
+    # Find mail exchangers for domain
+dig example.com NS # [Basic Query] - Nameserver records
+
+    # Show authoritative nameservers
+dig example.com CNAME # [Basic Query] - Canonical name records
+
+    # Display CNAME aliases
+dig example.com TXT # [Basic Query] - Text records
+
+    # Query TXT records (SPF, DKIM, verification)
+
+
+
+dig example.com SOA # [Record Types] - Start of Authority
+
+    # Display SOA record with serial and refresh info
+dig example.com PTR # [Record Types] - Reverse DNS lookup
+
+    # Reverse resolve IP to domain
+dig 8.8.8.8 # [Record Types] - Reverse lookup by IP
+
+    # Resolve IP address to hostname
+dig example.com ANY # [Record Types] - All record types
+
+    # Retrieve all DNS records for domain
+dig example.com NAPTR # [Record Types] - Naming Authority Pointer
+
+    # Query NAPTR records (SIP/VoIP)
+dig example.com SRV # [Record Types] - Service records
+
+    # Lookup service location records
+
+
+
+dig @8.8.8.8 example.com # [DNS Server] - Query specific nameserver
+
+    # Use Google DNS (8.8.8.8) instead of default
+dig @1.1.1.1 example.com # [DNS Server] - Cloudflare DNS
+
+    # Query Cloudflare public DNS
+dig @ns1.example.com example.com # [DNS Server] - Query authoritative server
+
+    # Query specific nameserver directly
+dig example.com +trace # [Server Chain] - Trace DNS resolution
+
+    # Show full resolution path from root
+dig example.com +trace +short # [Server Chain] - Short trace format
+
+    # Abbreviated trace path
+dig @8.8.8.8 example.com +trace # [Server Chain] - Trace via specific server
+
+    # Start trace from non-default DNS
+
+
+
+dig example.com +short # [Output Format] - Short answer only
+
+    # Show only IP addresses (compact)
+dig example.com +noall +answer # [Output Format] - Answer section only
+
+    # Display only answer records
+dig example.com +noall +answer +authority # [Output Format] - Answer and authority
+
+    # Show both answer and authoritative records
+dig -x 8.8.8.8 # [Output Format] - Reverse lookup shorthand
+
+    # Reverse DNS query (short form)
+dig example.com +noshort # [Output Format] - Full output format
+
+    # Verbose complete output
+dig example.com +multi # [Output Format] - Multiple line records
+
+    # Pretty-print long records on separate lines
+
+
+
+dig example.com +recurse # [Query Options] - Recursive query (default)
+
+    # Allow resolver to follow DNS chain
+dig example.com +norecurse # [Query Options] - Non-recursive query
+
+    # Query only the specified nameserver (authoritative)
+dig example.com +dnssec # [Query Options] - DNSSEC validation
+
+    # Retrieve DNSSEC signatures
+dig example.com +cd # [Query Options] - Disable DNSSEC validation
+
+    # Ignore DNSSEC checks
+dig example.com +adflag # [Query Options] - Authenticated data flag
+
+    # Request authenticated DNSSEC data
+dig example.com +nocmd # [Query Options] - Suppress command echo
+
+    # Hide the dig command in output
+
+
+
+dig -x 192.168.1.100 # [Reverse DNS] - Reverse lookup by IP
+
+    # Find hostname for IP address
+dig PTR 1.1.168.192.in-addr.arpa @8.8.8.8 # [Reverse DNS] - Manual PTR query
+
+    # Explicit reverse DNS query on nameserver
+dig -x 8.8.8.8 +short # [Reverse DNS] - Short reverse lookup
+
+    # Quick hostname lookup for IP
+dig -f domains.txt # [Batch] - Query multiple domains from file
+
+    # Perform lookups for domains listed in file
+dig example.com example.net example.org # [Batch] - Multiple queries at once
+
+    # Look up several domains in one command
+for domain in $(cat domains.txt); do dig +short $domain; done # [Batch] - Loop through domains
+
+    # Batch query with custom processing
+
+
+
+dig example.com +stats # [Statistics] - Query statistics
+
+    # Show query time and other metrics
+dig example.com +nocomments # [Statistics] - Hide comments
+
+    # Suppress comment lines
+dig example.com | grep QUERY # [Statistics] - Query section
+
+    # Show what was asked
+dig example.com | grep ANSWER # [Statistics] - Answer count
+
+    # Display number of answers
+dig @8.8.8.8 example.com +dnssec +noall +answer # [DNSSEC] - DNSSEC validation
+
+    # Check DNSSEC signatures

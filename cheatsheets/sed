@@ -1,0 +1,260 @@
+# sed - stream editor for transforming text with regular expressions
+
+sed <option>  # Usage: sed [OPTION]... {script-only-if-no-other-script} [input-file]...
+
+#   -n, --quiet, --silent               suppress automatic printing of pattern space
+#       --debug                         annotate program execution
+
+#   -e script, --expression=script      add the script to the commands to be executed
+
+#   -f script-file, --file=script-file  add the contents of script-file to the commands to be executed
+
+#   --follow-symlinks                   follow symlinks when processing in place
+
+#   -i[SUFFIX], --in-place[=SUFFIX]     edit files in place (makes backup if SUFFIX supplied)
+
+#   -l N, --line-length=N               specify the desired line-wrap length for the `l' command
+
+#   --posix                             disable all GNU extensions.
+
+#   -E, -r, --regexp-extended           use extended regular expressions in the script    
+
+#   -s, --separate                      consider files as separate rather than as a single, continuous long stream.
+
+#       --sandbox                       operate in sandbox mode (disable e/r/w commands).
+
+#   -u, --unbuffered                    load minimal amounts of data from the input files and flush the output buffers more often
+
+#   -z, --null-data                     separate lines by NUL characters
+
+#       --help                          display this help and exit
+#       --version                       output version information and exit 
+
+
+
+sed 's/old/new/' file.txt # [Substitution] - Replace first occurrence per line
+
+    # Substitute first "old" with "new" on each line
+sed 's/old/new/g' file.txt # [Substitution] - Replace all occurrences
+
+    # Global replacement: all matches on each line (g flag)
+sed 's/old/new/2' file.txt # [Substitution] - Replace Nth occurrence
+
+    # Replace only the 2nd occurrence on each line
+sed 's/old/new/i' file.txt # [Substitution] - Case-insensitive substitution
+
+    # Match and replace ignoring case (i flag)
+sed 's/old/new/p' file.txt # [Substitution] - Print matching lines
+
+    # Show lines that match (print flag; use with -n to show only matches)
+sed -n 's/old/new/p' file.txt # [Substitution] - Print only changed lines
+
+    # With -n flag, only output lines where substitution occurred
+sed 's|old|new|g' file.txt # [Substitution] - Use different delimiter
+
+    # Alternative delimiter | instead of / (useful for paths: 's|/path/old|/path/new|')
+
+
+
+sed '1s/old/new/' file.txt # [Line Selection] - Replace on line N
+
+    # Substitution only on first line
+sed '2,5s/old/new/' file.txt # [Line Selection] - Replace on line range
+
+    # Apply substitution to lines 2 through 5
+sed '$s/old/new/' file.txt # [Line Selection] - Replace on last line
+
+    # Apply substitution only to final line ($)
+sed '1~2s/old/new/' file.txt # [Line Selection] - Replace on every Nth line
+
+    # Apply substitution to lines 1, 3, 5, 7... (every 2nd line)
+sed '0~3s/old/new/' file.txt # [Line Selection] - Replace every Nth line starting at N
+
+    # Apply substitution every 3 lines (0, 3, 6, 9...)
+sed '/pattern/s/old/new/' file.txt # [Line Selection] - Conditional substitution
+
+    # Replace only on lines matching pattern
+
+
+
+sed '/pattern/!s/old/new/' file.txt # [Line Selection] - Replace on non-matching lines
+
+    # Substitution on lines NOT matching pattern (! = negation)
+sed '/^#/s/old/new/' file.txt # [Line Selection] - Replace in commented lines
+
+    # Apply only to lines starting with # (comment lines)
+sed '1,/pattern/s/old/new/' file.txt # [Line Selection] - Replace until pattern
+
+    # From line 1 until pattern matches, apply substitution
+sed '/pattern1/,/pattern2/s/old/new/' file.txt # [Line Selection] - Replace between patterns
+
+    # Apply substitution between two patterns
+sed '5a\\new line' file.txt # [Line Selection] - Append after line N
+
+    # Add text after line 5
+
+
+
+sed 'd' file.txt # [Deletion] - Delete all lines
+
+    # Remove all lines (produces no output)
+sed '5d' file.txt # [Deletion] - Delete line N
+
+    # Remove line 5 from output
+sed '2,5d' file.txt # [Deletion] - Delete line range
+
+    # Remove lines 2 through 5
+sed '$d' file.txt # [Deletion] - Delete last line
+
+    # Remove final line
+sed '/pattern/d' file.txt # [Deletion] - Delete matching lines
+
+    # Remove all lines containing pattern
+sed '/^$/d' file.txt # [Deletion] - Delete blank lines
+
+    # Remove empty lines (^$ = start-to-end with nothing between)
+sed '/pattern/!d' file.txt # [Deletion] - Delete non-matching lines
+
+    # Keep only lines matching pattern (delete all others)
+
+
+
+sed 'a\\inserted line' file.txt # [Insertion] - Append text after line
+
+    # Add line after every line (or after N: '5a\\text')
+sed 'i\\inserted line' file.txt # [Insertion] - Insert text before line
+
+    # Add line before every line (or before N: '5i\\text')
+sed '/pattern/a\\added line' file.txt # [Insertion] - Append after matching line
+
+    # Add text after lines containing pattern
+sed '/pattern/i\\prepended' file.txt # [Insertion] - Insert before matching line
+
+    # Add text before lines containing pattern
+sed '5a\\inserted' file.txt # [Insertion] - Append after specific line
+
+    # Add text after line 5
+sed '1i\\header' file.txt # [Insertion] - Add header
+
+    # Prepend text to beginning of output
+
+
+
+sed 's/^\t/  /' file.txt # [Character Replacement] - Replace tabs with spaces
+
+    # Convert tab indentation to 2 spaces at line start
+sed 's/[0-9]/X/g' file.txt # [Character Replacement] - Replace digits with X
+
+    # Hide numbers
+sed "s/'//g" file.txt # [Character Replacement] - Remove single quotes
+
+    # Delete all single quotes (no replacement)
+sed 's/  */ /g' file.txt # [Character Replacement] - Collapse multiple spaces
+
+    # Multiple spaces become single space
+sed 's/[[:space:]]*$//' file.txt # [Character Replacement] - Remove trailing whitespace
+
+    # Strip whitespace from line ends
+sed 's/^[[:space:]]*//' file.txt # [Character Replacement] - Remove leading whitespace
+
+    # Strip indentation from line starts
+
+
+
+sed 'y/abc/xyz/' file.txt # [Transliteration] - Translate characters (like tr)
+
+    # a→x, b→y, c→z (one-to-one character mapping)
+sed 'y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/' file.txt # [Transliteration] - Convert to lowercase
+
+    # Map uppercase letters to lowercase
+sed 'y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/' file.txt # [Transliteration] - Convert to uppercase
+
+    # Map lowercase to uppercase
+sed 'y/0123456789/ABCDEFGHIJ/' file.txt # [Transliteration] - Map digits to letters
+
+    # Digit substitution
+sed 'y/-/_/' file.txt # [Transliteration] - Replace hyphens with underscores
+
+    # Character-by-character translation
+
+
+
+sed -n 'p' file.txt # [Output Control] - Print all lines (with -n)
+
+    # -n suppresses default output; p explicitly prints
+sed -n '5p' file.txt # [Output Control] - Print line N only
+
+    # With -n, show only line 5
+sed -n '2,5p' file.txt # [Output Control] - Print line range
+
+    # Show only lines 2-5
+sed -n '/pattern/p' file.txt # [Output Control] - Print matching lines
+
+    # Extract lines containing pattern (like grep)
+sed -n '1p;$p' file.txt # [Output Control] - Print first and last
+
+    # Multiple commands: show first line and last line
+sed -n 's/old/new/p' file.txt # [Output Control] - Print substitution results
+
+    # Show only lines where substitution succeeded
+
+
+
+sed -i 's/old/new/g' file.txt # [File Operations] - Edit in place
+
+    # Modify file directly (creates backup with -i.bak)
+sed -i.bak 's/old/new/g' file.txt # [File Operations] - Edit with backup
+
+    # Create backup (.bak) before modifying
+sed -i '' 's/old/new/g' file.txt # [File Operations] - In-place (macOS)
+
+    # macOS syntax for no backup
+sed -e 's/old/new/' -e 's/foo/bar/' file.txt # [File Operations] - Multiple commands
+
+    # Apply multiple substitutions in sequence
+sed -f script.sed file.txt # [File Operations] - Apply commands from file
+
+    # Read sed commands from script file
+
+
+
+sed '1~2y/a/A/' file.txt # [Advanced] - Apply transliteration every Nth line
+
+    # Character mapping on alternating lines (1, 3, 5...)
+sed '0~3s/^/# /' file.txt # [Advanced] - Comment every 3rd line
+
+    # Add # to start of lines 3, 6, 9...
+sed -e :a -e '$!N;$!ba' -e 's/\n/,/g' file.txt # [Advanced] - Join all lines
+
+    # Remove newlines; concatenate with commas
+sed 'N;s/\n/ /' file.txt # [Advanced] - Join pairs of lines
+
+    # Combine every two lines with space separator
+sed -z 's/\n/ /g' file.txt # [Advanced] - NUL-separated lines
+
+    # Process null-delimited input
+sed 's/^/{/;s/$}//' file.txt # [Advanced] - Add braces around content
+
+    # Wrap each line in curly braces
+
+
+
+sed '5q' file.txt # [Advanced] - Exit after line N
+
+    # Output first 5 lines then quit
+sed 's/.*\(pattern\).*/\1/' file.txt # [Advanced] - Extract captured group
+
+    # Extract only text matching pattern (requires capturing group)
+sed 's/\(.*\) \(.*\)/\2 \1/' file.txt # [Advanced] - Swap fields
+
+    # Reverse two space-separated fields
+sed -r 's/([0-9]+)-([0-9]+)/\2-\1/' file.txt # [Advanced] - Extended regex groups
+
+    # Extended regex: \d becomes [0-9]; groups captured as \1, \2
+sed 's/.*/(&)/' file.txt # [Advanced] - Wrap each line in parentheses
+
+    # & means "matched text"; useful for wrapping
+sed 'G;G' file.txt # [Advanced] - Add blank lines between
+
+    # G appends hold space (default empty); repeats add spacing
+

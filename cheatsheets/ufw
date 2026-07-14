@@ -1,0 +1,176 @@
+# ufw - uncomplicated firewall for Linux (iptables wrapper)
+
+ufw status # [Status] - Show firewall status and rules
+
+    # Display if firewall is enabled/disabled and active rules
+ufw status verbose # [Status] - Detailed status with policy info
+
+    # Show policies, numbered rules, and logging
+ufw status numbered # [Status] - Rules with line numbers
+
+    # List all rules with numbers for reference
+ufw enable # [Basic] - Turn on firewall
+
+    # Activate ufw (runs at startup)
+ufw disable # [Basic] - Turn off firewall
+
+    # Deactivate firewall (rules remain)
+ufw reload # [Basic] - Reload firewall rules
+
+    # Apply pending rule changes
+
+
+
+ufw default allow # [Policy] - Default allow incoming
+
+    # Accept traffic not explicitly denied
+ufw default deny # [Policy] - Default deny incoming
+
+    # Block traffic unless explicitly allowed (secure)
+ufw default reject # [Policy] - Default reject with response
+
+    # Deny with rejection (sends RST/ICMP)
+ufw default allow outgoing # [Policy] - Allow all outgoing
+
+    # Accept outbound traffic by default
+ufw default deny outgoing # [Policy] - Deny outgoing by default
+
+    # Block outbound unless explicitly allowed
+
+
+
+ufw allow 22 # [SSH] - Allow SSH (port 22)
+
+    # Accept incoming SSH connections
+ufw allow 22/tcp # [SSH] - Allow SSH (explicit TCP)
+
+    # SSH over TCP protocol
+ufw deny 22 # [SSH] - Deny SSH access
+
+    # Block SSH connections
+ufw allow 22 comment "SSH access" # [SSH] - Allow with description
+
+    # Add comment to rule
+ufw allow from 192.168.1.100 to any port 22 # [SSH] - SSH from specific IP
+
+    # Restrict SSH to single client
+ufw allow from 192.168.1.0/24 to any port 22 # [SSH] - SSH from subnet
+
+    # Allow SSH from network range
+
+
+
+ufw allow 80 # [HTTP] - Allow HTTP (port 80)
+
+    # Accept web server traffic
+ufw allow 443 # [HTTPS] - Allow HTTPS (port 443)
+
+    # Accept secure web traffic
+ufw allow 80/tcp # [HTTP] - HTTP TCP explicitly
+
+    # Web traffic (TCP only)
+ufw allow http # [HTTP] - Allow by service name
+
+    # Allow HTTP by service name (from /etc/services)
+ufw allow https # [HTTPS] - Allow HTTPS by service name
+
+    # Allow HTTPS by service name
+ufw allow 8080 # [Custom Port] - Allow custom port
+
+    # Accept traffic on non-standard port
+
+
+
+ufw allow 53 # [DNS] - Allow DNS (port 53)
+
+    # Accept DNS queries
+ufw allow 53/tcp # [DNS] - DNS over TCP
+
+    # DNS TCP protocol
+ufw allow 53/udp # [DNS] - DNS over UDP
+
+    # DNS UDP protocol
+ufw allow from 8.8.8.8 to any port 53 # [DNS] - DNS from specific server
+
+    # Allow DNS queries to specific server only
+
+
+
+ufw allow 25 # [Mail] - Allow SMTP (port 25)
+
+    # Accept mail submission
+ufw allow 110 # [Mail] - Allow POP3 (port 110)
+
+    # POP3 mail retrieval
+ufw allow 143 # [Mail] - Allow IMAP (port 143)
+
+    # IMAP mail access
+ufw allow 465 # [Mail] - Allow SMTPS (port 465)
+
+    # Secure SMTP
+
+
+
+ufw allow from 192.168.1.0/24 # [Source Restrictions] - Allow from subnet
+
+    # Accept all traffic from network range
+ufw deny from 10.0.0.50 # [Source Restrictions] - Deny from IP
+
+    # Block specific source address
+ufw allow in from 192.168.1.100 to any port 22 # [Source Restrictions] - Conditional allow
+
+    # Allow to port only from specific IP
+ufw reject from 203.0.113.0/24 # [Source Restrictions] - Reject with notification
+
+    # Send rejection response
+
+
+
+ufw delete allow 22 # [Modify Rules] - Delete rule
+
+    # Remove allow rule for port 22
+ufw delete 3 # [Modify Rules] - Delete by line number
+
+    # Remove rule #3 (use 'status numbered' first)
+ufw delete deny 80 # [Modify Rules] - Delete deny rule
+
+    # Remove block rule for port 80
+ufw reset # [Modify Rules] - Reset to default state
+
+    # Clear all rules and disable firewall
+
+
+
+ufw allow 6000:6007 # [Port Ranges] - Allow port range
+
+    # Accept X11 ports 6000-6007
+ufw allow 5900:5910/tcp # [Port Ranges] - VNC port range
+
+    # Allow VNC ports over TCP
+ufw deny 1000:2000 # [Port Ranges] - Deny range
+
+    # Block ports 1000-2000
+
+
+
+ufw logging on # [Logging] - Enable firewall logging
+
+    # Record blocked/allowed packets to syslog
+ufw logging off # [Logging] - Disable logging
+
+    # Turn off firewall logging
+ufw logging high # [Logging] - High verbosity logging
+
+    # Detailed logging of all traffic
+ufw logging medium # [Logging] - Medium verbosity
+
+    # Standard logging level
+ufw logging low # [Logging] - Low verbosity
+
+    # Minimal logging
+ufw show added # [Information] - Show added rules
+
+    # Display manually added rules
+ufw show builtins # [Information] - Show built-in rules
+
+    # Display default system rules

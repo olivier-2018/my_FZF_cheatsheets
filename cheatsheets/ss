@@ -1,0 +1,164 @@
+# ss - socket statistics utility (modern netstat replacement)
+
+ss # [Display] - Show all sockets
+
+    # Display all established and listening sockets
+ss -a # [Display] - Show all sockets (listening + established)
+
+    # Complete view of all socket types
+ss -l # [Display] - Listening sockets only
+
+    # Show server ports waiting for connections
+ss -t # [Display] - TCP sockets only
+
+    # Display TCP protocol sockets
+ss -u # [Display] - UDP sockets only
+
+    # Display UDP protocol sockets
+ss -p # [Display] - Show process names and PIDs
+
+    # Include program/process information for each socket
+
+
+
+ss -n # [Options] - Numeric output (no DNS)
+
+    # Show IP addresses without hostname resolution
+ss -ln # [Options] - Listening with numeric IPs
+
+    # Listening ports without DNS lookups
+ss -tnp # [Options] - TCP with process info, numeric
+
+    # TCP sockets with process details, fast output
+ss -tunp # [Options] - All TCP/UDP with numeric and process
+
+    # Complete view: TCP + UDP + process info + no DNS
+ss -tupn # [Options] - Alternative flag order
+
+    # Same as -tunp (order doesn't matter)
+ss -s # [Options] - Summary statistics
+
+    # Aggregate socket statistics by type
+
+
+
+ss -tan # [Common] - TCP listening sockets, numeric
+
+    # All TCP sockets, numeric IPs
+ss -uan # [Common] - UDP listening sockets, numeric
+
+    # All UDP sockets, numeric
+ss -ltnp # [Common] - Which processes listen on ports
+
+    # Find listening ports with process names
+ss -tpn | grep LISTEN # [Common] - Listening TCP connections
+
+    # Processes listening for connections
+ss -tnp | grep ESTABLISHED # [Common] - Active connections
+
+    # Established client/server connections
+ss -un | grep ESTAB # [Common] - Established UDP
+
+    # Active UDP connections (less common)
+
+
+
+ss -t state established # [State Filtering] - Established connections
+
+    # Sockets in ESTABLISHED state only
+ss -t state listening # [State Filtering] - Listening state
+
+    # Sockets waiting for connections
+ss -t state syn-sent # [State Filtering] - SYN-SENT state
+
+    # Connections initiating (waiting for response)
+ss -t state time-wait # [State Filtering] - TIME-WAIT state
+
+    # Connections in cleanup state
+ss -t state close-wait # [State Filtering] - CLOSE-WAIT state
+
+    # Connections waiting for close
+ss -t state closing # [State Filtering] - CLOSING state
+
+    # Sockets in closing transition
+
+
+
+ss -n src :22 # [Port Filtering] - Connections on port 22 (SSH)
+
+    # Sockets using port 22
+ss -n src :80 # [Port Filtering] - Port 80 (HTTP)
+
+    # Traffic on HTTP port
+ss -n src :443 # [Port Filtering] - Port 443 (HTTPS)
+
+    # HTTPS connections
+ss -n dst :22 # [Port Filtering] - Connected to port 22
+
+    # Outbound to SSH port
+ss -n src 192.168.1.100 # [Port Filtering] - Traffic from IP
+
+    # Connections from specific source IP
+ss -n dst 8.8.8.8 # [Port Filtering] - Traffic to IP
+
+    # Connections to destination IP
+
+
+
+ss -o # [Info] - Timer information
+
+    # Show keepalive timers and retransmit info
+ss -e # [Info] - Extended socket information
+
+    # Display extended details (buffer sizes, retransmissions)
+ss -m # [Info] - Memory information
+
+    # Show socket memory usage
+ss -b # [Info] - Buffer sizes
+
+    # Display send/receive buffer configurations
+ss -i # [Info] - Internal TCP information
+
+    # TCP state machine details (rto, ato, qack, etc.)
+ss -K # [Info] - Kill connections
+
+    # Close matching sockets (dangerous, requires care)
+
+
+
+ss -4 # [Protocol] - IPv4 sockets only
+
+    # Filter to IPv4 addresses
+ss -6 # [Protocol] - IPv6 sockets only
+
+    # Filter to IPv6 addresses
+ss -x # [Protocol] - Unix domain sockets
+
+    # Show local IPC sockets
+ss -w # [Protocol] - Raw sockets
+
+    # Show raw protocol sockets
+ss -d # [Protocol] - DCCP sockets
+
+    # Display DCCP protocol sockets
+
+
+
+ss -tlnp | wc -l # [Analysis] - Count listening ports
+
+    # How many server sockets are listening
+ss -tnp | grep ESTABLISHED | wc -l # [Analysis] - Count connections
+
+    # Number of active established connections
+ss -n | awk '{print $NF}' | sort | uniq -c # [Analysis] - Connections by state
+
+    # Summary of state distribution
+ss -tnp | grep -oP '(?<=:)\d+' | sort -u # [Analysis] - All listening ports
+
+    # Unique ports in use
+ss -tnp | grep :80 # [Analysis] - Port 80 usage
+
+    # What's using HTTP port
+ss -tpn | grep TIME_WAIT | wc -l # [Analysis] - Count cleanup connections
+
+    # Pending connection cleanup

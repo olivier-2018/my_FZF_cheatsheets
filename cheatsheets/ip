@@ -1,0 +1,185 @@
+# ip - show and manipulate routing, network devices, interfaces
+
+ip addr # [Interfaces] - Show all network interfaces and IPs
+
+    # Display all interfaces with addresses
+ip addr show eth0 # [Interfaces] - Show specific interface details
+
+    # Display configuration of single interface
+ip link # [Interfaces] - Show all interfaces (layer 2)
+
+    # Display link layer information and status
+ip link show eth0 # [Interfaces] - Show interface status
+
+    # Check if interface is UP or DOWN
+ip -4 addr # [Interfaces] - Show IPv4 addresses only
+
+    # Display only IPv4 configurations
+ip -6 addr # [Interfaces] - Show IPv6 addresses only
+
+    # Display only IPv6 configurations
+
+
+
+ip link set eth0 up # [Interface Management] - Enable interface
+
+    # Bring interface UP (activate)
+ip link set eth0 down # [Interface Management] - Disable interface
+
+    # Bring interface DOWN (deactivate)
+ip addr add 192.168.1.100/24 dev eth0 # [Interface Management] - Add IP address
+
+    # Assign new IP to interface
+ip addr del 192.168.1.100/24 dev eth0 # [Interface Management] - Remove IP address
+
+    # Delete IP from interface
+ip link set eth0 mtu 1500 # [Interface Management] - Set MTU size
+
+    # Change maximum transmission unit
+ip link set eth0 address 00:11:22:33:44:55 # [Interface Management] - Change MAC address
+
+    # Modify MAC address (requires interface down)
+
+
+
+ip route # [Routing] - Show routing table
+
+    # Display kernel routing table
+ip route show # [Routing] - Show all routes
+
+    # List all defined routes
+ip route add 192.168.2.0/24 via 192.168.1.1 # [Routing] - Add static route
+
+    # Route subnet through gateway
+ip route del 192.168.2.0/24 # [Routing] - Delete route
+
+    # Remove route entry
+ip route default # [Routing] - Show default route
+
+    # Display default gateway
+ip route show table all # [Routing] - Show all routing tables
+
+    # Include main and other tables
+
+
+
+ip -4 route # [Routing] - Show IPv4 routes only
+
+    # Display IPv4 routing table
+ip -6 route # [Routing] - Show IPv6 routes only
+
+    # Display IPv6 routing table
+ip route add default via 192.168.1.1 # [Routing] - Set default gateway
+
+    # Define default route
+ip route replace 0.0.0.0/0 via 10.0.0.1 # [Routing] - Replace default route
+
+    # Modify existing default route
+ip route get 8.8.8.8 # [Routing] - Path to destination
+
+    # Show which route would be used for IP
+ip route flush table main # [Routing] - Clear routing table
+
+    # Remove all routes from main table
+
+
+
+ip neigh # [Neighbors] - Show ARP table (MAC/IP mapping)
+
+    # Display all known neighbors and MAC addresses
+ip neigh show 192.168.1.1 # [Neighbors] - ARP entry for IP
+
+    # Show MAC address for specific IP
+ip neigh add 192.168.1.50 lladdr 00:11:22:33:44:55 dev eth0 # [Neighbors] - Add ARP entry
+
+    # Manually add neighbor MAC mapping
+ip neigh del 192.168.1.50 dev eth0 # [Neighbors] - Remove ARP entry
+
+    # Delete static ARP entry
+ip neigh flush dev eth0 # [Neighbors] - Clear ARP table for interface
+
+    # Remove all neighbors on interface
+
+
+
+ip netns # [Namespaces] - List network namespaces
+
+    # Show all network namespaces
+ip netns add ns1 # [Namespaces] - Create namespace
+
+    # Create new network namespace
+ip netns delete ns1 # [Namespaces] - Delete namespace
+
+    # Remove namespace
+ip netns exec ns1 ip addr # [Namespaces] - Run command in namespace
+
+    # Execute command inside namespace
+ip link add veth0 type veth peer name veth1 # [Namespaces] - Create virtual interfaces
+
+    # Create pair of virtual ethernet interfaces
+
+
+
+ip rule # [Policy Routing] - Show routing policy rules
+
+    # Display all policy-based routing rules
+ip rule add from 192.168.1.0/24 table 100 # [Policy Routing] - Add routing rule
+
+    # Route traffic from source via specific table
+ip rule del from 192.168.1.0/24 # [Policy Routing] - Delete rule
+
+    # Remove routing policy
+ip rule add priority 32000 lookup default # [Policy Routing] - Default rule priority
+
+    # Add rule with specific priority
+
+
+
+ip tunnel # [Tunnels] - Show tunnels
+
+    # Display all configured tunnels
+ip tunnel add tun0 mode gre local 10.0.0.1 remote 10.0.0.2 # [Tunnels] - Add tunnel
+
+    # Create GRE tunnel
+ip tunnel show tun0 # [Tunnels] - Show tunnel details
+
+    # Display tunnel configuration
+ip tunnel del tun0 # [Tunnels] - Delete tunnel
+
+    # Remove tunnel
+
+
+
+ip tuntap add dev tap0 mode tap # [TAP/TUN] - Create TAP device
+
+    # Add TAP interface for VMs
+ip tuntap add dev tun0 mode tun # [TAP/TUN] - Create TUN device
+
+    # Add TUN interface
+ip tuntap del dev tap0 mode tap # [TAP/TUN] - Delete TAP device
+
+    # Remove TAP interface
+ip link set tap0 up # [TAP/TUN] - Enable TAP interface
+
+    # Activate TAP device
+
+
+
+ip -statistics # [Statistics] - Show interface statistics
+
+    # Display RX/TX packets, bytes, errors
+ip -statistics link # [Statistics] - Link layer statistics
+
+    # Detailed layer 2 statistics
+ip -stats addr # [Statistics] - Address statistics
+
+    # Show IP address statistics
+netstat -i # [Statistics] - Interface stats (alternative)
+
+    # Use netstat for comparison
+ip -br link # [Formatting] - Brief output (interface status)
+
+    # Compact interface listing
+ip -br addr # [Formatting] - Brief address output
+
+    # Compact IP address listing

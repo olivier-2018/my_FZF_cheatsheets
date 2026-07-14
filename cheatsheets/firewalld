@@ -1,0 +1,152 @@
+# firewalld - dynamic firewall manager (successor to iptables/ufw)
+
+firewall-cmd --state # [Status] - Check if firewall is running
+
+    # Display firewall status (running/not running)
+firewall-cmd --list-all # [List] - Show all firewall settings
+
+    # Complete configuration: zones, rules, services
+firewall-cmd --list-zones # [List] - Show available zones
+
+    # Display all defined firewall zones
+firewall-cmd --get-active-zones # [List] - Active zones only
+
+    # Show zones currently in use
+firewall-cmd --get-default-zone # [List] - Default zone
+
+    # Show zone used for new connections
+firewall-cmd --list-services # [List] - Available services
+
+    # Show predefined service definitions
+
+
+
+sudo firewall-cmd --set-default-zone=public # [Zones] - Set default zone
+
+    # Change default firewall zone
+sudo firewall-cmd --zone=public --list-all # [Zones] - Zone details
+
+    # Show configuration for specific zone
+sudo firewall-cmd --zone=work --set-target=DROP # [Zones] - Set zone policy
+
+    # Change default policy for zone (ACCEPT/DROP/REJECT)
+firewall-cmd --get-zones # [Zones] - All available zones
+
+    # List predefined zones (public, private, trusted, etc.)
+firewall-cmd --zone=trusted --list-all # [Zones] - Trusted zone config
+
+    # Show trusted zone rules
+
+
+
+sudo firewall-cmd --add-service=ssh # [Services] - Allow SSH service
+
+    # Enable SSH through firewall
+sudo firewall-cmd --remove-service=http # [Services] - Block HTTP service
+
+    # Disable web server access
+sudo firewall-cmd --add-service=https # [Services] - Allow HTTPS
+
+    # Enable secure web access
+sudo firewall-cmd --add-service=dns # [Services] - Allow DNS
+
+    # Enable DNS queries
+sudo firewall-cmd --list-services # [Services] - Enabled services
+
+    # Show active services in current zone
+sudo firewall-cmd --get-services # [Services] - Available services
+
+    # List all defined services
+
+
+
+sudo firewall-cmd --add-port=8080/tcp # [Ports] - Open port 8080/TCP
+
+    # Allow traffic on custom port
+sudo firewall-cmd --remove-port=8080/tcp # [Ports] - Close port
+
+    # Block traffic on port
+sudo firewall-cmd --add-port=5000-5100/udp # [Ports] - Port range
+
+    # Allow UDP ports 5000-5100
+sudo firewall-cmd --list-ports # [Ports] - Open ports
+
+    # Show manually opened ports
+sudo firewall-cmd --add-port=3306/tcp --zone=internal # [Ports] - Port in zone
+
+    # Open port only in specific zone
+sudo firewall-cmd --remove-port=3306/tcp --zone=internal # [Ports] - Close port in zone
+
+    # Close port in specific zone
+
+
+
+sudo firewall-cmd --add-rich-rule='rule family="ipv4" source address="192.168.1.0/24" port protocol="tcp" port="22" accept' # [Advanced] - Rich rule from subnet
+
+    # Complex rule: allow SSH from specific network
+sudo firewall-cmd --add-rich-rule='rule family="ipv4" destination address="8.8.8.8" reject' # [Advanced] - Reject traffic to IP
+
+    # Block outbound to specific destination
+sudo firewall-cmd --remove-rich-rule='rule family="ipv4" source address="192.168.1.0/24" port protocol="tcp" port="22" accept' # [Advanced] - Remove rich rule
+
+    # Delete complex rule
+sudo firewall-cmd --list-rich-rules # [Advanced] - Show rich rules
+
+    # Display all complex rules
+
+
+
+sudo firewall-cmd --permanent --add-service=ssh # [Persistent] - Permanent service addition
+
+    # Add rule (survives reboot)
+sudo firewall-cmd --permanent --add-port=8080/tcp # [Persistent] - Permanent port
+
+    # Open port permanently
+sudo firewall-cmd --reload # [Persistent] - Apply permanent changes
+
+    # Load permanent rules from configuration files
+sudo firewall-cmd --permanent --remove-service=http # [Persistent] - Permanently remove
+
+    # Delete permanent rule
+sudo firewall-cmd --runtime-to-permanent # [Persistent] - Save runtime to permanent
+
+    # Make current session rules permanent
+
+
+
+sudo firewall-cmd --add-masquerade # [Masquerading] - Enable masquerade (NAT)
+
+    # Enable network address translation for zone
+sudo firewall-cmd --remove-masquerade # [Masquerading] - Disable masquerade
+
+    # Turn off NAT translation
+sudo firewall-cmd --query-masquerade # [Masquerading] - Check masquerade status
+
+    # Is masquerade enabled?
+sudo firewall-cmd --add-forward-port=port=80:proto=tcp:toport=8080 # [Forwarding] - Port forwarding
+
+    # Forward port 80 to 8080 on same machine
+sudo firewall-cmd --remove-forward-port=port=80:proto=tcp:toport=8080 # [Forwarding] - Remove forwarding
+
+    # Delete port forwarding rule
+
+
+
+sudo firewall-cmd --panic-on # [Emergency] - Panic mode (block all)
+
+    # Emergency: close all traffic immediately
+sudo firewall-cmd --panic-off # [Emergency] - Disable panic mode
+
+    # Resume normal firewall operation
+sudo firewall-cmd --query-panic # [Emergency] - Check panic status
+
+    # Is panic mode active?
+sudo firewall-cmd --list-all-zones # [Information] - All zones with rules
+
+    # Complete config dump
+sudo firewall-cmd --get-log-denied # [Logging] - Denied traffic logging
+
+    # Show what's being logged (none/unicast/broadcast/multicast)
+sudo firewall-cmd --set-log-denied=all # [Logging] - Log all denials
+
+    # Enable comprehensive logging

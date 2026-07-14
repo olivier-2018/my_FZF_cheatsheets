@@ -1,0 +1,2685 @@
+# AWS CLI, manage your AWS services
+
+aws <options>   # SYNOPSIS
+#        aws [options] <command> <subcommand> [parameters]
+
+# GLOBAL OPTIONS
+#        --debug (boolean)           Turn on debug logging.
+
+#        --endpoint-url (string)     Override command's default URL with the given URL.
+
+#        --no-verify-ssl (boolean)   By  default, the AWS CLI uses SSL when communicating with AWS services.
+
+#        --no-paginate (boolean)     Disable automatic pagination. 
+
+#        --output (string)           The formatting style for command output: json, text,  table, yaml, yaml-stream
+
+#        --query (string)            A JMESPath query to use in filtering the response data.
+
+#        --profile (string)          Use a specific profile from your credential file.
+
+#        --region (string)           The region to use. Overrides config/env settings.
+
+#        --version (string)          Display the version of this tool.
+
+#        --color (string)            Turn on/off color output (on/off/auto)
+
+#        --no-sign-request (boolean) Do  not  sign requests. Credentials will not be loaded if this argument is provided.
+
+#        --ca-bundle (string)        The CA certificate bundle to use when verifying SSL certificates. Over-rides config/env settings.
+
+#        --cli-read-timeout (int)    maximum socket read time in seconds. 
+
+#        --cli-connect-timeout (int) maximum socket connect time in seconds. 
+
+#        --cli-binary-format (string) formatting style to be used for binary blobs (base64, raw-in-base64-out)
+
+#        --no-cli-pager (boolean)    Disable cli pager for output.
+
+#        --cli-auto-prompt (boolean)  Automatically prompt for CLI input parameters.
+
+#        --no-cli-auto-prompt (boolean)  Disable automatically prompt for CLI input parameters.
+
+
+
+
+aws configure # [Identity & Configuration] - Manage credentials, authentication, and AWS account settings
+
+    # Configure AWS credentials and region interactively
+aws configure list # [Identity & Configuration] - Manage credentials, authentication, and AWS account settings
+
+    # Display current configuration (credentials, region, output format)
+aws configure set region us-east-1 # [Identity & Configuration] - Manage credentials, authentication, and AWS account settings
+
+    # Set specific region in configuration profile
+aws configure get region # [Identity & Configuration] - Manage credentials, authentication, and AWS account settings
+
+    # Retrieve configured region value
+aws configure set output json # [Identity & Configuration] - Manage credentials, authentication, and AWS account settings
+
+    # Set default output format (json/text/table/yaml)
+aws configure list --profile <profile> # [Identity & Configuration] - Manage credentials, authentication, and AWS account settings
+
+    # List configuration for specific named profile
+aws sts get-caller-identity # [Identity & Configuration] - Manage credentials, authentication, and AWS account settings
+
+    # Get AWS account ID, user ARN, UserId; verify credentials
+aws sts assume-role --role-arn <arn> --role-session-name <name> # [Identity & Configuration] - Manage credentials, authentication, and AWS account settings
+
+    # Assume IAM role; get temporary credentials for cross-account access
+aws sts get-session-token --duration-seconds 3600 # [Identity & Configuration] - Manage credentials, authentication, and AWS account settings
+
+    # Get temporary security credentials; useful for MFA
+aws sts assume-role-with-saml # [Identity & Configuration] - Manage credentials, authentication, and AWS account settings
+
+    # Assume role using SAML assertion for federation
+aws sts assume-role-with-web-identity # [Identity & Configuration] - Manage credentials, authentication, and AWS account settings
+
+    # Assume role using web identity token
+
+
+
+aws s3 ls # [S3] - Scalable object storage with high availability
+
+    # List all S3 buckets in your account
+aws s3 ls s3://bucket-name/ # [S3] - Scalable object storage with high availability
+
+    # List objects in bucket; supports --recursive for full tree
+aws s3 cp file.txt s3://bucket-name/ # [S3] - Scalable object storage with high availability
+
+    # Upload file to S3 bucket
+aws s3 cp s3://bucket-name/file.txt . # [S3] - Scalable object storage with high availability
+
+    # Download file from S3 bucket to current directory
+aws s3 cp s3://bucket-name/src s3://bucket-name/dest --recursive # [S3] - Scalable object storage with high availability
+
+    # Copy objects within S3; use --recursive for directories
+aws s3 sync ./dir s3://bucket-name/ # [S3] - Scalable object storage with high availability
+
+    # Bidirectional sync; upload new/changed files only (efficient)
+aws s3 sync s3://bucket-name/ ./dir # [S3] - Scalable object storage with high availability
+
+    # Download all objects from S3 to local directory
+aws s3 rm s3://bucket-name/file.txt # [S3] - Scalable object storage with high availability
+
+    # Delete single object from S3
+aws s3 rm s3://bucket-name/ --recursive # [S3] - Scalable object storage with high availability
+
+    # Delete all objects in bucket; cannot delete bucket itself
+aws s3 mv s3://src-bucket/file s3://dst-bucket/ # [S3] - Scalable object storage with high availability
+
+    # Move/rename object within or between buckets
+aws s3 presign s3://bucket-name/file.txt # [S3] - Scalable object storage with high availability
+
+    # Generate pre-signed URL for temporary public access
+
+
+
+aws s3api list-buckets # [S3 API] - Lower-level S3 operations for advanced bucket and permission management
+
+    # List all S3 buckets with metadata (creation date, owner info)
+aws s3api create-bucket --bucket <name> --region <region> # [S3 API] - Lower-level S3 operations for advanced bucket and permission management
+
+    # Create S3 bucket; region omitted defaults to us-east-1
+aws s3api delete-bucket --bucket <name> # [S3 API] - Lower-level S3 operations for advanced bucket and permission management
+
+    # Delete empty S3 bucket; fails if contains objects
+aws s3api head-bucket --bucket <name> # [S3 API] - Lower-level S3 operations for advanced bucket and permission management
+
+    # Check bucket existence and access permissions without listing
+aws s3api put-bucket-versioning --bucket <name> --versioning-configuration Status=Enabled # [S3 API] - Lower-level S3 operations for advanced bucket and permission management
+
+    # Enable versioning; track all object changes/deletes
+aws s3api put-bucket-encryption --bucket <name> --server-side-encryption-configuration # [S3 API] - Lower-level S3 operations for advanced bucket and permission management
+
+    # Enable default encryption for all objects
+aws s3api get-bucket-encryption --bucket <name> # [S3 API] - Lower-level S3 operations for advanced bucket and permission management
+
+    # Get bucket encryption settings
+aws s3api put-bucket-acl --bucket <name> --acl private # [S3 API] - Lower-level S3 operations for advanced bucket and permission management
+
+    # Set bucket-level access control; predefined ACLs or grants
+aws s3api get-bucket-acl --bucket <name> # [S3 API] - Lower-level S3 operations for advanced bucket and permission management
+
+    # Get bucket-level ACL
+aws s3api put-object-acl --bucket <name> --key <key> --acl public-read # [S3 API] - Lower-level S3 operations for advanced bucket and permission management
+
+    # Set object ACL; controls who can read/download
+aws s3api put-bucket-cors --bucket <name> --cors-configuration file://cors.json # [S3 API] - Lower-level S3 operations for advanced bucket and permission management
+
+    # Enable CORS for cross-origin requests
+aws s3api put-bucket-policy --bucket <name> --policy file://policy.json # [S3 API] - Lower-level S3 operations for advanced bucket and permission management
+
+    # Attach resource-based policy to bucket
+aws s3api get-bucket-policy --bucket <name> # [S3 API] - Lower-level S3 operations for advanced bucket and permission management
+
+    # Retrieve bucket policy
+aws s3api put-bucket-lifecycle-configuration --bucket <name> # [S3 API] - Lower-level S3 operations for advanced bucket and permission management
+
+    # Set object lifecycle (expiration, transition to Glacier)
+aws s3api list-object-versions --bucket <name> # [S3 API] - Lower-level S3 operations for advanced bucket and permission management
+
+    # List all object versions if versioning enabled
+aws s3api put-bucket-website --bucket <name> --website-configuration # [S3 API] - Lower-level S3 operations for advanced bucket and permission management
+
+    # Enable static website hosting on bucket
+aws s3api put-bucket-logging --bucket <name> --bucket-logging-status # [S3 API] - Lower-level S3 operations for advanced bucket and permission management
+
+    # Enable access logging to another bucket
+
+
+
+aws ec2 describe-instances # [EC2] - Virtual servers with various compute capabilities
+
+    # List all EC2 instances (running, stopped, terminated)
+aws ec2 describe-instances --instance-ids <id> # [EC2] - Virtual servers with various compute capabilities
+
+    # Get details for specific instance (IPs, security groups, volumes, AMI)
+aws ec2 describe-instances --filters Name=instance-state-name,Values=running # [EC2] - Virtual servers with various compute capabilities
+
+    # Filter instances by state (running/stopped/terminated)
+aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId,PublicIpAddress,PrivateIpAddress]' # [EC2] - Virtual servers with various compute capabilities
+
+    # Query and format instance details
+aws ec2 run-instances --image-id <ami> --count 1 --instance-type t2.micro # [EC2] - Virtual servers with various compute capabilities
+
+    # Launch new EC2 instance from AMI; specify type and count
+aws ec2 run-instances --image-id <ami> --instance-type t2.micro --key-name <key-pair> --security-groups <sg> # [EC2] - Virtual servers with various compute capabilities
+
+    # Launch instance with key pair and security group
+aws ec2 run-instances --image-id <ami> --instance-type t2.micro --iam-instance-profile Name=<profile> # [EC2] - Virtual servers with various compute capabilities
+
+    # Launch with IAM role for service permissions
+aws ec2 run-instances --image-id <ami> --instance-type t2.micro --tag-specifications # [EC2] - Virtual servers with various compute capabilities
+
+    # Launch and tag instance in one operation
+aws ec2 start-instances --instance-ids <id> # [EC2] - Virtual servers with various compute capabilities
+
+    # Start stopped instance; transitions from stopped to running
+aws ec2 stop-instances --instance-ids <id> # [EC2] - Virtual servers with various compute capabilities
+
+    # Stop running instance; preserves data and allows restart (reduces cost)
+aws ec2 reboot-instances --instance-ids <id> # [EC2] - Virtual servers with various compute capabilities
+
+    # Reboot instance; does not stop it
+aws ec2 terminate-instances --instance-ids <id> # [EC2] - Virtual servers with various compute capabilities
+
+    # Permanently delete instance; cannot restart, data lost
+aws ec2 create-tags --resources <instance-id> --tags Key=Name,Value=<name> # [EC2] - Virtual servers with various compute capabilities
+
+    # Add tags to instances for organization and billing
+aws ec2 describe-tags --filters Name=resource-id,Values=<instance-id> # [EC2] - Virtual servers with various compute capabilities
+
+    # Get tags on instance
+aws ec2 modify-instance-attribute --instance-id <id> --instance-type <type> # [EC2] - Virtual servers with various compute capabilities
+
+    # Change instance type (must be stopped)
+aws ec2 get-console-output --instance-id <id> # [EC2] - Virtual servers with various compute capabilities
+
+    # Get system log output from instance boot
+aws ec2 describe-instance-status --instance-ids <id> # [EC2] - Virtual servers with various compute capabilities
+
+    # Get system status and instance status checks
+
+
+
+aws ec2 describe-security-groups # [EC2 Security Groups] - Firewall rules for inbound/outbound traffic
+
+    # List all security groups with rules and descriptions
+aws ec2 describe-security-groups --group-ids <sg-id> # [EC2 Security Groups] - Firewall rules for inbound/outbound traffic
+
+    # Get details for specific security group
+aws ec2 create-security-group --group-name <name> --description <desc> --vpc-id <vpc-id> # [EC2 Security Groups] - Firewall rules for inbound/outbound traffic
+
+    # Create security group; vpc-id required for VPC SGs
+aws ec2 delete-security-group --group-id <sg-id> # [EC2 Security Groups] - Firewall rules for inbound/outbound traffic
+
+    # Delete security group; fails if in-use by instances
+aws ec2 authorize-security-group-ingress --group-id <id> --protocol tcp --port 80 --cidr 0.0.0.0/0 # [EC2 Security Groups] - Firewall rules for inbound/outbound traffic
+
+    # Add inbound rule; allow traffic on port from CIDR
+aws ec2 authorize-security-group-ingress --group-id <id> --source-group <sg-id> # [EC2 Security Groups] - Firewall rules for inbound/outbound traffic
+
+    # Add inbound rule from another security group
+aws ec2 revoke-security-group-ingress --group-id <id> --protocol tcp --port 80 --cidr 0.0.0.0/0 # [EC2 Security Groups] - Firewall rules for inbound/outbound traffic
+
+    # Remove inbound rule; revoke access
+aws ec2 authorize-security-group-egress --group-id <id> --protocol tcp --port 443 --cidr 0.0.0.0/0 # [EC2 Security Groups] - Firewall rules for inbound/outbound traffic
+
+    # Add outbound rule (default allows all)
+aws ec2 revoke-security-group-egress --group-id <id> --protocol -1 --cidr 0.0.0.0/0 # [EC2 Security Groups] - Firewall rules for inbound/outbound traffic
+
+    # Remove outbound rule
+aws ec2 describe-security-groups --filters Name=vpc-id,Values=<vpc-id> # [EC2 Security Groups] - Firewall rules for inbound/outbound traffic
+
+    # List security groups in VPC
+aws ec2 describe-images --owners amazon # [EC2 Security Groups] - Firewall rules for inbound/outbound traffic
+
+    # List AWS-provided AMIs; filter by owner for official images
+aws ec2 describe-images --owner-ids self # [EC2 Security Groups] - Firewall rules for inbound/outbound traffic
+
+    # List your custom AMIs
+aws ec2 create-image --instance-id <id> --name <name> # [EC2 Security Groups] - Firewall rules for inbound/outbound traffic
+
+    # Create AMI from running/stopped instance
+aws ec2 describe-key-pairs # [EC2 Security Groups] - Firewall rules for inbound/outbound traffic
+
+    # List all EC2 key pairs for SSH access
+aws ec2 create-key-pair --key-name <name> # [EC2 Security Groups] - Firewall rules for inbound/outbound traffic
+
+    # Create key pair; returns private key (save securely)
+aws ec2 delete-key-pair --key-name <name> # [EC2 Security Groups] - Firewall rules for inbound/outbound traffic
+
+    # Delete key pair; existing instances not affected
+aws ec2 import-key-pair --key-name <name> --public-key-material file://public-key.pub # [EC2 Security Groups] - Firewall rules for inbound/outbound traffic
+
+    # Import existing public key
+
+
+
+aws ec2 describe-volumes # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # List all EBS volumes with size, state, attachment info
+aws ec2 describe-volumes --volume-ids <vol-id> # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # Get details for specific EBS volume
+aws ec2 describe-volumes --filters Name=attachment.instance-id,Values=<instance-id> # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # List volumes attached to instance
+aws ec2 create-volume --availability-zone <zone> --size 100 # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # Create EBS volume; must specify AZ, size in GB
+aws ec2 create-volume --availability-zone <zone> --size 100 --volume-type gp3 # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # Create volume with specific type (gp2/gp3/io1/io2/st1/sc1)
+aws ec2 create-volume --size 100 --snapshot-id <snap-id> --availability-zone <zone> # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # Create volume from snapshot
+aws ec2 attach-volume --volume-id <vol-id> --instance-id <i-id> --device /dev/sdf # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # Attach volume to instance; requires unmapped device name
+aws ec2 detach-volume --volume-id <vol-id> # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # Detach volume from instance; may take time if in use
+aws ec2 delete-volume --volume-id <vol-id> # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # Delete EBS volume permanently; cannot delete attached volumes
+aws ec2 modify-volume-attribute --volume-id <vol-id> --auto-enable-io # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # Enable automatic I/O operations on volume errors
+aws ec2 describe-volume-status --volume-ids <vol-id> # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # Get volume I/O performance status
+aws ec2 create-snapshot --volume-id <vol-id> # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # Create point-in-time snapshot; useful for backups/volume copies
+aws ec2 create-snapshot --volume-id <vol-id> --description <desc> # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # Create named snapshot with description
+aws ec2 describe-snapshots --owner-ids self # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # List your snapshots
+aws ec2 describe-snapshots --filters Name=status,Values=completed # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # List completed snapshots ready for use
+aws ec2 copy-snapshot --source-region <region> --source-snapshot-id <id> --destination-region <region> # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # Copy snapshot to another region
+aws ec2 delete-snapshot --snapshot-id <snap-id> # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # Delete snapshot permanently
+aws ec2 modify-snapshot-attribute --snapshot-id <snap-id> --attribute createVolumePermission # [EBS] - Persistent block storage volumes for EC2 instances
+
+    # Share snapshot with other AWS accounts
+
+
+
+aws iam list-users # [IAM] - User, role, and permission management
+
+    # List all IAM users in account with creation date
+aws iam get-user # [IAM] - User, role, and permission management
+
+    # Get current authenticated user details
+aws iam get-user --user-name <name> # [IAM] - User, role, and permission management
+
+    # Get specific user details
+aws iam create-user --user-name <name> # [IAM] - User, role, and permission management
+
+    # Create IAM user for programmatic/console access
+aws iam update-user --user-name <name> --new-user-name <new-name> # [IAM] - User, role, and permission management
+
+    # Rename user
+aws iam delete-user --user-name <name> # [IAM] - User, role, and permission management
+
+    # Delete IAM user; ensure no attached policies/keys first
+aws iam list-user-tags --user-name <name> # [IAM] - User, role, and permission management
+
+    # Get tags on user
+aws iam tag-user --user-name <name> --tags Key=Department,Value=Engineering # [IAM] - User, role, and permission management
+
+    # Add tags to user
+aws iam untag-user --user-name <name> --tag-keys Department # [IAM] - User, role, and permission management
+
+    # Remove tags from user
+aws iam list-groups-for-user --user-name <name> # [IAM] - User, role, and permission management
+
+    # List groups user belongs to
+aws iam add-user-to-group --group-name <group> --user-name <name> # [IAM] - User, role, and permission management
+
+    # Add user to group
+aws iam remove-user-from-group --group-name <group> --user-name <name> # [IAM] - User, role, and permission management
+
+    # Remove user from group
+aws iam list-roles # [IAM] - User, role, and permission management
+
+    # List all IAM roles; roles are assumed by services/users
+aws iam get-role --role-name <name> # [IAM] - User, role, and permission management
+
+    # Get role details including ARN and assume policy
+aws iam create-role --role-name <name> --assume-role-policy-document file://trust-policy.json # [IAM] - User, role, and permission management
+
+    # Create role; specify who can assume it
+aws iam update-assume-role-policy --role-name <name> --policy-document file://new-policy.json # [IAM] - User, role, and permission management
+
+    # Change who can assume role
+aws iam delete-role --role-name <name> # [IAM] - User, role, and permission management
+
+    # Delete role; must detach policies first
+aws iam list-role-tags --role-name <name> # [IAM] - User, role, and permission management
+
+    # Get tags on role
+aws iam tag-role --role-name <name> --tags Key=Environment,Value=Prod # [IAM] - User, role, and permission management
+
+    # Add tags to role
+aws iam untag-role --role-name <name> --tag-keys Environment # [IAM] - User, role, and permission management
+
+    # Remove tags from role
+aws iam list-policies # [IAM] - User, role, and permission management
+
+    # List all customer-managed and AWS-managed policies
+aws iam get-policy --policy-arn <arn> # [IAM] - User, role, and permission management
+
+    # Get policy metadata (creation date, version count)
+aws iam list-policy-versions --policy-arn <arn> # [IAM] - User, role, and permission management
+
+    # List policy versions; default is active version
+aws iam create-policy --policy-name <name> --policy-document file://policy.json # [IAM] - User, role, and permission management
+
+    # Create customer-managed policy
+aws iam put-user-policy --user-name <name> --policy-name <name> --policy-document file://policy.json # [IAM] - User, role, and permission management
+
+    # Attach inline policy to user
+aws iam delete-user-policy --user-name <name> --policy-name <name> # [IAM] - User, role, and permission management
+
+    # Detach inline policy from user
+aws iam attach-user-policy --user-name <name> --policy-arn <arn> # [IAM] - User, role, and permission management
+
+    # Attach managed policy to user
+aws iam detach-user-policy --user-name <name> --policy-arn <arn> # [IAM] - User, role, and permission management
+
+    # Detach managed policy from user
+aws iam attach-role-policy --role-name <name> --policy-arn <arn> # [IAM] - User, role, and permission management
+
+    # Attach managed policy to role
+aws iam detach-role-policy --role-name <name> --policy-arn <arn> # [IAM] - User, role, and permission management
+
+    # Detach managed policy from role
+aws iam list-user-policies --user-name <name> # [IAM] - User, role, and permission management
+
+    # List inline policies attached to user
+aws iam get-user-policy --user-name <name> --policy-name <name> # [IAM] - User, role, and permission management
+
+    # Get inline policy document for user
+aws iam list-role-policies --role-name <name> # [IAM] - User, role, and permission management
+
+    # List inline policies attached to role
+aws iam get-role-policy --role-name <name> --policy-name <name> # [IAM] - User, role, and permission management
+
+    # Get inline policy document for role
+aws iam list-access-keys --user-name <name> # [IAM] - User, role, and permission management
+
+    # List access keys (ID, creation date, status, last used)
+aws iam list-access-keys # [IAM] - User, role, and permission management
+
+    # List access keys for current user
+aws iam create-access-key --user-name <name> # [IAM] - User, role, and permission management
+
+    # Generate new access key pair (save SecretAccessKey immediately)
+aws iam get-access-key-last-used --access-key-id <key-id> # [IAM] - User, role, and permission management
+
+    # Get last used date for access key
+aws iam update-access-key --user-name <name> --access-key-id <key-id> --status Inactive # [IAM] - User, role, and permission management
+
+    # Deactivate access key (useful for rotation)
+aws iam delete-access-key --user-name <name> --access-key-id <key-id> # [IAM] - User, role, and permission management
+
+    # Permanently delete access key
+aws iam create-login-profile --user-name <name> --password <pwd> # [IAM] - User, role, and permission management
+
+    # Create console login credentials for user
+aws iam update-login-profile --user-name <name> --password <new-pwd> # [IAM] - User, role, and permission management
+
+    # Change user console password
+aws iam delete-login-profile --user-name <name> # [IAM] - User, role, and permission management
+
+    # Remove console access from user
+aws iam list-groups # [IAM] - User, role, and permission management
+
+    # List all IAM groups
+aws iam create-group --group-name <name> # [IAM] - User, role, and permission management
+
+    # Create IAM group for managing multiple users
+aws iam delete-group --group-name <name> # [IAM] - User, role, and permission management
+
+    # Delete group; must remove users first
+aws iam attach-group-policy --group-name <name> --policy-arn <arn> # [IAM] - User, role, and permission management
+
+    # Attach policy to group
+aws iam detach-group-policy --group-name <name> --policy-arn <arn> # [IAM] - User, role, and permission management
+
+    # Detach policy from group
+aws iam list-group-policies --group-name <name> # [IAM] - User, role, and permission management
+
+    # List inline policies attached to group
+aws iam put-group-policy --group-name <name> --policy-name <name> --policy-document file://policy.json # [IAM] - User, role, and permission management
+
+    # Create inline policy for group
+
+
+
+aws lambda list-functions # [Lambda] - Serverless compute for event-driven workloads
+
+    # List all Lambda functions with runtime/memory
+aws lambda get-function --function-name <name> # [Lambda] - Serverless compute for event-driven workloads
+
+    # Get function config, code location, concurrency limits
+aws lambda get-function-code-signing-config --function-name <name> # [Lambda] - Serverless compute for event-driven workloads
+
+    # Get code signing config for function
+aws lambda describe-function --function-name <name> # [Lambda] - Serverless compute for event-driven workloads
+
+    # Get detailed function configuration
+aws lambda invoke --function-name <name> output.json # [Lambda] - Serverless compute for event-driven workloads
+
+    # Invoke function synchronously; output saved to file
+aws lambda invoke --function-name <name> --invocation-type Event output.json # [Lambda] - Serverless compute for event-driven workloads
+
+    # Invoke asynchronously; returns immediately
+aws lambda update-function-code --function-name <name> --zip-file fileb://function.zip # [Lambda] - Serverless compute for event-driven workloads
+
+    # Update function code from zip file
+aws lambda update-function-code --function-name <name> --s3-bucket <bucket> --s3-key <key> # [Lambda] - Serverless compute for event-driven workloads
+
+    # Update code from S3 object
+aws lambda create-function --function-name <name> --runtime python3.9 --role <arn> --handler index.handler --zip-file fileb://function.zip # [Lambda] - Serverless compute for event-driven workloads
+
+    # Create function; specify runtime/handler/role/code
+aws lambda delete-function --function-name <name> # [Lambda] - Serverless compute for event-driven workloads
+
+    # Delete function and all versions
+aws lambda list-versions-by-function --function-name <name> # [Lambda] - Serverless compute for event-driven workloads
+
+    # List function versions (published snapshots)
+aws lambda publish-version --function-name <name> --description <desc> # [Lambda] - Serverless compute for event-driven workloads
+
+    # Create immutable published version for production
+aws lambda create-alias --function-name <name> --name <alias> --function-version <version> # [Lambda] - Serverless compute for event-driven workloads
+
+    # Create alias pointing to version (used for traffic shifting)
+aws lambda update-alias --function-name <name> --name <alias> --function-version <version> # [Lambda] - Serverless compute for event-driven workloads
+
+    # Update alias target version
+aws lambda delete-alias --function-name <name> --name <alias> # [Lambda] - Serverless compute for event-driven workloads
+
+    # Delete alias
+aws lambda list-layers # [Lambda] - Serverless compute for event-driven workloads
+
+    # List Lambda layers (shared code libraries)
+aws lambda publish-layer-version --layer-name <name> --zip-file fileb://layer.zip # [Lambda] - Serverless compute for event-driven workloads
+
+    # Create layer version for code reuse
+aws lambda put-function-concurrency --function-name <name> --reserved-concurrent-executions 100 # [Lambda] - Serverless compute for event-driven workloads
+
+    # Reserve concurrent executions for function
+aws lambda get-function-concurrency --function-name <name> # [Lambda] - Serverless compute for event-driven workloads
+
+    # Get reserved concurrency settings
+aws lambda delete-function-concurrency --function-name <name> # [Lambda] - Serverless compute for event-driven workloads
+
+    # Remove reserved concurrency limit
+aws lambda list-event-source-mappings # [Lambda] - Serverless compute for event-driven workloads
+
+    # List event source mappings (SQS/Kinesis/DynamoDB Streams)
+aws lambda create-event-source-mapping --event-source-arn <arn> --function-name <name> # [Lambda] - Serverless compute for event-driven workloads
+
+    # Map event source to function
+aws lambda put-function-event-invoke-config --function-name <name> # [Lambda] - Serverless compute for event-driven workloads
+
+    # Configure function async behavior/DLQ
+
+
+
+aws ecs list-clusters # [ECS] - Managed container orchestration for Docker
+
+    # List ECS clusters (container groups)
+aws ecs describe-clusters --clusters <cluster-name> # [ECS] - Managed container orchestration for Docker
+
+    # Get cluster details (capacity, registered containers)
+aws ecs create-cluster --cluster-name <name> # [ECS] - Managed container orchestration for Docker
+
+    # Create ECS cluster
+aws ecs delete-cluster --cluster <cluster-name> # [ECS] - Managed container orchestration for Docker
+
+    # Delete cluster; must remove services/tasks first
+aws ecs list-services --cluster <cluster-name> # [ECS] - Managed container orchestration for Docker
+
+    # List services in cluster (long-running tasks)
+aws ecs describe-services --cluster <name> --services <service-name> # [ECS] - Managed container orchestration for Docker
+
+    # Get service details (desired/running count, load balancer)
+aws ecs create-service --cluster <name> --service-name <name> --task-definition <task> --desired-count 1 # [ECS] - Managed container orchestration for Docker
+
+    # Create service; manages long-running task replicas
+aws ecs update-service --cluster <name> --service <name> --desired-count 3 # [ECS] - Managed container orchestration for Docker
+
+    # Change desired task count; triggers auto-scaling/replacement
+aws ecs delete-service --cluster <name> --service <name> # [ECS] - Managed container orchestration for Docker
+
+    # Delete service; stops all associated tasks
+aws ecs register-task-definition --family <name> --container-definitions file://containers.json # [ECS] - Managed container orchestration for Docker
+
+    # Register task definition (blueprint for container launch)
+aws ecs describe-task-definition --task-definition <name> # [ECS] - Managed container orchestration for Docker
+
+    # Get task definition details (containers, volumes, CPU/memory)
+aws ecs list-task-definitions # [ECS] - Managed container orchestration for Docker
+
+    # List task definition families
+aws ecs list-task-definitions --status ACTIVE # [ECS] - Managed container orchestration for Docker
+
+    # List active task definitions
+aws ecs deregister-task-definition --task-definition <name> # [ECS] - Managed container orchestration for Docker
+
+    # Mark task definition inactive (can't launch new tasks)
+aws ecs run-task --cluster <cluster> --task-definition <task> --count 1 # [ECS] - Managed container orchestration for Docker
+
+    # Launch one-off task (not managed by service)
+aws ecs describe-tasks --cluster <cluster> --tasks <task-arn> # [ECS] - Managed container orchestration for Docker
+
+    # Get task details (status, containers, IP, logs)
+aws ecs stop-task --cluster <cluster> --task <task-arn> # [ECS] - Managed container orchestration for Docker
+
+    # Stop running task
+aws ecs list-container-instances --cluster <cluster> # [ECS] - Managed container orchestration for Docker
+
+    # List container instances (EC2 nodes)
+aws ecs describe-container-instances --cluster <cluster> --container-instances <instance-arn> # [ECS] - Managed container orchestration for Docker
+
+    # Get instance registration details
+aws ecs list-tasks --cluster <cluster> # [ECS] - Managed container orchestration for Docker
+
+    # List all tasks in cluster
+aws ecs update-container-instances-state --cluster <cluster> --status DRAINING # [ECS] - Managed container orchestration for Docker
+
+    # Drain instance (stop new task placement)
+
+
+
+aws ecr describe-repositories # [ECR] - Private Docker image registry
+
+    # List ECR repositories with URI
+aws ecr describe-repositories --repository-names <repo> # [ECR] - Private Docker image registry
+
+    # Get details for specific repository
+aws ecr create-repository --repository-name <name> # [ECR] - Private Docker image registry
+
+    # Create ECR repository; returns URI for docker push
+aws ecr create-repository --repository-name <name> --encryption-configuration encryptionType=KMS # [ECR] - Private Docker image registry
+
+    # Create encrypted repository
+aws ecr delete-repository --repository-name <name> # [ECR] - Private Docker image registry
+
+    # Delete repository; must empty it first
+aws ecr delete-repository --repository-name <name> --force # [ECR] - Private Docker image registry
+
+    # Force delete repository with images
+aws ecr list-images --repository-name <repo> # [ECR] - Private Docker image registry
+
+    # List images in repository with tags and digest
+aws ecr list-images --repository-name <repo> --filter tagStatus=TAGGED # [ECR] - Private Docker image registry
+
+    # List tagged images (exclude untagged)
+aws ecr describe-images --repository-name <repo> # [ECR] - Private Docker image registry
+
+    # Get image details (size, push date, tags)
+aws ecr describe-images --repository-name <repo> --image-ids imageTag=latest # [ECR] - Private Docker image registry
+
+    # Get details for specific image
+aws ecr batch-get-image --repository-name <repo> --image-ids imageTag=latest # [ECR] - Private Docker image registry
+
+    # Get image manifest and metadata
+aws ecr get-download-url-for-layer --repository-name <repo> --layer-digest <digest> # [ECR] - Private Docker image registry
+
+    # Get download URL for image layer
+aws ecr get-authorization-token # [ECR] - Private Docker image registry
+
+    # Get auth token for docker login (valid 12 hours)
+aws ecr put-image-tag-mutability --repository-name <repo> --image-tag-mutability IMMUTABLE # [ECR] - Private Docker image registry
+
+    # Prevent image tags from being overwritten
+aws ecr put-image-scanning-configuration --repository-name <repo> --image-scanning-configuration scanOnPush=true # [ECR] - Private Docker image registry
+
+    # Enable automated image scanning
+aws ecr describe-image-scan-findings --repository-name <repo> --image-id imageTag=latest # [ECR] - Private Docker image registry
+
+    # Get vulnerability scan results
+aws ecr set-repository-policy --repository-name <repo> --repository-policy file://policy.json # [ECR] - Private Docker image registry
+
+    # Attach policy to repository (cross-account access)
+aws ecr get-repository-policy --repository-name <repo> # [ECR] - Private Docker image registry
+
+    # Get repository policy
+aws ecr batch-delete-image --repository-name <repo> --image-ids imageTag=old # [ECR] - Private Docker image registry
+
+    # Delete images by tag or digest
+aws ecr start-image-scan --repository-name <repo> --image-id imageTag=latest # [ECR] - Private Docker image registry
+
+    # Trigger image vulnerability scan
+aws ecr put-lifecycle-policy --repository-name <repo> --lifecycle-policy-text file://lifecycle.json # [ECR] - Private Docker image registry
+
+    # Set image expiration rules
+
+
+
+aws eks list-clusters # [EKS] - Managed Kubernetes cluster service
+
+    # List EKS clusters
+aws eks describe-cluster --name <name> # [EKS] - Managed Kubernetes cluster service
+
+    # Get cluster config (API endpoint, certificate, VPC, logging)
+aws eks create-cluster --name <name> --version 1.21 --role-arn <arn> --resources-vpc-config subnetIds=<ids> # [EKS] - Managed Kubernetes cluster service
+
+    # Create EKS cluster; specify version/IAM role/subnets
+aws eks delete-cluster --name <name> # [EKS] - Managed Kubernetes cluster service
+
+    # Delete EKS cluster; removes control plane
+aws eks update-cluster-version --name <name> --kubernetes-version 1.22 # [EKS] - Managed Kubernetes cluster service
+
+    # Update Kubernetes version
+aws eks update-cluster-config --name <name> --logging # [EKS] - Managed Kubernetes cluster service
+
+    # Update cluster logging configuration
+aws eks list-nodegroups --cluster-name <name> # [EKS] - Managed Kubernetes cluster service
+
+    # List node groups (worker node collections)
+aws eks describe-nodegroup --cluster-name <name> --nodegroup-name <ng> # [EKS] - Managed Kubernetes cluster service
+
+    # Get node group details (instance types, scaling config)
+aws eks create-nodegroup --cluster-name <name> --nodegroup-name <ng> --scaling-config minSize=1,maxSize=10 # [EKS] - Managed Kubernetes cluster service
+
+    # Create node group; manages auto-scaling
+aws eks delete-nodegroup --cluster-name <name> --nodegroup-name <ng> # [EKS] - Managed Kubernetes cluster service
+
+    # Delete node group; terminates instances
+aws eks update-nodegroup-config --cluster-name <name> --nodegroup-name <ng> --scaling-config # [EKS] - Managed Kubernetes cluster service
+
+    # Update node group scaling/config
+aws eks list-addons --cluster-name <name> # [EKS] - Managed Kubernetes cluster service
+
+    # List EKS add-ons (CNI, kube-proxy, etc.)
+aws eks create-addon --cluster-name <name> --addon-name vpc-cni # [EKS] - Managed Kubernetes cluster service
+
+    # Install EKS add-on
+aws eks delete-addon --cluster-name <name> --addon-name vpc-cni # [EKS] - Managed Kubernetes cluster service
+
+    # Remove EKS add-on
+aws eks describe-addon --cluster-name <name> --addon-name vpc-cni # [EKS] - Managed Kubernetes cluster service
+
+    # Get add-on configuration
+aws eks update-addon --cluster-name <name> --addon-name vpc-cni --addon-version <version> # [EKS] - Managed Kubernetes cluster service
+
+    # Update add-on version
+aws eks list-updates --name <name> # [EKS] - Managed Kubernetes cluster service
+
+    # List available cluster updates
+
+
+
+aws cloudformation create-stack --stack-name <name> --template-body file://template.yaml # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # Create stack from template
+aws cloudformation create-stack --stack-name <name> --template-url https://s3.amazonaws.com/bucket/template.yaml # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # Create stack from S3 template
+aws cloudformation describe-stacks --stack-name <name> # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # Get stack details (status, outputs, creation time)
+aws cloudformation list-stacks # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # List all stacks (includes deleted)
+aws cloudformation list-stacks --stack-status-filter CREATE_COMPLETE # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # List stacks by status
+aws cloudformation get-template --stack-name <name> # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # Get stack template body
+aws cloudformation update-stack --stack-name <name> --template-body file://template.yaml # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # Update stack; adds/modifies/deletes resources
+aws cloudformation cancel-update-stack --stack-name <name> # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # Cancel in-progress stack update
+aws cloudformation delete-stack --stack-name <name> # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # Delete stack; removes resources (except deletion-protected)
+aws cloudformation validate-template --template-body file://template.yaml # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # Validate template syntax before deployment
+aws cloudformation estimate-template-cost --template-body file://template.yaml # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # Get estimated monthly cost of stack resources
+aws cloudformation describe-stack-resources --stack-name <name> # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # List all resources created by stack
+aws cloudformation describe-stack-resource --stack-name <name> --logical-resource-id <id> # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # Get specific stack resource details
+aws cloudformation list-stack-resources --stack-name <name> # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # List stack resources with creation time
+aws cloudformation signal-resource-success --stack-name <name> --logical-resource-id <id> # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # Signal successful resource creation
+aws cloudformation create-change-set --stack-name <name> --change-set-name <cs-name> --template-body file://template.yaml # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # Preview changes before applying
+aws cloudformation describe-change-set --stack-name <name> --change-set-name <cs-name> # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # Review change set details
+aws cloudformation execute-change-set --stack-name <name> --change-set-name <cs-name> # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # Apply change set to stack
+aws cloudformation delete-change-set --stack-name <name> --change-set-name <cs-name> # [CloudFormation] - Infrastructure-as-Code service for provisioning AWS resources
+
+    # Discard change set without applying
+
+
+
+aws rds describe-db-instances # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # List RDS instances with engine/status
+aws rds describe-db-instances --db-instance-identifier <id> # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Get instance details (endpoint, master user, backups)
+aws rds create-db-instance --db-instance-identifier <id> --db-instance-class db.t3.micro --engine mysql # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Create RDS instance; specify engine/class/storage
+aws rds create-db-instance --db-instance-identifier <id> --db-instance-class db.t3.micro --engine mysql --allocated-storage 20 # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Create with specific storage size (GB)
+aws rds create-db-instance-read-replica --db-instance-identifier <id> --source-db-instance-identifier <source-id> # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Create read replica for offloading reads
+aws rds delete-db-instance --db-instance-identifier <id> # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Delete instance; optionally save final snapshot
+aws rds delete-db-instance --db-instance-identifier <id> --skip-final-snapshot # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Delete without saving snapshot
+aws rds start-db-instance --db-instance-identifier <id> # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Start stopped instance; becomes available
+aws rds stop-db-instance --db-instance-identifier <id> # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Stop instance; reduces charges, can be restarted
+aws rds reboot-db-instance --db-instance-identifier <id> # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Reboot instance; causes brief downtime
+aws rds modify-db-instance --db-instance-identifier <id> --allocated-storage 100 # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Change allocated storage (must be larger)
+aws rds modify-db-instance --db-instance-identifier <id> --db-instance-class db.t3.small # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Change instance type (causes downtime)
+aws rds modify-db-instance --db-instance-identifier <id> --multi-az --apply-immediately # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Enable Multi-AZ for high availability
+aws rds describe-db-parameter-groups # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # List parameter groups (configuration presets)
+aws rds describe-db-parameters --db-parameter-group-name <name> # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # List parameters in group
+aws rds modify-db-parameter-group --db-parameter-group-name <name> --parameters # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Change parameter values
+aws rds describe-db-snapshots --db-instance-identifier <id> # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # List snapshots for instance
+aws rds create-db-snapshot --db-instance-identifier <id> --db-snapshot-identifier <snap-id> # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Create manual snapshot
+aws rds copy-db-snapshot --source-db-snapshot-identifier <src> --target-db-snapshot-identifier <dst> # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Copy snapshot to another region
+aws rds delete-db-snapshot --db-snapshot-identifier <snap-id> # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Delete manual snapshot
+aws rds restore-db-instance-from-db-snapshot --db-instance-identifier <id> --db-snapshot-identifier <snap-id> # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Restore instance from snapshot
+aws rds restore-db-instance-to-point-in-time --db-instance-identifier <id> --source-db-instance-identifier <src-id> # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Restore to specific point in time
+aws rds describe-db-cluster-snapshots # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # List Aurora cluster snapshots
+aws rds describe-orderable-db-instance-options --engine mysql # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # List available instance classes for engine
+aws rds add-tags-to-resource --resource-name <arn> --tags Key=Name,Value=<name> # [RDS] - Managed SQL databases (MySQL, PostgreSQL, Oracle, SQL Server)
+
+    # Add tags to instance
+
+
+
+aws dynamodb list-tables # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # List all tables in region
+aws dynamodb describe-table --table-name <name> # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Get table schema, throughput, size, item count
+aws dynamodb create-table --table-name <name> --attribute-definitions AttributeName=id,AttributeType=S --key-schema AttributeName=id,KeyType=HASH --billing-mode PAY_PER_REQUEST # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Create table; specify key attributes and billing
+aws dynamodb create-table --table-name <name> --attribute-definitions AttributeName=id,AttributeType=S --key-schema AttributeName=id,KeyType=HASH --provisioned-throughput ReadCapacityUnits=10,WriteCapacityUnits=10 # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Create with provisioned throughput
+aws dynamodb delete-table --table-name <name> # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Delete table permanently; cannot recover data
+aws dynamodb update-table --table-name <name> --provisioned-throughput ReadCapacityUnits=20,WriteCapacityUnits=20 # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Change provisioned throughput
+aws dynamodb put-item --table-name <name> --item '{"id":{"S":"123"},"name":{"S":"John"}}' # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Write single item to table
+aws dynamodb get-item --table-name <name> --key '{"id":{"S":"123"}}' # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Retrieve single item by primary key
+aws dynamodb update-item --table-name <name> --key '{"id":{"S":"123"}}' --update-expression "SET #n=:val" # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Modify item attributes
+aws dynamodb delete-item --table-name <name> --key '{"id":{"S":"123"}}' # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Delete single item
+aws dynamodb query --table-name <name> --key-condition-expression "id=:id" --expression-attribute-values '{{":id":{"S":"123"}}}' # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Query items by partition key
+aws dynamodb scan --table-name <name> # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Scan all items in table (expensive, use query if possible)
+aws dynamodb batch-get-item --request-items file://request.json # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Get multiple items in single operation
+aws dynamodb batch-write-item --request-items file://request.json # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Write multiple items in single operation
+aws dynamodb create-global-table --global-table-name <name> --replication-group RegionName=us-east-1 # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Create cross-region replication table
+aws dynamodb list-global-tables # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # List global tables with replication info
+aws dynamodb describe-global-table --global-table-name <name> # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Get global table details
+aws dynamodb describe-streams --table-name <name> # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Get DynamoDB Streams for table
+aws dynamodb describe-time-to-live --table-name <name> # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Get TTL configuration
+aws dynamodb update-time-to-live --table-name <name> --time-to-live-specification # [DynamoDB] - Fully managed NoSQL key-value and document database
+
+    # Enable/disable item expiration
+
+
+
+aws logs describe-log-groups # [CloudWatch Logs] - Centralized log management for AWS services and applications
+
+    # List log groups with retention
+aws logs describe-log-streams --log-group-name <name> # [CloudWatch Logs] - Centralized log management for AWS services and applications
+
+    # List log streams in group
+aws logs create-log-group --log-group-name <name> # [CloudWatch Logs] - Centralized log management for AWS services and applications
+
+    # Create log group (required before sending logs)
+aws logs delete-log-group --log-group-name <name> # [CloudWatch Logs] - Centralized log management for AWS services and applications
+
+    # Delete log group permanently
+aws logs put-retention-policy --log-group-name <name> --retention-in-days 30 # [CloudWatch Logs] - Centralized log management for AWS services and applications
+
+    # Set log retention (expire old logs)
+aws logs put-log-events --log-group-name <name> --log-stream-name <stream> --log-events # [CloudWatch Logs] - Centralized log management for AWS services and applications
+
+    # Write log events to stream
+aws logs create-log-stream --log-group-name <name> --log-stream-name <stream> # [CloudWatch Logs] - Centralized log management for AWS services and applications
+
+    # Create log stream in group
+aws logs delete-log-stream --log-group-name <name> --log-stream-name <stream> # [CloudWatch Logs] - Centralized log management for AWS services and applications
+
+    # Delete log stream
+aws logs describe-metric-filters --log-group-name <name> # [CloudWatch Logs] - Centralized log management for AWS services and applications
+
+    # List metric filters for group
+aws logs put-metric-filter --log-group-name <name> --filter-name <name> # [CloudWatch Logs] - Centralized log management for AWS services and applications
+
+    # Create metric filter (convert logs to CloudWatch metrics)
+aws logs filter-log-events --log-group-name <name> # [CloudWatch Logs] - Centralized log management for AWS services and applications
+
+    # Search logs by pattern
+aws logs tail <log-group> # [CloudWatch Logs] - Centralized log management for AWS services and applications
+
+    # Real-time log streaming from group
+aws logs tail <log-group> --follow # [CloudWatch Logs] - Centralized log management for AWS services and applications
+
+    # Follow logs continuously (like tail -f)
+aws logs tail <log-group> --filter-pattern ERROR # [CloudWatch Logs] - Centralized log management for AWS services and applications
+
+    # Stream logs matching pattern
+aws logs get-log-events --log-group-name <name> --log-stream-name <stream> # [CloudWatch Logs] - Centralized log management for AWS services and applications
+
+    # Get log events from stream
+aws logs create-export-task --log-group-name <name> --from <start-time> --to <end-time> --destination <bucket> # [CloudWatch Logs] - Centralized log management for AWS services and applications
+
+    # Export logs to S3
+aws logs describe-export-tasks # [CloudWatch Logs] - Centralized log management for AWS services and applications
+
+    # List log export tasks
+
+
+
+aws cloudwatch describe-alarms # [CloudWatch] - Monitoring and observability for AWS resources and applications
+
+    # List all alarms with state
+aws cloudwatch describe-alarms --state-value ALARM # [CloudWatch] - Monitoring and observability for AWS resources and applications
+
+    # List alarms in ALARM state (threshold breached)
+aws cloudwatch put-metric-alarm --alarm-name <name> --metric-name CPUUtilization --namespace AWS/EC2 # [CloudWatch] - Monitoring and observability for AWS resources and applications
+
+    # Create alarm; trigger on metric threshold
+aws cloudwatch put-metric-alarm --alarm-name <name> --metric-name CPUUtilization --threshold 80 --comparison-operator GreaterThanThreshold # [CloudWatch] - Monitoring and observability for AWS resources and applications
+
+    # Create alarm that fires when CPU > 80%
+aws cloudwatch put-metric-alarm --alarm-name <name> --threshold 100 --alarm-actions arn:aws:sns:... # [CloudWatch] - Monitoring and observability for AWS resources and applications
+
+    # Create alarm with SNS notification on trigger
+aws cloudwatch delete-alarms --alarm-names <name> # [CloudWatch] - Monitoring and observability for AWS resources and applications
+
+    # Delete alarm
+aws cloudwatch describe-alarm-history --alarm-name <name> # [CloudWatch] - Monitoring and observability for AWS resources and applications
+
+    # Get alarm state change history
+aws cloudwatch get-metric-data --metric-data-queries file://queries.json # [CloudWatch] - Monitoring and observability for AWS resources and applications
+
+    # Get metric data for graphs/analysis
+aws cloudwatch get-metric-statistics --namespace AWS/EC2 --metric-name CPUUtilization --dimensions Name=InstanceId,Value=<id> # [CloudWatch] - Monitoring and observability for AWS resources and applications
+
+    # Get metric statistics (average/max/min)
+aws cloudwatch list-metrics # [CloudWatch] - Monitoring and observability for AWS resources and applications
+
+    # List all available metrics in region
+aws cloudwatch list-metrics --namespace AWS/EC2 # [CloudWatch] - Monitoring and observability for AWS resources and applications
+
+    # List metrics for specific service
+aws cloudwatch put-metric-data --namespace CustomMetrics --metric-data MetricName=MyMetric,Value=10 # [CloudWatch] - Monitoring and observability for AWS resources and applications
+
+    # Publish custom metric
+aws cloudwatch set-alarm-state --alarm-name <name> --state-value ALARM # [CloudWatch] - Monitoring and observability for AWS resources and applications
+
+    # Manually set alarm state for testing
+aws cloudwatch enable-alarm-actions --alarm-names <name> # [CloudWatch] - Monitoring and observability for AWS resources and applications
+
+    # Re-enable alarm actions
+aws cloudwatch disable-alarm-actions --alarm-names <name> # [CloudWatch] - Monitoring and observability for AWS resources and applications
+
+    # Disable alarm notifications/actions
+
+
+
+aws sns list-topics # [SNS] - Publish-subscribe messaging service
+
+    # List all topics in region
+aws sns create-topic --name <name> # [SNS] - Publish-subscribe messaging service
+
+    # Create topic; returns topic ARN
+aws sns create-topic --name <name> --attributes DisplayName=MyTopic # [SNS] - Publish-subscribe messaging service
+
+    # Create topic with attributes
+aws sns delete-topic --topic-arn <arn> # [SNS] - Publish-subscribe messaging service
+
+    # Delete topic; unsubscribes all subscribers
+aws sns get-topic-attributes --topic-arn <arn> # [SNS] - Publish-subscribe messaging service
+
+    # Get topic config (DisplayName, subscriptions, policy)
+aws sns set-topic-attributes --topic-arn <arn> --attribute-name DisplayName --attribute-value NewName # [SNS] - Publish-subscribe messaging service
+
+    # Update topic attributes
+aws sns publish --topic-arn <arn> --message <msg> # [SNS] - Publish-subscribe messaging service
+
+    # Publish message to topic; delivers to subscribers
+aws sns publish --topic-arn <arn> --message <msg> --subject <subject> # [SNS] - Publish-subscribe messaging service
+
+    # Publish with subject (for email subscribers)
+aws sns publish --topic-arn <arn> --message file://message.json # [SNS] - Publish-subscribe messaging service
+
+    # Publish from file
+aws sns subscribe --topic-arn <arn> --protocol email --notification-endpoint <email> # [SNS] - Publish-subscribe messaging service
+
+    # Subscribe email; requires user confirmation
+aws sns subscribe --topic-arn <arn> --protocol sqs --notification-endpoint <queue-arn> # [SNS] - Publish-subscribe messaging service
+
+    # Subscribe SQS queue to topic
+aws sns subscribe --topic-arn <arn> --protocol lambda --notification-endpoint <func-arn> # [SNS] - Publish-subscribe messaging service
+
+    # Subscribe Lambda function to topic
+aws sns subscribe --topic-arn <arn> --protocol https --notification-endpoint <url> # [SNS] - Publish-subscribe messaging service
+
+    # Subscribe HTTP(S) webhook to topic
+aws sns list-subscriptions-by-topic --topic-arn <arn> # [SNS] - Publish-subscribe messaging service
+
+    # List subscribers for topic with endpoint
+aws sns list-subscriptions # [SNS] - Publish-subscribe messaging service
+
+    # List all subscriptions in region
+aws sns set-subscription-attributes --subscription-arn <arn> --attribute-name RawMessageDelivery --attribute-value true # [SNS] - Publish-subscribe messaging service
+
+    # Update subscription config
+aws sns unsubscribe --subscription-arn <arn> # [SNS] - Publish-subscribe messaging service
+
+    # Unsubscribe endpoint from topic
+aws sns publish-batch --topic-arn <arn> --publish-batch-request-entries # [SNS] - Publish-subscribe messaging service
+
+    # Publish multiple messages in batch
+
+
+
+aws sqs list-queues # [SQS] - Managed message queue service
+
+    # List all queues in region
+aws sqs create-queue --queue-name <name> # [SQS] - Managed message queue service
+
+    # Create FIFO or standard queue
+aws sqs create-queue --queue-name <name>.fifo --attributes FifoQueue=true # [SQS] - Managed message queue service
+
+    # Create FIFO queue (ordered, no duplicates)
+aws sqs get-queue-url --queue-name <name> # [SQS] - Managed message queue service
+
+    # Get queue URL
+aws sqs delete-queue --queue-url <url> # [SQS] - Managed message queue service
+
+    # Delete queue permanently
+aws sqs send-message --queue-url <url> --message-body <msg> # [SQS] - Managed message queue service
+
+    # Send message to queue
+aws sqs send-message-batch --queue-url <url> --entries file://entries.json # [SQS] - Managed message queue service
+
+    # Send multiple messages in batch
+aws sqs receive-message --queue-url <url> # [SQS] - Managed message queue service
+
+    # Poll queue for up to 10 messages (must delete after processing)
+aws sqs receive-message --queue-url <url> --wait-time-seconds 20 # [SQS] - Managed message queue service
+
+    # Long polling; waits up to 20s for messages
+aws sqs receive-message --queue-url <url> --max-number-of-messages 10 # [SQS] - Managed message queue service
+
+    # Receive max 10 messages
+aws sqs delete-message --queue-url <url> --receipt-handle <handle> # [SQS] - Managed message queue service
+
+    # Delete message after processing
+aws sqs delete-message-batch --queue-url <url> --entries file://entries.json # [SQS] - Managed message queue service
+
+    # Delete multiple messages in batch
+aws sqs change-message-visibility --queue-url <url> --receipt-handle <handle> --visibility-timeout 60 # [SQS] - Managed message queue service
+
+    # Extend message lock timeout
+aws sqs purge-queue --queue-url <url> # [SQS] - Managed message queue service
+
+    # Delete all messages from queue immediately
+aws sqs get-queue-attributes --queue-url <url> --attribute-names All # [SQS] - Managed message queue service
+
+    # Get queue config (message count, visibility timeout)
+aws sqs set-queue-attributes --queue-url <url> --attributes VisibilityTimeout=30 # [SQS] - Managed message queue service
+
+    # Update queue settings
+aws sqs add-permission --queue-url <url> --label <label> --aws-account-ids <id> --actions SendMessage # [SQS] - Managed message queue service
+
+    # Grant permissions to queue
+aws sqs remove-permission --queue-url <url> --label <label> # [SQS] - Managed message queue service
+
+    # Revoke queue permissions
+aws sqs tag-queue --queue-url <url> --tags Key=Environment,Value=Prod # [SQS] - Managed message queue service
+
+    # Add tags to queue
+aws sqs list-queue-tags --queue-url <url> # [SQS] - Managed message queue service
+
+    # Get queue tags
+
+
+
+aws route53 list-hosted-zones # [Route 53] - Domain name system (DNS) and domain registration service
+
+    # List all hosted zones with domain names
+aws route53 create-hosted-zone --name <domain> --caller-reference <unique-id> # [Route 53] - Domain name system (DNS) and domain registration service
+
+    # Create hosted zone; returns nameservers
+aws route53 get-hosted-zone --id <zone-id> # [Route 53] - Domain name system (DNS) and domain registration service
+
+    # Get zone details (nameservers, record count)
+aws route53 delete-hosted-zone --id <zone-id> # [Route 53] - Domain name system (DNS) and domain registration service
+
+    # Delete zone; must remove all records except NS/SOA
+aws route53 list-resource-record-sets --hosted-zone-id <zone-id> # [Route 53] - Domain name system (DNS) and domain registration service
+
+    # List DNS records in zone (A, AAAA, CNAME, MX, TXT)
+aws route53 change-resource-record-sets --hosted-zone-id <zone-id> --change-batch file://changes.json # [Route 53] - Domain name system (DNS) and domain registration service
+
+    # Add/modify/delete DNS records
+aws route53 test-dns-answer --hosted-zone-id <zone-id> --record-name <name> --record-type A # [Route 53] - Domain name system (DNS) and domain registration service
+
+    # Test DNS response for record
+aws route53 list-resource-record-sets --hosted-zone-id <zone-id> --query 'ResourceRecordSets[?Name==`example.com.`]' # [Route 53] - Domain name system (DNS) and domain registration service
+
+    # Query specific record
+aws route53 create-query-logging-config --hosted-zone-id <zone-id> --cloud-watch-logs-log-group-arn <arn> # [Route 53] - Domain name system (DNS) and domain registration service
+
+    # Enable DNS query logging
+aws route53 list-query-logging-configs --hosted-zone-id <zone-id> # [Route 53] - Domain name system (DNS) and domain registration service
+
+    # List query logging configs
+aws route53 delete-query-logging-config --id <config-id> # [Route 53] - Domain name system (DNS) and domain registration service
+
+    # Disable query logging
+aws route53 list-health-checks # [Route 53] - Domain name system (DNS) and domain registration service
+
+    # List health checks (endpoint monitoring)
+aws route53 create-health-check --health-check-config IPAddress=<ip>,Port=80,Type=HTTP # [Route 53] - Domain name system (DNS) and domain registration service
+
+    # Create health check
+aws route53 get-health-check-status --health-check-id <id> # [Route 53] - Domain name system (DNS) and domain registration service
+
+    # Get health check status
+aws route53 list-reusable-delegation-sets # [Route 53] - Domain name system (DNS) and domain registration service
+
+    # List reusable delegation sets (nameserver groups)
+
+
+
+aws secretsmanager list-secrets # [Secrets Manager] - Securely store and rotate database credentials, API keys, secrets
+
+    # List all secrets with rotation
+aws secretsmanager create-secret --name <name> --secret-string <secret> # [Secrets Manager] - Securely store and rotate database credentials, API keys, secrets
+
+    # Create secret; stored encrypted in AWS
+aws secretsmanager create-secret --name <name> --secret-binary fileb://binary-secret # [Secrets Manager] - Securely store and rotate database credentials, API keys, secrets
+
+    # Create binary secret
+aws secretsmanager get-secret-value --secret-id <id> # [Secrets Manager] - Securely store and rotate database credentials, API keys, secrets
+
+    # Retrieve secret value; creates CloudTrail entry
+aws secretsmanager get-secret-value --secret-id <id> --version-id <version> # [Secrets Manager] - Securely store and rotate database credentials, API keys, secrets
+
+    # Get specific secret version
+aws secretsmanager update-secret --secret-id <id> --secret-string <new-secret> # [Secrets Manager] - Securely store and rotate database credentials, API keys, secrets
+
+    # Update secret value; creates new version
+aws secretsmanager delete-secret --secret-id <id> # [Secrets Manager] - Securely store and rotate database credentials, API keys, secrets
+
+    # Schedule deletion; 7-30 day recovery window
+aws secretsmanager restore-secret --secret-id <id> # [Secrets Manager] - Securely store and rotate database credentials, API keys, secrets
+
+    # Restore deleted secret during recovery period
+aws secretsmanager describe-secret --secret-id <id> # [Secrets Manager] - Securely store and rotate database credentials, API keys, secrets
+
+    # Get secret metadata (last rotated, versions, tags)
+aws secretsmanager put-secret-value --secret-id <id> --client-request-token <token> --secret-string <value> # [Secrets Manager] - Securely store and rotate database credentials, API keys, secrets
+
+    # Set secret version
+aws secretsmanager list-secret-version-ids --secret-id <id> # [Secrets Manager] - Securely store and rotate database credentials, API keys, secrets
+
+    # List all versions of secret
+aws secretsmanager rotate-secret --secret-id <id> --rotation-rules AutomaticallyAfterDays=30 # [Secrets Manager] - Securely store and rotate database credentials, API keys, secrets
+
+    # Enable automatic rotation
+aws secretsmanager put-resource-policy --secret-id <id> --resource-policy file://policy.json # [Secrets Manager] - Securely store and rotate database credentials, API keys, secrets
+
+    # Attach resource policy (cross-account access)
+aws secretsmanager get-resource-policy --secret-id <id> # [Secrets Manager] - Securely store and rotate database credentials, API keys, secrets
+
+    # Get resource policy
+aws secretsmanager tag-resource --secret-id <id> --tags Key=Environment,Value=Prod # [Secrets Manager] - Securely store and rotate database credentials, API keys, secrets
+
+    # Add tags to secret
+
+
+
+aws ssm start-session --target <instance-id> # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # Start interactive shell to EC2; no SSH keys needed
+aws ssm start-session --target <instance-id> --document-name AWS-RunShellScript # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # Start shell session with script execution
+aws ssm get-parameter --name <name> # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # Retrieve parameter value (String/StringList/SecureString)
+aws ssm get-parameter --name <name> --with-decryption # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # Get SecureString parameter (decrypt via KMS)
+aws ssm get-parameters --names <name1> <name2> # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # Get multiple parameters in single call
+aws ssm put-parameter --name <name> --value <value> --type String # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # Store parameter; use SecureString for sensitive data
+aws ssm put-parameter --name <name> --value <value> --type SecureString --key-id <kms-key> # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # Store encrypted parameter with custom KMS key
+aws ssm describe-parameters # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # List all parameters with type/last modified
+aws ssm describe-parameters --filters Key=Name,Values=/app # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # List parameters matching filter
+aws ssm delete-parameter --name <name> # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # Delete parameter permanently
+aws ssm get-parameters-by-path --path /app # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # Get all parameters under path (supports hierarchy)
+aws ssm get-parameters-by-path --path /app --recursive # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # Get parameters recursively including subpaths
+aws ssm send-command --document-name <doc> --instance-ids <id> # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # Send command to instance
+aws ssm get-command-invocation --command-id <cmd-id> --instance-id <id> # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # Get command output
+aws ssm list-command-invocations --command-id <cmd-id> # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # List command execution results
+aws ssm describe-document --name <name> # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # Get SSM document details
+aws ssm list-documents # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # List available SSM documents
+aws ssm put-document --name <name> --content file://document.json # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # Create SSM document
+aws ssm label-parameter-version --name <name> --labels Production # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # Add labels to parameter version
+aws ssm list-tags-for-resource --resource-type Parameter --resource-id <name> # [Systems Manager] - Operational insights and actions for AWS resources
+
+    # Get parameter tags
+
+
+
+aws elbv2 describe-load-balancers # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # List Application Load Balancers (ALB) and Network Load Balancers (NLB)
+aws elbv2 describe-load-balancers --load-balancer-arns <arn> # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # Get specific load balancer details
+aws elbv2 create-load-balancer --name <name> --subnets <subnet-id> # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # Create ALB; specify subnets and scheme
+aws elbv2 create-load-balancer --name <name> --subnets <subnet-id> --type network # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # Create NLB for ultra-high performance
+aws elbv2 delete-load-balancer --load-balancer-arn <arn> # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # Delete load balancer
+aws elbv2 modify-load-balancer-attributes --load-balancer-arn <arn> --attributes # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # Enable access logs, deletion protection, etc.
+aws elbv2 describe-target-groups # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # List target groups (routing destinations)
+aws elbv2 describe-target-groups --load-balancer-arn <arn> # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # List target groups for load balancer
+aws elbv2 create-target-group --name <name> --protocol HTTP --port 80 # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # Create target group; attach instances/IPs
+aws elbv2 delete-target-group --target-group-arn <arn> # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # Delete target group
+aws elbv2 register-targets --target-group-arn <arn> --targets Id=<instance-id> # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # Add targets (instances/IPs) to group
+aws elbv2 deregister-targets --target-group-arn <arn> --targets Id=<instance-id> # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # Remove targets from group
+aws elbv2 describe-target-health --target-group-arn <arn> # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # Check target health status
+aws elbv2 modify-target-group --target-group-arn <arn> --health-check-path /health # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # Update health check settings
+aws elbv2 describe-listeners --load-balancer-arn <arn> # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # List listeners (port rules) for load balancer
+aws elbv2 create-listener --load-balancer-arn <arn> --protocol HTTP --port 80 # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # Create listener rule
+aws elbv2 modify-listener --listener-arn <arn> --default-actions Type=forward,TargetGroupArn=<arn> # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # Change listener routing
+aws elbv2 delete-listener --listener-arn <arn> # [ELB/ALB/NLB] - Elastic Load Balancing distributes traffic to multiple targets
+
+    # Delete listener
+
+
+
+aws autoscaling describe-auto-scaling-groups # [Auto Scaling] - Automatically adjust EC2 instance count based on load
+
+    # List ASGs with desired/current count
+aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names <name> # [Auto Scaling] - Automatically adjust EC2 instance count based on load
+
+    # Get ASG details (scaling config, instances)
+aws autoscaling create-auto-scaling-group --auto-scaling-group-name <name> --launch-template LaunchTemplateId=<id> --min-size 1 --max-size 10 # [Auto Scaling] - Automatically adjust EC2 instance count based on load
+
+    # Create ASG; instances launch from template
+aws autoscaling create-launch-configuration --launch-configuration-name <name> --image-id <ami> --instance-type t2.micro # [Auto Scaling] - Automatically adjust EC2 instance count based on load
+
+    # Create launch config template
+aws autoscaling delete-launch-configuration --launch-configuration-name <name> # [Auto Scaling] - Automatically adjust EC2 instance count based on load
+
+    # Delete launch config
+aws autoscaling delete-auto-scaling-group --auto-scaling-group-name <name> # [Auto Scaling] - Automatically adjust EC2 instance count based on load
+
+    # Delete ASG; terminates instances
+aws autoscaling set-desired-capacity --auto-scaling-group-name <name> --desired-capacity 5 # [Auto Scaling] - Automatically adjust EC2 instance count based on load
+
+    # Set target instance count; ASG scales to match
+aws autoscaling update-auto-scaling-group --auto-scaling-group-name <name> --min-size 2 --max-size 20 # [Auto Scaling] - Automatically adjust EC2 instance count based on load
+
+    # Change ASG scaling limits
+aws autoscaling put-scaling-policy --auto-scaling-group-name <name> --policy-name <name> --scaling-adjustment 2 # [Auto Scaling] - Automatically adjust EC2 instance count based on load
+
+    # Create scaling policy (adjust instances)
+aws autoscaling delete-policy --auto-scaling-group-name <name> --policy-name <name> # [Auto Scaling] - Automatically adjust EC2 instance count based on load
+
+    # Delete scaling policy
+aws autoscaling describe-policies --auto-scaling-group-name <name> # [Auto Scaling] - Automatically adjust EC2 instance count based on load
+
+    # List scaling policies for ASG
+aws autoscaling describe-scaling-activities --auto-scaling-group-name <name> # [Auto Scaling] - Automatically adjust EC2 instance count based on load
+
+    # Get scaling activity history
+aws autoscaling describe-lifecycle-hooks --auto-scaling-group-name <name> # [Auto Scaling] - Automatically adjust EC2 instance count based on load
+
+    # List lifecycle hooks (pause before terminate)
+aws autoscaling put-lifecycle-hook --auto-scaling-group-name <name> --lifecycle-hook-name <name> # [Auto Scaling] - Automatically adjust EC2 instance count based on load
+
+    # Create lifecycle hook for custom actions
+aws autoscaling terminate-instance-in-auto-scaling-group --instance-id <id> # [Auto Scaling] - Automatically adjust EC2 instance count based on load
+
+    # Remove instance from ASG
+
+
+
+aws kms list-keys # [KMS] - Hardware security module for encryption key management
+
+    # List all KMS keys in region
+aws kms describe-key --key-id <key-id> # [KMS] - Hardware security module for encryption key management
+
+    # Get key details (enabled, ARN, creation date, rotation status)
+aws kms create-key # [KMS] - Hardware security module for encryption key management
+
+    # Create customer-managed key; automatically enabled
+aws kms create-key --description <desc> --key-usage ENCRYPT_DECRYPT # [KMS] - Hardware security module for encryption key management
+
+    # Create key for encryption
+aws kms create-key --key-usage SIGN_VERIFY # [KMS] - Hardware security module for encryption key management
+
+    # Create key for signing
+aws kms disable-key --key-id <key-id> # [KMS] - Hardware security module for encryption key management
+
+    # Disable key (pause encryption/decryption)
+aws kms enable-key --key-id <key-id> # [KMS] - Hardware security module for encryption key management
+
+    # Re-enable disabled key
+aws kms schedule-key-deletion --key-id <key-id> --pending-window-in-days 30 # [KMS] - Hardware security module for encryption key management
+
+    # Schedule key deletion (7-30 day window)
+aws kms cancel-key-deletion --key-id <key-id> # [KMS] - Hardware security module for encryption key management
+
+    # Cancel key deletion during recovery window
+aws kms enable-key-rotation --key-id <key-id> # [KMS] - Hardware security module for encryption key management
+
+    # Enable annual automatic key rotation
+aws kms disable-key-rotation --key-id <key-id> # [KMS] - Hardware security module for encryption key management
+
+    # Disable key rotation
+aws kms encrypt --key-id <key-id> --plaintext <data> # [KMS] - Hardware security module for encryption key management
+
+    # Encrypt data; ciphertext returned in base64
+aws kms decrypt --ciphertext-blob fileb://encrypted-data # [KMS] - Hardware security module for encryption key management
+
+    # Decrypt ciphertext; key permissions determine access
+aws kms generate-data-key --key-id <key-id> --key-spec AES_256 # [KMS] - Hardware security module for encryption key management
+
+    # Generate data key for envelope encryption
+aws kms create-alias --alias-name alias/<name> --target-key-id <key-id> # [KMS] - Hardware security module for encryption key management
+
+    # Create human-readable alias for key
+aws kms list-aliases # [KMS] - Hardware security module for encryption key management
+
+    # List key aliases
+aws kms delete-alias --alias-name alias/<name> # [KMS] - Hardware security module for encryption key management
+
+    # Delete key alias
+aws kms put-key-policy --key-id <key-id> --policy-name default --policy file://policy.json # [KMS] - Hardware security module for encryption key management
+
+    # Attach resource policy to key
+aws kms get-key-policy --key-id <key-id> --policy-name default # [KMS] - Hardware security module for encryption key management
+
+    # Get key resource policy
+aws kms list-grants --key-id <key-id> # [KMS] - Hardware security module for encryption key management
+
+    # List grants for key (delegated permissions)
+aws kms create-grant --key-id <key-id> --grantee-principal <arn> --operations Encrypt,Decrypt # [KMS] - Hardware security module for encryption key management
+
+    # Create grant for principal
+
+
+
+aws acm list-certificates # [Certificate Manager] - Provision, manage, and renew SSL/TLS certificates
+
+    # List SSL/TLS certificates
+aws acm request-certificate --domain-name <domain> # [Certificate Manager] - Provision, manage, and renew SSL/TLS certificates
+
+    # Request new certificate; requires domain validation
+aws acm request-certificate --domain-name <domain> --subject-alternative-names <domain2> # [Certificate Manager] - Provision, manage, and renew SSL/TLS certificates
+
+    # Request cert with additional domains
+aws acm request-certificate --domain-name <domain> --validation-method DNS # [Certificate Manager] - Provision, manage, and renew SSL/TLS certificates
+
+    # Request with DNS validation
+aws acm describe-certificate --certificate-arn <arn> # [Certificate Manager] - Provision, manage, and renew SSL/TLS certificates
+
+    # Get certificate details (validity, renewal status)
+aws acm get-certificate --certificate-arn <arn> # [Certificate Manager] - Provision, manage, and renew SSL/TLS certificates
+
+    # Export certificate chain and body
+aws acm import-certificate --certificate fileb://cert.pem --certificate-chain fileb://chain.pem # [Certificate Manager] - Provision, manage, and renew SSL/TLS certificates
+
+    # Import third-party certificate
+aws acm delete-certificate --certificate-arn <arn> # [Certificate Manager] - Provision, manage, and renew SSL/TLS certificates
+
+    # Delete certificate; must not be in-use by AWS services
+aws acm renew-certificate --certificate-arn <arn> # [Certificate Manager] - Provision, manage, and renew SSL/TLS certificates
+
+    # Request certificate renewal
+aws acm resend-validation-email --certificate-arn <arn> # [Certificate Manager] - Provision, manage, and renew SSL/TLS certificates
+
+    # Resend domain validation email
+aws acm export-certificate --certificate-arn <arn> --passphrase <passphrase> # [Certificate Manager] - Provision, manage, and renew SSL/TLS certificates
+
+    # Export with encrypted private key
+aws acm list-tags-for-certificate --certificate-arn <arn> # [Certificate Manager] - Provision, manage, and renew SSL/TLS certificates
+
+    # Get certificate tags
+
+
+
+aws apigateway get-rest-apis # [API Gateway] - Create and manage REST/HTTP APIs with routing and throttling
+
+    # List REST APIs
+aws apigateway create-rest-api --name <name> # [API Gateway] - Create and manage REST/HTTP APIs with routing and throttling
+
+    # Create REST API
+aws apigateway delete-rest-api --rest-api-id <api-id> # [API Gateway] - Create and manage REST/HTTP APIs with routing and throttling
+
+    # Delete API
+aws apigateway get-resources --rest-api-id <api-id> # [API Gateway] - Create and manage REST/HTTP APIs with routing and throttling
+
+    # List API resources (paths)
+aws apigateway create-resource --rest-api-id <api-id> --parent-id <parent-id> --path-part <path> # [API Gateway] - Create and manage REST/HTTP APIs with routing and throttling
+
+    # Create resource in API
+aws apigateway delete-resource --rest-api-id <api-id> --resource-id <resource-id> # [API Gateway] - Create and manage REST/HTTP APIs with routing and throttling
+
+    # Delete resource
+aws apigateway put-method --rest-api-id <api-id> --resource-id <resource-id> --http-method GET # [API Gateway] - Create and manage REST/HTTP APIs with routing and throttling
+
+    # Add HTTP method to resource
+aws apigateway get-method --rest-api-id <api-id> --resource-id <resource-id> --http-method GET # [API Gateway] - Create and manage REST/HTTP APIs with routing and throttling
+
+    # Get method details
+aws apigateway delete-method --rest-api-id <api-id> --resource-id <resource-id> --http-method GET # [API Gateway] - Create and manage REST/HTTP APIs with routing and throttling
+
+    # Delete method
+aws apigateway put-method-response --rest-api-id <api-id> --resource-id <resource-id> --http-method GET --status-code 200 # [API Gateway] - Create and manage REST/HTTP APIs with routing and throttling
+
+    # Define response schema
+aws apigateway put-integration --rest-api-id <api-id> --resource-id <resource-id> --http-method GET --type AWS_PROXY --integration-http-method POST --uri <arn> # [API Gateway] - Create and manage REST/HTTP APIs with routing and throttling
+
+    # Connect method to backend (Lambda, HTTP, etc.)
+aws apigateway get-stages --rest-api-id <api-id> # [API Gateway] - Create and manage REST/HTTP APIs with routing and throttling
+
+    # List deployment stages (dev, prod, etc.)
+aws apigateway create-deployment --rest-api-id <api-id> --stage-name prod # [API Gateway] - Create and manage REST/HTTP APIs with routing and throttling
+
+    # Deploy API to stage
+aws apigateway update-stage --rest-api-id <api-id> --stage-name <stage> --patch-operations # [API Gateway] - Create and manage REST/HTTP APIs with routing and throttling
+
+    # Modify stage settings
+aws apigateway create-model --rest-api-id <api-id> --name <name> --content-type application/json # [API Gateway] - Create and manage REST/HTTP APIs with routing and throttling
+
+    # Create request/response schema
+aws apigateway get-authorizer --rest-api-id <api-id> --authorizer-id <auth-id> # [API Gateway] - Create and manage REST/HTTP APIs with routing and throttling
+
+    # Get authorizer details
+aws apigateway create-api-key --name <name> # [API Gateway] - Create and manage REST/HTTP APIs with routing and throttling
+
+    # Create API key for client access control
+
+
+
+aws elasticache describe-cache-clusters # [ElastiCache] - In-memory data store (Redis, Memcached) for caching
+
+    # List cache clusters
+aws elasticache describe-cache-clusters --cache-cluster-id <id> # [ElastiCache] - In-memory data store (Redis, Memcached) for caching
+
+    # Get cluster details (endpoint, node type, size)
+aws elasticache create-cache-cluster --cache-cluster-id <id> --cache-node-type cache.t3.micro --engine redis # [ElastiCache] - In-memory data store (Redis, Memcached) for caching
+
+    # Create cache cluster (Redis or Memcached)
+aws elasticache delete-cache-cluster --cache-cluster-id <id> # [ElastiCache] - In-memory data store (Redis, Memcached) for caching
+
+    # Delete cluster
+aws elasticache reboot-cache-cluster --cache-cluster-id <id> # [ElastiCache] - In-memory data store (Redis, Memcached) for caching
+
+    # Reboot cluster; causes brief downtime
+aws elasticache modify-cache-cluster --cache-cluster-id <id> --cache-node-type cache.t3.small # [ElastiCache] - In-memory data store (Redis, Memcached) for caching
+
+    # Change node type
+aws elasticache describe-cache-parameter-groups # [ElastiCache] - In-memory data store (Redis, Memcached) for caching
+
+    # List parameter groups (configuration presets)
+aws elasticache create-cache-parameter-group --cache-parameter-group-name <name> --cache-parameter-group-family redis6.x # [ElastiCache] - In-memory data store (Redis, Memcached) for caching
+
+    # Create parameter group
+aws elasticache modify-cache-parameter-group --cache-parameter-group-name <name> --parameter-name-values # [ElastiCache] - In-memory data store (Redis, Memcached) for caching
+
+    # Modify parameters
+aws elasticache describe-cache-security-groups # [ElastiCache] - In-memory data store (Redis, Memcached) for caching
+
+    # List security groups for cache
+aws elasticache create-cache-security-group --cache-security-group-name <name> # [ElastiCache] - In-memory data store (Redis, Memcached) for caching
+
+    # Create security group
+aws elasticache describe-snapshots # [ElastiCache] - In-memory data store (Redis, Memcached) for caching
+
+    # List cache snapshots (backups)
+aws elasticache create-snapshot --cache-cluster-id <id> --snapshot-name <name> # [ElastiCache] - In-memory data store (Redis, Memcached) for caching
+
+    # Create manual snapshot
+aws elasticache restore-cache-cluster-from-snapshot --cache-cluster-id <id> --snapshot-name <name> # [ElastiCache] - In-memory data store (Redis, Memcached) for caching
+
+    # Restore from snapshot
+aws elasticache describe-events # [ElastiCache] - In-memory data store (Redis, Memcached) for caching
+
+    # Get cache events and notifications
+
+
+
+aws efs describe-file-systems # [EFS] - Managed NFS file system for multiple EC2 instances
+
+    # List file systems with size/performance
+aws efs create-file-system --performance-mode generalPurpose # [EFS] - Managed NFS file system for multiple EC2 instances
+
+    # Create file system; specify performance mode
+aws efs delete-file-system --file-system-id <fs-id> # [EFS] - Managed NFS file system for multiple EC2 instances
+
+    # Delete file system
+aws efs describe-mount-targets --file-system-id <fs-id> # [EFS] - Managed NFS file system for multiple EC2 instances
+
+    # List mount targets where instances mount EFS
+aws efs create-mount-target --file-system-id <fs-id> --subnet-id <subnet-id> # [EFS] - Managed NFS file system for multiple EC2 instances
+
+    # Create mount target in subnet
+aws efs delete-mount-target --mount-target-id <mt-id> # [EFS] - Managed NFS file system for multiple EC2 instances
+
+    # Remove mount target
+aws efs describe-access-points --file-system-id <fs-id> # [EFS] - Managed NFS file system for multiple EC2 instances
+
+    # List access points (enforced user/group/path)
+aws efs create-access-point --file-system-id <fs-id> --root-directory Path=/app # [EFS] - Managed NFS file system for multiple EC2 instances
+
+    # Create access point for simplified access
+aws efs delete-access-point --access-point-id <ap-id> # [EFS] - Managed NFS file system for multiple EC2 instances
+
+    # Delete access point
+aws efs create-tags --file-system-id <fs-id> --tags Key=Name,Value=<name> # [EFS] - Managed NFS file system for multiple EC2 instances
+
+    # Add tags to file system
+aws efs describe-tags --file-system-id <fs-id> # [EFS] - Managed NFS file system for multiple EC2 instances
+
+    # Get file system tags
+aws efs put-lifecycle-configuration --file-system-id <fs-id> --lifecycle-configuration # [EFS] - Managed NFS file system for multiple EC2 instances
+
+    # Set automatic transition to Infrequent Access
+
+
+
+aws glue list-databases # [Glue] - Extract, transform, load (ETL) service for data integration
+
+    # List Glue Catalog databases
+aws glue get-database --name <name> # [Glue] - Extract, transform, load (ETL) service for data integration
+
+    # Get database details
+aws glue create-database --database-input Name=<name>,Description=<desc> # [Glue] - Extract, transform, load (ETL) service for data integration
+
+    # Create database
+aws glue delete-database --name <name> # [Glue] - Extract, transform, load (ETL) service for data integration
+
+    # Delete database
+aws glue list-tables --database-name <name> # [Glue] - Extract, transform, load (ETL) service for data integration
+
+    # List tables in database
+aws glue get-table --database-name <name> --name <table-name> # [Glue] - Extract, transform, load (ETL) service for data integration
+
+    # Get table schema and location
+aws glue create-table --database-name <name> --table-input file://table-definition.json # [Glue] - Extract, transform, load (ETL) service for data integration
+
+    # Create table; define schema
+aws glue delete-table --database-name <name> --name <table-name> # [Glue] - Extract, transform, load (ETL) service for data integration
+
+    # Delete table
+aws glue get-crawler --name <name> # [Glue] - Extract, transform, load (ETL) service for data integration
+
+    # Get crawler configuration
+aws glue create-crawler --name <name> --role <arn> --database-name <name> --s3-target Path=<s3-path> # [Glue] - Extract, transform, load (ETL) service for data integration
+
+    # Create crawler to scan S3 and infer schema
+aws glue start-crawler --name <name> # [Glue] - Extract, transform, load (ETL) service for data integration
+
+    # Start crawler to scan data
+aws glue get-crawler-runs --crawler-name <name> # [Glue] - Extract, transform, load (ETL) service for data integration
+
+    # List crawler execution history
+aws glue list-jobs # [Glue] - Extract, transform, load (ETL) service for data integration
+
+    # List ETL jobs
+aws glue create-job --name <name> --role <arn> --command Name=glueetl,ScriptLocation=<s3-script> # [Glue] - Extract, transform, load (ETL) service for data integration
+
+    # Create ETL job
+aws glue start-job-run --job-name <name> # [Glue] - Extract, transform, load (ETL) service for data integration
+
+    # Execute job
+aws glue get-job-runs --job-name <name> # [Glue] - Extract, transform, load (ETL) service for data integration
+
+    # Get job execution history
+
+
+
+aws athena list-work-groups # [Athena] - Interactive SQL query service for S3 data
+
+    # List Athena workgroups
+aws athena start-query-execution --query-string "SELECT * FROM table" --query-execution-context Database=<db> --result-configuration OutputLocation=s3://<bucket> # [Athena] - Interactive SQL query service for S3 data
+
+    # Run SQL query against S3 data
+aws athena get-query-execution --query-execution-id <id> # [Athena] - Interactive SQL query service for S3 data
+
+    # Get query status and details
+aws athena get-query-results --query-execution-id <id> # [Athena] - Interactive SQL query service for S3 data
+
+    # Get query results (rows, columns)
+aws athena stop-query-execution --query-execution-id <id> # [Athena] - Interactive SQL query service for S3 data
+
+    # Stop running query
+aws athena list-query-executions # [Athena] - Interactive SQL query service for S3 data
+
+    # List query history
+aws athena batch-get-query-execution --query-execution-ids <ids> # [Athena] - Interactive SQL query service for S3 data
+
+    # Get multiple query details
+aws athena describe-table --catalog hive --database <db> --name <table> # [Athena] - Interactive SQL query service for S3 data
+
+    # Get table schema and metadata
+aws athena list-data-catalogs # [Athena] - Interactive SQL query service for S3 data
+
+    # List available data catalogs (Hive, Lambda, etc.)
+
+
+
+aws redshift describe-clusters # [Redshift] - Data warehouse service for large-scale analytics
+
+    # List clusters with node count/status
+aws redshift create-cluster --cluster-identifier <id> --node-type dc2.large --number-of-nodes 3 # [Redshift] - Data warehouse service for large-scale analytics
+
+    # Create cluster; specify node type and count
+aws redshift delete-cluster --cluster-identifier <id> # [Redshift] - Data warehouse service for large-scale analytics
+
+    # Delete cluster
+aws redshift reboot-cluster --cluster-identifier <id> # [Redshift] - Data warehouse service for large-scale analytics
+
+    # Reboot cluster
+aws redshift modify-cluster --cluster-identifier <id> --number-of-nodes 5 # [Redshift] - Data warehouse service for large-scale analytics
+
+    # Change cluster size (add/remove nodes)
+aws redshift resize-cluster --cluster-identifier <id> --node-type ra3.xl # [Redshift] - Data warehouse service for large-scale analytics
+
+    # Change node type
+aws redshift describe-cluster-parameter-groups # [Redshift] - Data warehouse service for large-scale analytics
+
+    # List parameter groups
+aws redshift create-cluster-parameter-group --parameter-group-name <name> --parameter-group-family redshift-1.0 # [Redshift] - Data warehouse service for large-scale analytics
+
+    # Create parameter group
+aws redshift describe-snapshots --cluster-identifier <id> # [Redshift] - Data warehouse service for large-scale analytics
+
+    # List cluster snapshots
+aws redshift create-cluster-snapshot --snapshot-identifier <snap-id> --cluster-identifier <id> # [Redshift] - Data warehouse service for large-scale analytics
+
+    # Create manual snapshot
+aws redshift restore-from-cluster-snapshot --cluster-identifier <new-id> --snapshot-identifier <snap-id> # [Redshift] - Data warehouse service for large-scale analytics
+
+    # Restore from snapshot
+
+
+
+aws sagemaker list-notebook-instances # [SageMaker] - Machine learning service for building, training, and deploying models
+
+    # List notebook instances
+aws sagemaker create-notebook-instance --notebook-instance-name <name> --instance-type ml.t3.medium # [SageMaker] - Machine learning service for building, training, and deploying models
+
+    # Create notebook for model development
+aws sagemaker delete-notebook-instance --notebook-instance-name <name> # [SageMaker] - Machine learning service for building, training, and deploying models
+
+    # Delete notebook instance
+aws sagemaker start-notebook-instance --notebook-instance-name <name> # [SageMaker] - Machine learning service for building, training, and deploying models
+
+    # Start stopped notebook
+aws sagemaker stop-notebook-instance --notebook-instance-name <name> # [SageMaker] - Machine learning service for building, training, and deploying models
+
+    # Stop running notebook
+aws sagemaker list-models # [SageMaker] - Machine learning service for building, training, and deploying models
+
+    # List trained models
+aws sagemaker create-model --model-name <name> --primary-container Image=<image>,ModelDataUrl=<s3-uri> # [SageMaker] - Machine learning service for building, training, and deploying models
+
+    # Register model for deployment
+aws sagemaker delete-model --model-name <name> # [SageMaker] - Machine learning service for building, training, and deploying models
+
+    # Delete model
+aws sagemaker list-training-jobs # [SageMaker] - Machine learning service for building, training, and deploying models
+
+    # List training job executions
+aws sagemaker create-training-job --training-job-name <name> --role-arn <arn> # [SageMaker] - Machine learning service for building, training, and deploying models
+
+    # Start training job
+aws sagemaker stop-training-job --training-job-name <name> # [SageMaker] - Machine learning service for building, training, and deploying models
+
+    # Stop training job
+aws sagemaker list-endpoint-configs # [SageMaker] - Machine learning service for building, training, and deploying models
+
+    # List endpoint configurations
+aws sagemaker create-endpoint-config --endpoint-config-name <name> # [SageMaker] - Machine learning service for building, training, and deploying models
+
+    # Create endpoint config (model + instance type)
+aws sagemaker create-endpoint --endpoint-name <name> --endpoint-config-name <config> # [SageMaker] - Machine learning service for building, training, and deploying models
+
+    # Deploy model to endpoint
+aws sagemaker invoke-endpoint --endpoint-name <name> --body <data> # [SageMaker] - Machine learning service for building, training, and deploying models
+
+    # Call deployed model for predictions
+
+
+
+aws cloudtrail describe-trails # [CloudTrail] - Audit and compliance logging of API calls to AWS services
+
+    # List trails with S3 bucket/status
+aws cloudtrail create-trail --name <name> --s3-bucket-name <bucket> # [CloudTrail] - Audit and compliance logging of API calls to AWS services
+
+    # Create trail; logs API calls to S3
+aws cloudtrail delete-trail --name <name> # [CloudTrail] - Audit and compliance logging of API calls to AWS services
+
+    # Delete trail
+aws cloudtrail start-logging --name <name> # [CloudTrail] - Audit and compliance logging of API calls to AWS services
+
+    # Enable logging for trail
+aws cloudtrail stop-logging --name <name> # [CloudTrail] - Audit and compliance logging of API calls to AWS services
+
+    # Disable logging for trail
+aws cloudtrail lookup-events # [CloudTrail] - Audit and compliance logging of API calls to AWS services
+
+    # Query CloudTrail events; returns recent API calls
+aws cloudtrail lookup-events --event-name <event> # [CloudTrail] - Audit and compliance logging of API calls to AWS services
+
+    # Lookup specific event type
+aws cloudtrail lookup-events --lookup-attributes AttributeKey=ResourceName,AttributeValue=<name> # [CloudTrail] - Audit and compliance logging of API calls to AWS services
+
+    # Find events by resource
+aws cloudtrail get-trail-status --name <name> # [CloudTrail] - Audit and compliance logging of API calls to AWS services
+
+    # Get trail status (logging enabled, latest delivery)
+aws cloudtrail describe-trails --trail-name-list <name> # [CloudTrail] - Audit and compliance logging of API calls to AWS services
+
+    # Get trail configuration details
+aws cloudtrail put-event-selectors --trail-name <name> --event-selectors file://selectors.json # [CloudTrail] - Audit and compliance logging of API calls to AWS services
+
+    # Configure events to log (data events, management events)
+aws cloudtrail list-trails # [CloudTrail] - Audit and compliance logging of API calls to AWS services
+
+    # List all trails in region
+aws cloudtrail list-tags --resource-id-list <trail-arn> # [CloudTrail] - Audit and compliance logging of API calls to AWS services
+
+    # Get trail tags
+
+
+
+aws cloudfront list-distributions # [CloudFront] - Content Delivery Network (CDN) for low-latency content distribution
+
+    # List distributions with domains
+aws cloudfront create-distribution --distribution-config file://config.json # [CloudFront] - Content Delivery Network (CDN) for low-latency content distribution
+
+    # Create distribution; specify origins/caching
+aws cloudfront get-distribution-config --id <dist-id> # [CloudFront] - Content Delivery Network (CDN) for low-latency content distribution
+
+    # Get distribution config for updates
+aws cloudfront update-distribution --id <dist-id> --distribution-config file://config.json # [CloudFront] - Content Delivery Network (CDN) for low-latency content distribution
+
+    # Modify distribution settings
+aws cloudfront delete-distribution --id <dist-id> # [CloudFront] - Content Delivery Network (CDN) for low-latency content distribution
+
+    # Delete distribution; must be disabled first
+aws cloudfront create-invalidation --distribution-id <id> --paths "/*" # [CloudFront] - Content Delivery Network (CDN) for low-latency content distribution
+
+    # Purge cache for specified paths
+aws cloudfront list-invalidations --distribution-id <id> # [CloudFront] - Content Delivery Network (CDN) for low-latency content distribution
+
+    # List cache invalidation requests
+aws cloudfront get-invalidation --distribution-id <id> --id <inv-id> # [CloudFront] - Content Delivery Network (CDN) for low-latency content distribution
+
+    # Get invalidation status
+aws cloudfront list-origin-access-identities # [CloudFront] - Content Delivery Network (CDN) for low-latency content distribution
+
+    # List OAI (CloudFront-to-S3 access)
+aws cloudfront create-origin-access-identity --cloud-front-origin-access-identity-config # [CloudFront] - Content Delivery Network (CDN) for low-latency content distribution
+
+    # Create OAI for private S3 access
+aws cloudfront get-distribution --id <dist-id> # [CloudFront] - Content Delivery Network (CDN) for low-latency content distribution
+
+    # Get distribution details including status
+aws cloudfront list-cache-policies # [CloudFront] - Content Delivery Network (CDN) for low-latency content distribution
+
+    # List managed cache policies
+aws cloudfront create-cache-policy --cache-policy-config file://policy.json # [CloudFront] - Content Delivery Network (CDN) for low-latency content distribution
+
+    # Create custom cache policy
+
+
+
+aws organizations list-accounts # [Organizations] - Centralized AWS account and policy management
+
+    # List AWS accounts in org
+aws organizations describe-account --account-id <id> # [Organizations] - Centralized AWS account and policy management
+
+    # Get account details (name, email, status)
+aws organizations create-account --account-name <name> --email <email> # [Organizations] - Centralized AWS account and policy management
+
+    # Create new AWS account
+aws organizations close-account --account-id <id> # [Organizations] - Centralized AWS account and policy management
+
+    # Close/delete account
+aws organizations list-roots # [Organizations] - Centralized AWS account and policy management
+
+    # List organization roots
+aws organizations list-organizational-units-for-parent --parent-id <id> # [Organizations] - Centralized AWS account and policy management
+
+    # List OUs (organizational units)
+aws organizations create-organizational-unit --parent-id <id> --name <name> # [Organizations] - Centralized AWS account and policy management
+
+    # Create OU for account grouping
+aws organizations delete-organizational-unit --organizational-unit-id <id> # [Organizations] - Centralized AWS account and policy management
+
+    # Delete OU
+aws organizations update-organizational-unit --organizational-unit-id <id> --name <new-name> # [Organizations] - Centralized AWS account and policy management
+
+    # Rename OU
+aws organizations list-accounts-for-parent --parent-id <id> # [Organizations] - Centralized AWS account and policy management
+
+    # List accounts in parent OU
+aws organizations move-account --account-id <id> --source-parent-id <src> --destination-parent-id <dst> # [Organizations] - Centralized AWS account and policy management
+
+    # Move account to different OU
+aws organizations list-policies --filter SERVICE_CONTROL_POLICY # [Organizations] - Centralized AWS account and policy management
+
+    # List SCPs (permission boundaries)
+aws organizations attach-policy --policy-id <id> --target-id <target> # [Organizations] - Centralized AWS account and policy management
+
+    # Apply policy to account/OU
+aws organizations detach-policy --policy-id <id> --target-id <target> # [Organizations] - Centralized AWS account and policy management
+
+    # Remove policy from account/OU
+aws organizations enable-all-features # [Organizations] - Centralized AWS account and policy management
+
+    # Enable all organization features (SCPs, delegation, etc.)
+
+
+
+aws budgets describe-budgets --account-id <id> # [Budgets] - Monitor and control spending with alerts and limits
+
+    # List budgets with limits
+aws budgets create-budget --account-id <id> --budget file://budget.json # [Budgets] - Monitor and control spending with alerts and limits
+
+    # Create budget; define threshold and actions
+aws budgets delete-budget --account-id <id> --budget-name <name> # [Budgets] - Monitor and control spending with alerts and limits
+
+    # Delete budget
+aws budgets update-budget --account-id <id> --budget file://budget.json # [Budgets] - Monitor and control spending with alerts and limits
+
+    # Update budget limits
+aws budgets describe-budget-actions-for-budget --account-id <id> --budget-name <name> # [Budgets] - Monitor and control spending with alerts and limits
+
+    # Get budget actions (auto-scaling, notifications)
+aws budgets put-budgets-notification --account-id <id> --budget-name <name> # [Budgets] - Monitor and control spending with alerts and limits
+
+    # Create budget alert notification
+aws budgets describe-budgets-notifications --account-id <id> --budget-name <name> # [Budgets] - Monitor and control spending with alerts and limits
+
+    # List budget notifications
+aws budgets list-budgets-for-account --account-id <id> # [Budgets] - Monitor and control spending with alerts and limits
+
+    # List all budgets in account
+
+
+
+aws ce get-cost-and-usage --time-period Start=<date>,End=<date> --granularity MONTHLY --metrics BlendedCost # [Cost Explorer] - Analyze AWS spending and usage patterns
+
+    # Get costs by service/region/tag
+aws ce get-reservation-purchase-recommendation --lookback-period THIRTY_DAYS # [Cost Explorer] - Analyze AWS spending and usage patterns
+
+    # Get recommendations to purchase reserved instances
+aws ce get-savings-plans-purchase-recommendation --lookback-period THIRTY_DAYS # [Cost Explorer] - Analyze AWS spending and usage patterns
+
+    # Get Savings Plans recommendations
+aws ce list-cost-allocation-tags --status Untagged # [Cost Explorer] - Analyze AWS spending and usage patterns
+
+    # List unactivated cost allocation tags
+aws ce update-cost-allocation-tags-status --cost-allocation-tags-status # [Cost Explorer] - Analyze AWS spending and usage patterns
+
+    # Activate cost allocation tags
+aws ce get-cost-anomaly-detectors # [Cost Explorer] - Analyze AWS spending and usage patterns
+
+    # List cost anomaly detection rules
+aws ce create-anomaly-monitor --anomaly-monitor file://monitor.json # [Cost Explorer] - Analyze AWS spending and usage patterns
+
+    # Create anomaly detection rule
+
+
+
+aws backup list-backup-vaults # [Backup] - Centralized backup and recovery for AWS services
+
+    # List backup vaults
+aws backup create-backup-vault --backup-vault-name <name> # [Backup] - Centralized backup and recovery for AWS services
+
+    # Create backup vault
+aws backup delete-backup-vault --backup-vault-name <name> # [Backup] - Centralized backup and recovery for AWS services
+
+    # Delete vault; must be empty
+aws backup list-backup-plans # [Backup] - Centralized backup and recovery for AWS services
+
+    # List backup plans with schedule/retention
+aws backup create-backup-plan --backup-plan file://plan.json # [Backup] - Centralized backup and recovery for AWS services
+
+    # Create backup plan; define what/when/retention
+aws backup delete-backup-plan --backup-plan-id <id> # [Backup] - Centralized backup and recovery for AWS services
+
+    # Delete backup plan
+aws backup start-backup-job --backup-vault-name <vault> --resource-arn <arn> # [Backup] - Centralized backup and recovery for AWS services
+
+    # Start manual backup
+aws backup describe-backup-job --backup-job-id <id> # [Backup] - Centralized backup and recovery for AWS services
+
+    # Get backup job status and details
+aws backup list-recovery-points-by-backup-vault --backup-vault-name <vault> # [Backup] - Centralized backup and recovery for AWS services
+
+    # List recovery points (backups) in vault
+aws backup describe-recovery-point --backup-vault-name <vault> --recovery-point-arn <arn> # [Backup] - Centralized backup and recovery for AWS services
+
+    # Get recovery point details
+aws backup start-restore-job --recovery-point-arn <arn> --iam-role-arn <arn> # [Backup] - Centralized backup and recovery for AWS services
+
+    # Restore resource from recovery point
+
+
+
+aws codebuild list-projects # [CodeBuild] - Managed build service for compiling source code
+
+    # List build projects
+aws codebuild create-project --name <name> --source type=GITHUB,location=<url> --artifacts type=S3,location=<bucket> # [CodeBuild] - Managed build service for compiling source code
+
+    # Create build project
+aws codebuild delete-project --name <name> # [CodeBuild] - Managed build service for compiling source code
+
+    # Delete project
+aws codebuild batch-get-projects --names <name> # [CodeBuild] - Managed build service for compiling source code
+
+    # Get project configurations
+aws codebuild start-build --project-name <name> # [CodeBuild] - Managed build service for compiling source code
+
+    # Trigger build execution
+aws codebuild stop-build --build-id <id> # [CodeBuild] - Managed build service for compiling source code
+
+    # Stop running build
+aws codebuild batch-get-builds --ids <build-id> # [CodeBuild] - Managed build service for compiling source code
+
+    # Get build status and logs
+aws codebuild list-builds-for-project --project-name <name> # [CodeBuild] - Managed build service for compiling source code
+
+    # List all builds for project
+aws codebuild list-builds # [CodeBuild] - Managed build service for compiling source code
+
+    # List all builds in account
+aws codebuild list-source-credentials # [CodeBuild] - Managed build service for compiling source code
+
+    # List stored Git credentials
+
+
+
+aws codepipeline list-pipelines # [CodePipeline] - Continuous delivery service for release automation
+
+    # List pipelines
+aws codepipeline get-pipeline --name <name> # [CodePipeline] - Continuous delivery service for release automation
+
+    # Get pipeline definition (stages, actions)
+aws codepipeline create-pipeline --cli-input-json file://pipeline.json # [CodePipeline] - Continuous delivery service for release automation
+
+    # Create pipeline; define build/test/deploy
+aws codepipeline delete-pipeline --name <name> # [CodePipeline] - Continuous delivery service for release automation
+
+    # Delete pipeline
+aws codepipeline start-pipeline-execution --pipeline-name <name> # [CodePipeline] - Continuous delivery service for release automation
+
+    # Manually trigger pipeline
+aws codepipeline get-pipeline-state --name <name> # [CodePipeline] - Continuous delivery service for release automation
+
+    # Get pipeline execution status
+aws codepipeline put-job-success-result --job-id <id> # [CodePipeline] - Continuous delivery service for release automation
+
+    # Mark job as successful
+aws codepipeline put-job-failure-result --job-id <id> --failure-details message=<msg> # [CodePipeline] - Continuous delivery service for release automation
+
+    # Mark job as failed
+aws codepipeline list-action-types # [CodePipeline] - Continuous delivery service for release automation
+
+    # List available pipeline actions
+aws codepipeline put-approval-result --pipeline-name <name> --stage-name <stage> --action-name <action> --result summary=<text>,status=Approved # [CodePipeline] - Continuous delivery service for release automation
+
+    # Approve/reject manual approval stage
+
+
+
+aws codecommit list-repositories # [CodeCommit] - Git-based source code repository service
+
+    # List repositories
+aws codecommit create-repository --repository-name <name> # [CodeCommit] - Git-based source code repository service
+
+    # Create repository; returns clone URLs
+aws codecommit delete-repository --repository-name <name> # [CodeCommit] - Git-based source code repository service
+
+    # Delete repository permanently
+aws codecommit get-repository --repository-name <name> # [CodeCommit] - Git-based source code repository service
+
+    # Get repo details (clone URLs, ARN, creation date)
+aws codecommit list-branches --repository-name <name> # [CodeCommit] - Git-based source code repository service
+
+    # List branches in repository
+aws codecommit get-branch --repository-name <name> --branch-name main # [CodeCommit] - Git-based source code repository service
+
+    # Get branch info (commit ID, ref)
+aws codecommit create-branch --repository-name <name> --branch-name <branch> --commit-id <commit> # [CodeCommit] - Git-based source code repository service
+
+    # Create branch from commit
+aws codecommit delete-branch --repository-name <name> --branch-name <branch> # [CodeCommit] - Git-based source code repository service
+
+    # Delete branch
+aws codecommit get-commit --repository-name <name> --commit-id <commit> # [CodeCommit] - Git-based source code repository service
+
+    # Get commit details and message
+aws codecommit list-commits --repository-name <name> --branch-name main # [CodeCommit] - Git-based source code repository service
+
+    # List commits in branch
+aws codecommit put-file --repository-name <name> --branch-name <branch> --file-path <path> --file-content fileb://file # [CodeCommit] - Git-based source code repository service
+
+    # Create/update file in repo
+aws codecommit get-file --repository-name <name> --commit-id <commit> --file-path <path> # [CodeCommit] - Git-based source code repository service
+
+    # Get file content from commit
+aws codecommit get-pull-request --pull-request-id <id> # [CodeCommit] - Git-based source code repository service
+
+    # Get PR details and status
+aws codecommit list-pull-requests --repository-name <name> --pull-request-status OPEN # [CodeCommit] - Git-based source code repository service
+
+    # List PRs in repository
+
+
+
+aws codedeploy list-applications # [CodeDeploy] - Deployment service for on-premises and EC2 instances
+
+    # List applications
+aws codedeploy create-application --application-name <name> # [CodeDeploy] - Deployment service for on-premises and EC2 instances
+
+    # Create application
+aws codedeploy delete-application --application-name <name> # [CodeDeploy] - Deployment service for on-premises and EC2 instances
+
+    # Delete application
+aws codedeploy get-application --application-name <name> # [CodeDeploy] - Deployment service for on-premises and EC2 instances
+
+    # Get application configuration
+aws codedeploy list-deployment-groups --application-name <name> # [CodeDeploy] - Deployment service for on-premises and EC2 instances
+
+    # List deployment groups for application
+aws codedeploy create-deployment-group --application-name <name> --deployment-group-name <dg> # [CodeDeploy] - Deployment service for on-premises and EC2 instances
+
+    # Create deployment group
+aws codedeploy delete-deployment-group --application-name <name> --deployment-group-name <dg> # [CodeDeploy] - Deployment service for on-premises and EC2 instances
+
+    # Delete deployment group
+aws codedeploy create-deployment --application-name <name> --deployment-group-name <dg> --s3-location <s3-location> # [CodeDeploy] - Deployment service for on-premises and EC2 instances
+
+    # Deploy revision to instances
+aws codedeploy get-deployment --deployment-id <id> # [CodeDeploy] - Deployment service for on-premises and EC2 instances
+
+    # Get deployment status and details
+aws codedeploy list-deployments --application-name <name> # [CodeDeploy] - Deployment service for on-premises and EC2 instances
+
+    # List deployments for application
+aws codedeploy list-deployment-instances --deployment-id <id> # [CodeDeploy] - Deployment service for on-premises and EC2 instances
+
+    # List instances in deployment
+
+
+
+aws events list-rules # [EventBridge] - Serverless event bus for routing events between AWS services
+
+    # List event rules
+aws events put-rule --name <name> --event-pattern file://pattern.json # [EventBridge] - Serverless event bus for routing events between AWS services
+
+    # Create rule; matches and routes events
+aws events delete-rule --name <name> # [EventBridge] - Serverless event bus for routing events between AWS services
+
+    # Delete rule
+aws events describe-rule --name <name> # [EventBridge] - Serverless event bus for routing events between AWS services
+
+    # Get rule configuration
+aws events list-targets-by-rule --rule <name> # [EventBridge] - Serverless event bus for routing events between AWS services
+
+    # List targets (Lambda, SNS, SQS, etc.) for rule
+aws events put-targets --rule <name> --targets file://targets.json # [EventBridge] - Serverless event bus for routing events between AWS services
+
+    # Add targets to rule; route matched events
+aws events remove-targets --rule <name> --ids 1 2 3 # [EventBridge] - Serverless event bus for routing events between AWS services
+
+    # Remove targets from rule
+aws events put-events --entries file://events.json # [EventBridge] - Serverless event bus for routing events between AWS services
+
+    # Send custom events to rule matching
+aws events disable-rule --name <name> # [EventBridge] - Serverless event bus for routing events between AWS services
+
+    # Disable rule (stop routing)
+aws events enable-rule --name <name> # [EventBridge] - Serverless event bus for routing events between AWS services
+
+    # Enable rule
+aws events create-event-bus --name <name> # [EventBridge] - Serverless event bus for routing events between AWS services
+
+    # Create custom event bus
+aws events list-event-buses # [EventBridge] - Serverless event bus for routing events between AWS services
+
+    # List event buses
+
+
+
+aws stepfunctions list-state-machines # [Step Functions] - Serverless workflow orchestration for complex processes
+
+    # List state machines
+aws stepfunctions create-state-machine --name <name> --definition file://definition.json --role-arn <arn> # [Step Functions] - Serverless workflow orchestration for complex processes
+
+    # Create state machine; define workflow
+aws stepfunctions delete-state-machine --state-machine-arn <arn> # [Step Functions] - Serverless workflow orchestration for complex processes
+
+    # Delete state machine
+aws stepfunctions describe-state-machine --state-machine-arn <arn> # [Step Functions] - Serverless workflow orchestration for complex processes
+
+    # Get state machine definition and status
+aws stepfunctions update-state-machine --state-machine-arn <arn> --definition file://new-definition.json # [Step Functions] - Serverless workflow orchestration for complex processes
+
+    # Update state machine definition
+aws stepfunctions start-execution --state-machine-arn <arn> --name <execution-name> # [Step Functions] - Serverless workflow orchestration for complex processes
+
+    # Start workflow execution
+aws stepfunctions describe-execution --execution-arn <arn> # [Step Functions] - Serverless workflow orchestration for complex processes
+
+    # Get execution status and output
+aws stepfunctions get-execution-history --execution-arn <arn> # [Step Functions] - Serverless workflow orchestration for complex processes
+
+    # Get execution event history
+aws stepfunctions list-executions --state-machine-arn <arn> # [Step Functions] - Serverless workflow orchestration for complex processes
+
+    # List workflow executions
+aws stepfunctions stop-execution --execution-arn <arn> # [Step Functions] - Serverless workflow orchestration for complex processes
+
+    # Stop running workflow
+
+
+
+aws kinesis list-streams # [Kinesis] - Real-time data streaming service for processing high-volume events
+
+    # List Kinesis streams
+aws kinesis describe-stream --stream-name <name> # [Kinesis] - Real-time data streaming service for processing high-volume events
+
+    # Get stream details (shards, retention, status)
+aws kinesis create-stream --stream-name <name> --shard-count 1 # [Kinesis] - Real-time data streaming service for processing high-volume events
+
+    # Create stream; specify shard count
+aws kinesis delete-stream --stream-name <name> # [Kinesis] - Real-time data streaming service for processing high-volume events
+
+    # Delete stream permanently
+aws kinesis put-record --stream-name <name> --data <data> --partition-key <key> # [Kinesis] - Real-time data streaming service for processing high-volume events
+
+    # Put record into stream; routed by partition key
+aws kinesis put-records --stream-name <name> --records file://records.json # [Kinesis] - Real-time data streaming service for processing high-volume events
+
+    # Put multiple records in batch
+aws kinesis get-shard-iterator --stream-name <name> --shard-id <id> --shard-iterator-type TRIM_HORIZON # [Kinesis] - Real-time data streaming service for processing high-volume events
+
+    # Get iterator for reading shard data
+aws kinesis get-records --shard-iterator <iterator> # [Kinesis] - Real-time data streaming service for processing high-volume events
+
+    # Consume records from stream
+aws kinesis list-shards --stream-name <name> # [Kinesis] - Real-time data streaming service for processing high-volume events
+
+    # List shards for stream
+aws kinesis split-shard --stream-name <name> --shard-to-split <shard-id> # [Kinesis] - Real-time data streaming service for processing high-volume events
+
+    # Split shard (increase throughput)
+aws kinesis merge-shards --stream-name <name> --shard-to-merge <shard1> --adjacent-shard-to-merge <shard2> # [Kinesis] - Real-time data streaming service for processing high-volume events
+
+    # Merge shards (decrease throughput)
+
+
+
+aws firehose list-delivery-streams # [Firehose] - Managed data delivery service for streaming data to S3, Redshift, etc.
+
+    # List delivery streams
+aws firehose describe-delivery-stream --delivery-stream-name <name> # [Firehose] - Managed data delivery service for streaming data to S3, Redshift, etc.
+
+    # Get stream details and destination config
+aws firehose create-delivery-stream --delivery-stream-name <name> --s3-destination-configuration file://config.json # [Firehose] - Managed data delivery service for streaming data to S3, Redshift, etc.
+
+    # Create stream; specify destination
+aws firehose delete-delivery-stream --delivery-stream-name <name> # [Firehose] - Managed data delivery service for streaming data to S3, Redshift, etc.
+
+    # Delete delivery stream
+aws firehose put-record --delivery-stream-name <name> --record Data=<data> # [Firehose] - Managed data delivery service for streaming data to S3, Redshift, etc.
+
+    # Send record to delivery stream
+aws firehose put-record-batch --delivery-stream-name <name> --records file://records.json # [Firehose] - Managed data delivery service for streaming data to S3, Redshift, etc.
+
+    # Send multiple records in batch
+aws firehose update-destination --delivery-stream-name <name> --current-delivery-stream-version-id <version> # [Firehose] - Managed data delivery service for streaming data to S3, Redshift, etc.
+
+    # Change destination configuration
+aws firehose describe-delivery-stream --delivery-stream-name <name> # [Firehose] - Managed data delivery service for streaming data to S3, Redshift, etc.
+
+    # Get delivery stream status and config
+
+
+
+aws batch describe-compute-environments # [Batch] - Fully managed batch computing service for large-scale parallel jobs
+
+    # List compute environments
+aws batch create-compute-environment --compute-environment-name <name> --type MANAGED # [Batch] - Fully managed batch computing service for large-scale parallel jobs
+
+    # Create compute environment; EC2 or Spot
+aws batch delete-compute-environment --compute-environment <name> # [Batch] - Fully managed batch computing service for large-scale parallel jobs
+
+    # Delete compute environment
+aws batch describe-job-queues # [Batch] - Fully managed batch computing service for large-scale parallel jobs
+
+    # List job queues
+aws batch create-job-queue --job-queue-name <name> --priority 1 --compute-environment-order order=1,computeEnvironment=<name> # [Batch] - Fully managed batch computing service for large-scale parallel jobs
+
+    # Create job queue
+aws batch delete-job-queue --job-queue <name> # [Batch] - Fully managed batch computing service for large-scale parallel jobs
+
+    # Delete job queue
+aws batch register-job-definition --job-definition-name <name> --type container --container-properties file://props.json # [Batch] - Fully managed batch computing service for large-scale parallel jobs
+
+    # Register job blueprint
+aws batch submit-job --job-name <name> --job-queue <queue> --job-definition <def> # [Batch] - Fully managed batch computing service for large-scale parallel jobs
+
+    # Submit batch job for execution
+aws batch describe-jobs --jobs <job-id> # [Batch] - Fully managed batch computing service for large-scale parallel jobs
+
+    # Get job status, logs, and output
+aws batch terminate-job --job-id <id> --reason <reason> # [Batch] - Fully managed batch computing service for large-scale parallel jobs
+
+    # Stop running job
+aws batch list-jobs --job-queue <queue> --job-status RUNNING # [Batch] - Fully managed batch computing service for large-scale parallel jobs
+
+    # List jobs by status
+
+
+
+aws wafv2 list-web-acls --scope REGIONAL # [WAFv2] - Managed firewall for web applications
+
+    # List Web ACLs
+aws wafv2 create-web-acl --name <name> --scope REGIONAL --default-action file://action.json # [WAFv2] - Managed firewall for web applications
+
+    # Create Web ACL; firewall rules for ALB/API Gateway/CloudFront
+aws wafv2 get-web-acl --name <name> --scope REGIONAL --id <id> # [WAFv2] - Managed firewall for web applications
+
+    # Get Web ACL rules and configuration
+aws wafv2 update-web-acl --name <name> --scope REGIONAL --id <id> --rules file://rules.json # [WAFv2] - Managed firewall for web applications
+
+    # Modify Web ACL rules
+aws wafv2 delete-web-acl --name <name> --scope REGIONAL --id <id> # [WAFv2] - Managed firewall for web applications
+
+    # Delete Web ACL
+aws wafv2 list-ip-sets --scope REGIONAL # [WAFv2] - Managed firewall for web applications
+
+    # List IP sets (used in WAF rules for IP filtering)
+aws wafv2 create-ip-set --name <name> --scope REGIONAL --ip-address-version IPV4 --addresses <IPs> # [WAFv2] - Managed firewall for web applications
+
+    # Create IP set
+aws wafv2 get-ip-set --name <name> --scope REGIONAL --id <id> # [WAFv2] - Managed firewall for web applications
+
+    # Get IP set contents
+aws wafv2 update-ip-set --name <name> --scope REGIONAL --id <id> --addresses <IPs> # [WAFv2] - Managed firewall for web applications
+
+    # Update IP set
+aws wafv2 list-regex-pattern-sets --scope REGIONAL # [WAFv2] - Managed firewall for web applications
+
+    # List regex pattern sets
+aws wafv2 create-regex-pattern-set --name <name> --scope REGIONAL --regex-pattern-strings # [WAFv2] - Managed firewall for web applications
+
+    # Create regex pattern set
+
+
+
+aws guardduty list-detectors # [GuardDuty] - Threat detection service using machine learning
+
+    # List threat detection instances
+aws guardduty create-detector --enable # [GuardDuty] - Threat detection service using machine learning
+
+    # Enable GuardDuty; starts analyzing account for threats
+aws guardduty get-detector --detector-id <id> # [GuardDuty] - Threat detection service using machine learning
+
+    # Get detector configuration
+aws guardduty delete-detector --detector-id <id> # [GuardDuty] - Threat detection service using machine learning
+
+    # Disable GuardDuty
+aws guardduty update-detector --detector-id <id> --enable # [GuardDuty] - Threat detection service using machine learning
+
+    # Update detector settings
+aws guardduty list-findings --detector-id <id> # [GuardDuty] - Threat detection service using machine learning
+
+    # List security findings (suspicious activity)
+aws guardduty get-findings --detector-id <id> --finding-ids <ids> # [GuardDuty] - Threat detection service using machine learning
+
+    # Get detailed finding information and context
+aws guardduty archive-findings --detector-id <id> --finding-ids <ids> # [GuardDuty] - Threat detection service using machine learning
+
+    # Archive/ignore findings
+aws guardduty unarchive-findings --detector-id <id> --finding-ids <ids> # [GuardDuty] - Threat detection service using machine learning
+
+    # Restore archived findings
+aws guardduty create-sample-findings --detector-id <id> --finding-types # [GuardDuty] - Threat detection service using machine learning
+
+    # Generate sample findings for testing
+
+
+
+aws configservice describe-config-rules # [Config] - Configuration compliance and governance service
+
+    # List Config rules (compliance checks)
+aws configservice put-config-rule --config-rule file://rule.json # [Config] - Configuration compliance and governance service
+
+    # Create Config rule; evaluate resource compliance
+aws configservice delete-config-rule --config-rule-name <name> # [Config] - Configuration compliance and governance service
+
+    # Delete Config rule
+aws configservice describe-compliance-by-config-rule # [Config] - Configuration compliance and governance service
+
+    # Check rule compliance status (COMPLIANT/NON_COMPLIANT)
+aws configservice describe-config-rule-evaluation-status --config-rule-names <name> # [Config] - Configuration compliance and governance service
+
+    # Get rule evaluation details
+aws configservice get-compliance-details-by-config-rule --config-rule-name <name> # [Config] - Configuration compliance and governance service
+
+    # Get detailed non-compliant resources
+aws configservice describe-configuration-aggregators # [Config] - Configuration compliance and governance service
+
+    # List aggregators for multi-account compliance
+aws configservice put-configuration-aggregator --configuration-aggregator-name <name> # [Config] - Configuration compliance and governance service
+
+    # Create aggregator; centralize compliance data
+aws configservice describe-aggregate-compliance-details # [Config] - Configuration compliance and governance service
+
+    # Get aggregated compliance details across accounts
+
+
+
+aws ec2 describe-vpcs # [VPC] - Isolated network environment for AWS resources
+
+    # List VPCs with CIDR blocks
+aws ec2 create-vpc --cidr-block 10.0.0.0/16 # [VPC] - Isolated network environment for AWS resources
+
+    # Create VPC; define network address space
+aws ec2 delete-vpc --vpc-id <vpc-id> # [VPC] - Isolated network environment for AWS resources
+
+    # Delete VPC; must remove all resources first
+aws ec2 modify-vpc-attribute --vpc-id <vpc-id> --enable-dns-hostnames # [VPC] - Isolated network environment for AWS resources
+
+    # Enable DNS hostnames in VPC
+aws ec2 describe-subnets --filters Name=vpc-id,Values=<vpc-id> # [VPC] - Isolated network environment for AWS resources
+
+    # List subnets in VPC with CIDR/AZ
+aws ec2 create-subnet --vpc-id <vpc-id> --cidr-block 10.0.1.0/24 --availability-zone <az> # [VPC] - Isolated network environment for AWS resources
+
+    # Create subnet; must be within VPC CIDR
+aws ec2 delete-subnet --subnet-id <subnet-id> # [VPC] - Isolated network environment for AWS resources
+
+    # Delete subnet
+aws ec2 describe-internet-gateways # [VPC] - Isolated network environment for AWS resources
+
+    # List internet gateways (route internet traffic)
+aws ec2 create-internet-gateway # [VPC] - Isolated network environment for AWS resources
+
+    # Create internet gateway
+aws ec2 attach-internet-gateway --internet-gateway-id <igw-id> --vpc-id <vpc-id> # [VPC] - Isolated network environment for AWS resources
+
+    # Attach IGW to VPC
+aws ec2 detach-internet-gateway --internet-gateway-id <igw-id> --vpc-id <vpc-id> # [VPC] - Isolated network environment for AWS resources
+
+    # Detach IGW from VPC
+aws ec2 describe-route-tables # [VPC] - Isolated network environment for AWS resources
+
+    # List route tables (routing rules)
+aws ec2 create-route-table --vpc-id <vpc-id> # [VPC] - Isolated network environment for AWS resources
+
+    # Create route table in VPC
+aws ec2 create-route --route-table-id <rt-id> --destination-cidr-block 0.0.0.0/0 --gateway-id <igw-id> # [VPC] - Isolated network environment for AWS resources
+
+    # Add route to internet gateway
+aws ec2 associate-route-table --route-table-id <rt-id> --subnet-id <subnet-id> # [VPC] - Isolated network environment for AWS resources
+
+    # Attach route table to subnet
+aws ec2 describe-network-acls # [VPC] - Isolated network environment for AWS resources
+
+    # List Network ACLs (subnet-level firewall)
+aws ec2 create-network-acl --vpc-id <vpc-id> # [VPC] - Isolated network environment for AWS resources
+
+    # Create Network ACL
+aws ec2 create-network-acl-entry --network-acl-id <nacl-id> --rule-number 100 # [VPC] - Isolated network environment for AWS resources
+
+    # Add inbound/outbound rule to NACL
+aws ec2 describe-nat-gateways # [VPC] - Isolated network environment for AWS resources
+
+    # List NAT gateways (private subnet internet access)
+aws ec2 create-nat-gateway --subnet-id <subnet-id> --allocation-id <eip-alloc-id> # [VPC] - Isolated network environment for AWS resources
+
+    # Create NAT gateway in public subnet
+aws ec2 describe-peering-connections # [VPC] - Isolated network environment for AWS resources
+
+    # List VPC peering connections
+aws ec2 create-vpc-peering-connection --vpc-id <vpc1> --peer-vpc-id <vpc2> # [VPC] - Isolated network environment for AWS resources
+
+    # Create VPC peering (connect two VPCs)
+
+
+
+aws servicecatalog list-portfolios # [Service Catalog] - Manage IT service catalogs and product offerings
+
+    # List portfolios
+aws servicecatalog describe-portfolio --id <id> # [Service Catalog] - Manage IT service catalogs and product offerings
+
+    # Get portfolio details and products
+aws servicecatalog create-portfolio --display-name <name> --provider-name <provider> # [Service Catalog] - Manage IT service catalogs and product offerings
+
+    # Create portfolio; group related products
+aws servicecatalog delete-portfolio --id <id> # [Service Catalog] - Manage IT service catalogs and product offerings
+
+    # Delete portfolio
+aws servicecatalog list-products # [Service Catalog] - Manage IT service catalogs and product offerings
+
+    # List Service Catalog products
+aws servicecatalog describe-product --id <id> # [Service Catalog] - Manage IT service catalogs and product offerings
+
+    # Get product details and launch parameters
+aws servicecatalog scan-provisioned-products # [Service Catalog] - Manage IT service catalogs and product offerings
+
+    # Scan provisioned products (import external resources)
+
+
+
+aws datasync create-location-s3 --s3-bucket-arn <arn> --s3-config file://config.json # [DataSync] - Automated data transfer between on-premises and AWS
+
+    # Create S3 location
+aws datasync create-location-efs --efs-filesystem-arn <arn> --subdirectory /data # [DataSync] - Automated data transfer between on-premises and AWS
+
+    # Create EFS location
+aws datasync list-locations # [DataSync] - Automated data transfer between on-premises and AWS
+
+    # List all DataSync locations (sources/destinations)
+aws datasync create-task --source-location-arn <src-arn> --destination-location-arn <dst-arn> # [DataSync] - Automated data transfer between on-premises and AWS
+
+    # Create sync task; define source and destination
+aws datasync start-task-execution --task-arn <arn> # [DataSync] - Automated data transfer between on-premises and AWS
+
+    # Start data transfer task
+aws datasync describe-task-execution --task-execution-arn <arn> # [DataSync] - Automated data transfer between on-premises and AWS
+
+    # Get task execution status and progress
+aws datasync list-tasks # [DataSync] - Automated data transfer between on-premises and AWS
+
+    # List all DataSync tasks
+
+
+
+aws transfer list-servers # [Transfer Family] - Managed file transfer service (SFTP, FTPS, FTP)
+
+    # List Transfer servers
+aws transfer create-server --protocol SFTP --identity-provider-type SERVICE_MANAGED # [Transfer Family] - Managed file transfer service (SFTP, FTPS, FTP)
+
+    # Create transfer server; supports SFTP/FTPS/FTP
+aws transfer delete-server --server-id <id> # [Transfer Family] - Managed file transfer service (SFTP, FTPS, FTP)
+
+    # Delete server
+aws transfer describe-server --server-id <id> # [Transfer Family] - Managed file transfer service (SFTP, FTPS, FTP)
+
+    # Get server configuration (protocol, identity provider)
+aws transfer create-user --server-id <id> --user-name <name> # [Transfer Family] - Managed file transfer service (SFTP, FTPS, FTP)
+
+    # Create server user; for file transfer access
+aws transfer delete-user --server-id <id> --user-name <name> # [Transfer Family] - Managed file transfer service (SFTP, FTPS, FTP)
+
+    # Delete user account
+aws transfer list-users --server-id <id> # [Transfer Family] - Managed file transfer service (SFTP, FTPS, FTP)
+
+    # List server users with home directories
+aws transfer import-ssh-public-key --server-id <id> --user-name <name> --ssh-public-key-body fileb://key.pub # [Transfer Family] - Managed file transfer service (SFTP, FTPS, FTP)
+
+    # Import SSH key for user
+
+
+
+aws appsync list-graphql-apis # [AppSync] - Managed GraphQL and real-time API service
+
+    # List GraphQL APIs
+aws appsync create-graphql-api --name <name> --authentication-type API_KEY # [AppSync] - Managed GraphQL and real-time API service
+
+    # Create GraphQL API; specify auth type
+aws appsync delete-graphql-api --api-id <id> # [AppSync] - Managed GraphQL and real-time API service
+
+    # Delete API
+aws appsync get-graphql-api --api-id <id> # [AppSync] - Managed GraphQL and real-time API service
+
+    # Get API schema and configuration
+aws appsync update-graphql-api --api-id <id> --name <new-name> # [AppSync] - Managed GraphQL and real-time API service
+
+    # Update API settings
+aws appsync list-data-sources --api-id <id> # [AppSync] - Managed GraphQL and real-time API service
+
+    # List data sources (Lambda, RDS, DynamoDB, etc.)
+aws appsync create-data-source --api-id <id> --name <name> --type AWS_LAMBDA # [AppSync] - Managed GraphQL and real-time API service
+
+    # Create data source for resolvers
+aws appsync delete-data-source --api-id <id> --name <name> # [AppSync] - Managed GraphQL and real-time API service
+
+    # Delete data source
+aws appsync get-introspection-schema --api-id <id> # [AppSync] - Managed GraphQL and real-time API service
+
+    # Get GraphQL schema for introspection
+
+
+
+aws cognito-idp list-user-pools --max-results 10 # [Cognito] - User authentication and authorization service
+
+    # List user pools for app auth
+aws cognito-idp create-user-pool --pool-name <name> # [Cognito] - User authentication and authorization service
+
+    # Create user pool; manages users and auth policies
+aws cognito-idp delete-user-pool --user-pool-id <id> # [Cognito] - User authentication and authorization service
+
+    # Delete user pool
+aws cognito-idp describe-user-pool --user-pool-id <id> # [Cognito] - User authentication and authorization service
+
+    # Get pool configuration (password policy, MFA, etc.)
+aws cognito-idp list-users --user-pool-id <id> # [Cognito] - User authentication and authorization service
+
+    # List users in pool with status and attributes
+aws cognito-idp admin-create-user --user-pool-id <id> --username <name> --temporary-password <pwd> # [Cognito] - User authentication and authorization service
+
+    # Create user; admin sets temp password
+aws cognito-idp admin-delete-user --user-pool-id <id> --username <name> # [Cognito] - User authentication and authorization service
+
+    # Delete user from pool
+aws cognito-idp admin-set-user-password --user-pool-id <id> --username <name> --password <pwd> --permanent # [Cognito] - User authentication and authorization service
+
+    # Set permanent user password
+aws cognito-idp admin-update-user-attributes --user-pool-id <id> --username <name> --user-attributes Name=email,Value=<email> # [Cognito] - User authentication and authorization service
+
+    # Update user attributes
+aws cognito-idp create-user-pool-client --user-pool-id <id> --client-name <name> # [Cognito] - User authentication and authorization service
+
+    # Create app client for pool

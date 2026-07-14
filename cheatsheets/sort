@@ -1,0 +1,176 @@
+# sort - sort lines of text in files
+
+sort file.txt # [Basic] - Sort alphabetically
+
+    # Sort lines in ascending order
+sort -r file.txt # [Basic] - Reverse sort (descending)
+
+    # Sort Z to A instead of A to Z
+sort -n file.txt # [Basic] - Numeric sort
+
+    # Sort numbers 1,2,10,20 (not 1,10,2,20)
+sort -u file.txt # [Basic] - Remove duplicates while sorting
+
+    # Sort and eliminate duplicate lines
+sort --help | head # [Basic] - Sort and show first lines
+
+    # Combine with head/tail for data inspection
+sort -f file.txt # [Basic] - Case-insensitive sorting
+
+    # Treat uppercase and lowercase as equivalent
+
+
+
+sort -k 2 file.txt # [Field Sorting] - Sort by second field
+
+    # Column-based sorting (default whitespace delimiter)
+sort -k 1,1 file.txt # [Field Sorting] - Sort by specific field
+
+    # Sort using only field 1 (explicit end column)
+sort -k 2 -k 1 file.txt # [Field Sorting] - Sort by multiple fields
+
+    # Primary sort by field 2, secondary by field 1
+sort -t ':' -k 1 file.txt # [Field Sorting] - Sort with custom delimiter
+
+    # Use colon as field separator (for /etc/passwd)
+sort -t ',' -k 2 -n data.csv # [Field Sorting] - Numeric sort on CSV column
+
+    # Sort numerically by second CSV column
+sort -k 3,3nr -k 1,1 file.txt # [Field Sorting] - Numeric reverse on one field
+
+    # Sort descending by field 3, ascending by field 1
+
+
+
+sort -n -r file.txt # [Numeric] - Numeric reverse sort
+
+    # Sort numbers largest to smallest
+sort -V file.txt # [Numeric] - Version number sort
+
+    # Sort 1.0 < 1.2 < 1.10 (not 1.0 < 1.10 < 1.2)
+sort -h file.txt # [Numeric] - Human-readable size sort
+
+    # Sort file sizes: 1K < 1M < 1G
+sort -i file.txt # [Numeric] - Ignore non-printable characters
+
+    # Skip control characters in comparison
+sort -R file.txt # [Numeric] - Random sort (shuffle)
+
+    # Randomize line order
+sort --random-source=/dev/urandom file.txt # [Numeric] - Seed random sort
+
+    # Reproducible randomization
+
+
+
+sort -t ' ' -k 2,2n file.txt # [Delimiters] - Space-delimited numeric column
+
+    # Parse by space, sort field 2 numerically
+sort -t '|' -k 3 data.txt # [Delimiters] - Pipe-delimited fields
+
+    # Use pipe as separator
+sort -t ';' -k 1 file.txt # [Delimiters] - Semicolon-delimited
+
+    # Colon-separated values
+sort -t $'\t' -k 1,1 file.txt # [Delimiters] - Tab-delimited
+
+    # Use literal tab as delimiter
+sort -F ' ' -k 1 file.txt # [Delimiters] - Regex delimiter
+
+    # Advanced: use regex as delimiter (if available)
+
+
+
+sort --ignore-leading-blanks -k 1 file.txt # [Options] - Ignore leading whitespace
+
+    # Skip indentation when finding field start
+sort -b -k 1 file.txt # [Options] - Ignore leading blanks (short form)
+
+    # Treat leading spaces as field separators
+sort -g file.txt # [Options] - General numeric sort (scientific notation)
+
+    # Sort 1e2 < 1e10 (exponential notation)
+sort --stable file.txt # [Options] - Maintain original order for equal lines
+
+    # Preserve input order when keys are identical
+sort -m file1.txt file2.txt # [Options] - Merge already-sorted files
+
+    # Combine pre-sorted files without re-sorting
+sort -c file.txt # [Options] - Check if sorted
+
+    # Verify file is sorted (return 0 if yes)
+
+
+
+sort -u users.txt | wc -l # [Piping] - Count unique lines
+
+    # Unique count after sorting
+sort file.txt | uniq -c # [Piping] - Count occurrences
+
+    # Show how many times each unique line appears
+sort -r numbers.txt | head -3 # [Piping] - Get top N values
+
+    # Show 3 largest numbers
+sort -n data.txt | tail -1 # [Piping] - Get minimum/maximum
+
+    # Show smallest/largest value
+sort -u file.txt > sorted_unique.txt # [Piping] - Save sorted output
+
+    # Write sorted results to file
+cat file1.txt file2.txt | sort | uniq # [Piping] - Combine and deduplicate
+
+    # Merge files and remove duplicates
+
+
+
+sort -T /tmp -S 256M large_file.txt # [Memory] - Use temp directory and buffer
+
+    # Specify temp location and buffer size for large files
+sort --buffer-size=1G file.txt # [Memory] - Set buffer size
+
+    # Allocate 1GB for sorting buffer
+sort --parallel=4 file.txt # [Memory] - Use multiple CPUs
+
+    # Parallel sort using 4 processors
+sort -o sorted.txt file.txt # [Memory] - Output to file directly
+
+    # Write results directly to file (safe for large files)
+sort file.txt > sorted.txt # [Memory] - Redirect to file
+
+    # Save sorted output
+
+
+
+sort -k 2 -t ',' data.csv # [CSV/TSV] - Sort CSV file
+
+    # Sort comma-delimited file by column
+cut -d ',' -f 1,2 data.csv | sort -t ',' -k 2 # [CSV/TSV] - Select then sort CSV
+
+    # Extract columns then sort by column
+sort -t $'\t' -k 1 file.tsv # [CSV/TSV] - Sort tab-separated values
+
+    # Sort .tsv file
+awk -F ',' '{print $2, $0}' data.csv | sort -n | cut -d ' ' -f 2- # [CSV/TSV] - Sort by column, keep row
+
+    # Sort CSV by specific column while preserving row
+sort -t ':' -k 3 -n /etc/passwd | head # [CSV/TSV] - Sort passwd by UID
+
+    # Show users sorted by UID
+
+
+
+sort file.txt | uniq # [Deduplication] - Remove consecutive duplicates (sorted)
+
+    # Remove duplicate lines after sorting
+sort -u file.txt # [Deduplication] - Sort with deduplication
+
+    # Same result as sort | uniq but more efficient
+sort file.txt | uniq -d # [Deduplication] - Show only duplicates
+
+    # Display lines that appear more than once
+sort file.txt | uniq -c | sort -rn # [Deduplication] - Count and sort by frequency
+
+    # Show most frequent lines first
+sort file.txt | uniq -u # [Deduplication] - Show only unique lines
+
+    # Display lines that appear exactly once

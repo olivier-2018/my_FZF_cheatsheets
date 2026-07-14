@@ -1,0 +1,164 @@
+# iptables - administration tool for IP packet filtering and firewall
+
+iptables -L # [View Rules] - List all rules
+
+    # Display all rules in all chains
+iptables -L -n # [View Rules] - List rules with numeric IPs
+
+    # Show rules with addresses instead of hostnames
+iptables -L INPUT # [View Rules] - List INPUT chain only
+
+    # Display incoming traffic rules
+iptables -L OUTPUT # [View Rules] - List OUTPUT chain only
+
+    # Display outgoing traffic rules
+iptables -L FORWARD # [View Rules] - List FORWARD chain only
+
+    # Display routed traffic rules
+iptables -L -v # [View Rules] - Verbose with packet counts
+
+    # Show rule statistics (packets, bytes)
+
+
+
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT # [SSH Access] - Allow SSH (port 22)
+
+    # Accept incoming SSH connections
+iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT # [SSH Access] - Allow SSH outgoing
+
+    # Accept SSH server responses
+iptables -A INPUT -p tcp --dport 22 -s 192.168.1.0/24 -j ACCEPT # [SSH Access] - SSH from subnet only
+
+    # Restrict SSH to specific network
+iptables -A INPUT -p tcp --dport 22 -j DROP # [SSH Access] - Block SSH access
+
+    # Deny all SSH connections
+
+
+
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT # [HTTP Access] - Allow HTTP (port 80)
+
+    # Accept web server traffic
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT # [HTTPS Access] - Allow HTTPS (port 443)
+
+    # Accept secure web traffic
+iptables -A INPUT -p tcp --dport 80 -j DROP # [HTTP Blocking] - Block HTTP
+
+    # Deny HTTP access
+iptables -A INPUT -p tcp --dport 443 -j DROP # [HTTPS Blocking] - Block HTTPS
+
+    # Deny HTTPS access
+
+
+
+iptables -A INPUT -p tcp --dport 3306 -s 192.168.1.100 -j ACCEPT # [Database] - MySQL from specific IP
+
+    # Accept database only from trusted server
+iptables -A INPUT -p tcp --dport 5432 -j DROP # [Database] - Block PostgreSQL
+
+    # Deny all PostgreSQL connections
+iptables -A INPUT -p tcp --dport 27017 -j DROP # [Database] - Block MongoDB
+
+    # Deny MongoDB access
+
+
+
+iptables -A INPUT -i lo -j ACCEPT # [Localhost] - Allow loopback
+
+    # Accept all localhost traffic
+iptables -A OUTPUT -o lo -j ACCEPT # [Localhost] - Localhost outgoing
+
+    # Accept localhost outbound traffic
+iptables -A INPUT -s 127.0.0.1 -j ACCEPT # [Localhost] - Accept local connections
+
+    # Allow connections from 127.0.0.1
+
+
+
+iptables -A INPUT -p icmp -j ACCEPT # [ICMP] - Allow ping requests
+
+    # Accept ICMP echo (ping)
+iptables -A INPUT -p icmp -j DROP # [ICMP] - Block ping (stealth)
+
+    # Deny ping responses
+iptables -A INPUT -p icmp -m icmp --icmp-type echo-request -j DROP # [ICMP] - Block echo only
+
+    # Deny only echo requests (allow other ICMP)
+
+
+
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT # [Connection Tracking] - Allow established
+
+    # Accept replies to outbound connections
+iptables -A INPUT -m state --state INVALID -j DROP # [Connection Tracking] - Drop invalid packets
+
+    # Reject malformed connections
+iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT # [Connection Tracking] - Forward established
+
+    # Allow routed established connections
+
+
+
+iptables -A INPUT -j DROP # [Default Policy] - Drop all incoming
+
+    # Set default-deny for unknown traffic
+iptables -P INPUT DROP # [Default Policy] - Set default DROP policy
+
+    # Change default chain policy
+iptables -P FORWARD ACCEPT # [Default Policy] - Set FORWARD ACCEPT
+
+    # Allow all forwarding by default
+iptables -P OUTPUT ACCEPT # [Default Policy] - Set OUTPUT ACCEPT
+
+    # Allow all outgoing by default
+
+
+
+iptables -D INPUT -n 1 # [Modify Rules] - Delete rule by number
+
+    # Remove first rule from INPUT chain
+iptables -D INPUT -p tcp --dport 22 -j ACCEPT # [Modify Rules] - Delete by specification
+
+    # Remove specific rule
+iptables -F INPUT # [Modify Rules] - Flush INPUT chain
+
+    # Remove all rules from INPUT
+iptables -F # [Modify Rules] - Flush all rules
+
+    # Clear all chains (WARNING: resets to defaults)
+iptables -X # [Modify Rules] - Delete user-defined chains
+
+    # Remove custom chain definitions
+
+
+
+iptables -N CUSTOM_CHAIN # [Custom Chains] - Create custom chain
+
+    # Define new filtering chain
+iptables -A INPUT -j CUSTOM_CHAIN # [Custom Chains] - Jump to custom chain
+
+    # Route packets to custom rules
+iptables -D INPUT -j CUSTOM_CHAIN # [Custom Chains] - Remove chain reference
+
+    # Stop using custom chain
+iptables -X CUSTOM_CHAIN # [Custom Chains] - Delete chain
+
+    # Remove custom chain definition
+
+
+
+iptables -A INPUT -j LOG --log-prefix "[BLOCKED] " # [Logging] - Log dropped packets
+
+    # Record blocked packets with prefix
+iptables -A INPUT -p tcp --dport 22 -j LOG --log-level debug # [Logging] - Debug level log
+
+    # Log SSH attempts with debug level
+tail -f /var/log/syslog | grep BLOCKED # [Logging] - View firewall logs
+
+    # Monitor firewall logs in real-time
+iptables-save > /root/firewall-backup.rules # [Persistence] - Save rules to file
+
+    # Backup iptables configuration
+iptables-restore < /root/firewall-backup.rules # [Persistence] - Restore from file
+
+    # Restore saved firewall rules

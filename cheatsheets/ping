@@ -1,0 +1,116 @@
+# ping - send ICMP echo requests to test network connectivity
+
+ping example.com # [Basic] - Ping host until interrupted
+
+    # Send echo requests to test reachability (Ctrl-C to stop)
+ping -c 4 example.com # [Basic] - Send N ping packets
+
+    # Send exactly 4 ping packets then exit
+ping -w 5000 example.com # [Basic] - Timeout after N milliseconds
+
+    # Stop after 5 seconds (5000ms) regardless of responses
+ping -i 2 example.com # [Basic] - Interval between packets (seconds)
+
+    # Wait 2 seconds between each ping (default 1 second)
+ping -s 100 example.com # [Basic] - Packet size
+
+    # Send 100-byte packets (default 56 bytes data)
+ping -t 64 example.com # [Basic] - TTL (Time To Live)
+
+    # Set TTL to 64 (hops before dropping packet)
+
+
+
+ping -n # [Options] - Numeric output only
+
+    # Show only IP addresses, no reverse DNS lookups
+ping -v example.com # [Options] - Verbose output
+
+    # Display additional details about each response
+ping -q example.com # [Options] - Quiet mode
+
+    # Suppress individual responses, show summary only
+ping -f example.com # [Options] - Flood ping (fast)
+
+    # Send packets as fast as possible (requires root)
+ping -M do example.com # [Options] - Don't Fragment bit
+
+    # Set DF bit; fail if packet fragmentation needed
+ping -R example.com # [Options] - Record route (if supported)
+
+    # Show route taken to destination (rarely supported)
+
+
+
+ping -c 4 -i 0.5 example.com # [Timing] - Fast pings with 0.5s interval
+
+    # Rapid but measurable pings (requires root for <1s)
+ping -c 10 -i 0.2 example.com # [Timing] - Flood-like but trackable
+
+    # Aggressive pinging with minimal delay
+ping -c 5 -W 1000 example.com # [Timing] - Timeout per packet
+
+    # Fail ping if no response within 1 second
+ping -c 100 -w 30000 example.com # [Timing] - 100 pings, 30s total timeout
+
+    # Batch of pings with overall time limit
+ping -c 4 -s 1472 example.com # [Timing] - Large packets (near MTU)
+
+    # Test with 1472-byte packets (maximum unfragmented)
+
+
+
+ping -a example.com # [Output] - Audible beep on responses
+
+    # Bell/beep sound on each successful reply
+ping -c 4 example.com | tail -1 # [Output] - Show statistics only
+
+    # Display summary line (packet loss, min/avg/max latency)
+ping -D example.com # [Output] - Timestamp each ping
+
+    # Include timestamp in output
+ping -c 4 example.com 2>&1 | tee ping.log # [Output] - Save to file
+
+    # Capture output while still displaying
+ping -c 10 example.com | grep 'time=' # [Output] - Extract latency only
+
+    # Show only response times
+
+
+
+ping 8.8.8.8 # [Network] - Ping DNS server (Google)
+
+    # Test external connectivity using public DNS
+ping 1.1.1.1 # [Network] - Ping Cloudflare DNS
+
+    # Alternative public DNS server
+ping 127.0.0.1 # [Network] - Loopback test
+
+    # Test localhost (always works if network stack alive)
+ping -c 1 192.168.1.1 # [Network] - Ping gateway
+
+    # Test default gateway reachability
+ping -c 1 -W 2 example.com # [Network] - Single ping with timeout
+
+    # Quick connectivity check (2 second timeout)
+ping6 example.com # [Network] - IPv6 ping
+
+    # Test IPv6 connectivity (if available)
+
+
+
+ping -c 4 example.com | awk -F'[=()]' '{if(/time=/) print $8}' # [Analysis] - Extract response times
+
+    # Parse and show only latency values
+ping -c 50 example.com | tail -1 | awk '{print $7}' # [Analysis] - Average latency
+
+    # Show average response time from summary
+ping -c 10 example.com | grep -oP 'time=\K[^ ]*' # [Analysis] - All response times
+
+    # Extract all individual latency measurements
+ping -c 4 example.com && echo "Host reachable" || echo "Host unreachable" # [Analysis] - Reachability test
+
+    # Check connectivity in script (exit status)
+ping -c 100 -i 0.1 example.com | grep -c '64 bytes' # [Analysis] - Count successful responses
+
+    # Count number of responses received

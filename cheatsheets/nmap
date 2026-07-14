@@ -1,0 +1,146 @@
+# nmap - network mapper for scanning and discovering hosts/services
+
+nmap example.com # [Basic Scan] - Scan target for open ports
+
+    # Basic TCP connect scan of specified host
+nmap 192.168.1.1 # [Basic Scan] - Scan by IP address
+
+    # Scan IP address for open ports
+nmap 192.168.1.0/24 # [Basic Scan] - Scan network range
+
+    # Scan all IPs in /24 subnet
+nmap -p 80 example.com # [Ports] - Scan specific port
+
+    # Check if port 80 is open
+nmap -p 22,80,443 example.com # [Ports] - Scan multiple ports
+
+    # Check multiple specific ports
+nmap -p 1-65535 example.com # [Ports] - Full port scan
+
+    # Scan all 65535 ports (takes time)
+nmap -p- example.com # [Ports] - All ports (shorthand)
+
+    # Alias for 1-65535
+
+
+
+nmap -sS example.com # [Scan Types] - SYN stealth scan
+
+    # TCP SYN scan (half-open, stealthy)
+nmap -sT example.com # [Scan Types] - TCP connect scan
+
+    # Full TCP handshake (default if no root)
+nmap -sU example.com # [Scan Types] - UDP scan
+
+    # Scan UDP ports
+nmap -sA example.com # [Scan Types] - ACK scan
+
+    # Determine firewall rules (not for discovering services)
+nmap -sP example.com # [Scan Types] - Ping scan only
+
+    # Discover online hosts without port scan
+nmap -sn 192.168.1.0/24 # [Scan Types] - Network discovery (no port scan)
+
+    # Find all live hosts on network
+
+
+
+nmap -A example.com # [Detection] - Aggressive scan (OS + version)
+
+    # Enable OS detection, service version, scripts
+nmap -O example.com # [Detection] - OS detection
+
+    # Attempt to identify operating system
+nmap -sV example.com # [Detection] - Service version detection
+
+    # Probe services to determine software versions
+nmap -Pn example.com # [Detection] - Skip ping check
+
+    # Assume host is online (bypass ping)
+nmap --script default example.com # [Detection] - Run default NSE scripts
+
+    # Execute built-in security scanning scripts
+nmap --script vuln example.com # [Detection] - Scan for vulnerabilities
+
+    # Run vulnerability detection scripts
+
+
+
+nmap -v example.com # [Output] - Verbose output
+
+    # Show detailed progress and findings
+nmap -vv example.com # [Output] - Very verbose
+
+    # Extremely detailed output
+nmap -oN results.txt example.com # [Output] - Normal output to file
+
+    # Save results in human-readable format
+nmap -oX results.xml example.com # [Output] - XML output
+
+    # Save results in XML format
+nmap -oG results.greppable example.com # [Output] - Greppable format
+
+    # Machine-parseable output format
+nmap -oA results example.com # [Output] - All output formats
+
+    # Save as normal, XML, and greppable
+
+
+
+nmap -T4 example.com # [Timing] - Aggressive timing
+
+    # Fast scan (may miss some hosts)
+nmap -T3 example.com # [Timing] - Normal timing (default)
+
+    # Balanced speed and accuracy
+nmap -T2 example.com # [Timing] - Polite timing
+
+    # Slower to be network-friendly
+nmap -T1 example.com # [Timing] - Sneaky timing
+
+    # Very slow to avoid detection
+nmap -T0 example.com # [Timing] - Paranoid timing
+
+    # Extremely slow for stealth
+nmap -T5 example.com # [Timing] - Insane timing
+
+    # Maximum speed (may overwhelm target)
+
+
+
+nmap -p 80 --open example.com # [Filters] - Show only open ports
+
+    # Filter output to display open ports only
+nmap --reason example.com # [Filters] - Show why port state
+
+    # Explain port state reasons
+nmap --top-ports 100 example.com # [Filters] - Most common 100 ports
+
+    # Scan only frequently-used ports
+nmap --port-ratio 0.1 example.com # [Filters] - Scan top 10% of ports
+
+    # Quick scan of most-used ports
+nmap -p 80,443 --stats-every 1s example.com # [Filters] - Progress updates
+
+    # Show scan progress every 1 second
+
+
+
+nmap -sS -p 22 192.168.1.0/24 # [SSH Scan] - Find SSH servers on network
+
+    # Discover SSH on all hosts
+nmap -p 22 --script ssh-hostkey 192.168.1.100 # [SSH Scan] - Get SSH key
+
+    # Retrieve SSH public key
+nmap --script banner example.com # [Service Detection] - Get service banners
+
+    # Identify services by banner text
+nmap -sV -p 80,443 example.com # [Web Scan] - Scan web servers
+
+    # Detect web service versions
+nmap -p- --min-rate=1000 example.com # [Performance] - Fast full scan
+
+    # Send 1000+ packets/second (requires root)
+nmap -p- -r example.com # [Performance] - Sequential port scan
+
+    # Scan ports in order (no randomization)

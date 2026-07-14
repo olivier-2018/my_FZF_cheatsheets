@@ -1,0 +1,167 @@
+# grep - search text patterns in files and streams
+
+grep "pattern" file.txt # [Basic Search] - Find lines matching literal text or regex
+
+    # Search for exact string in file
+grep -i "pattern" file.txt # [Basic Search] - Case-insensitive search
+
+    # Match pattern regardless of letter case (A matches a)
+grep -w "word" file.txt # [Basic Search] - Match whole words only
+
+    # Search for complete word (not part of another word)
+grep -n "pattern" file.txt # [Basic Search] - Show line numbers in output
+
+    # Display matching lines with their line numbers
+grep -v "pattern" file.txt # [Basic Search] - Invert match (show non-matching lines)
+
+    # Display all lines that DON'T match pattern
+grep -c "pattern" file.txt # [Basic Search] - Count matching lines
+
+    # Show total number of lines matching pattern
+
+
+
+grep -r "pattern" /path # [Recursive Search] - Recursively search directories
+
+    # Search all files in directory tree
+grep -l "pattern" *.txt # [Recursive Search] - List filenames with matches
+
+    # Show only filenames containing pattern
+grep -L "pattern" *.txt # [Recursive Search] - List files WITHOUT matches
+
+    # Show filenames that don't match pattern
+grep -R "pattern" /path --include="*.py" # [Recursive Search] - Search specific file types
+
+    # Recursively search only Python files
+grep -r "pattern" /path --exclude-dir=.git # [Recursive Search] - Exclude directories
+
+    # Exclude folders from recursive search (.git, node_modules, etc.)
+grep -r --include-dir=/path "pattern" . # [Recursive Search] - Include only specific directories
+
+    # Limit recursive search to specific directory types
+
+
+
+grep -E "regex" file.txt # [Extended Regex] - Use extended regular expressions
+
+    # Support +, ?, |, (), {} in patterns without escaping
+grep -P "pattern" file.txt # [Extended Regex] - Use Perl-compatible regex
+
+    # Enable advanced regex features (PCRE) if available
+grep "pattern\|other" file.txt # [Extended Regex] - Match multiple patterns
+
+    # Find lines matching either pattern (basic regex requires escaping |)
+grep -E "(foo|bar)" file.txt # [Extended Regex] - Parentheses groups (extended)
+
+    # Match alternatives using groups
+grep "^pattern" file.txt # [Extended Regex] - Match at line start
+
+    # Pattern must be first text on line
+grep "pattern$" file.txt # [Extended Regex] - Match at line end
+
+    # Pattern must be last text on line
+
+
+
+grep -A 3 "pattern" file.txt # [Context Lines] - Show lines after match
+
+    # Display 3 lines following each match
+grep -B 2 "pattern" file.txt # [Context Lines] - Show lines before match
+
+    # Display 2 lines preceding each match
+grep -C 2 "pattern" file.txt # [Context Lines] - Show lines before and after
+
+    # Show 2 lines of context on both sides (equivalent to -B2 -A2)
+grep -a "pattern" file.bin # [Context Lines] - Treat binary files as text
+
+    # Process binary files as text (useful for searching binaries)
+grep -s "pattern" * # [Context Lines] - Suppress error messages
+
+    # Don't show "file not found" or permission denied errors
+grep -q "pattern" file.txt # [Context Lines] - Quiet mode (no output)
+
+    # Suppress output; only set exit code (useful in scripts)
+
+
+
+grep -o "pattern" file.txt # [Output Control] - Show only matching parts
+
+    # Display only matched text, not entire line
+grep -H "pattern" file.txt # [Output Control] - Show filename with results
+
+    # Prepend filename to each match (default for multiple files)
+grep -h "pattern" file.txt # [Output Control] - Hide filename in results
+
+    # Suppress filename (default for single file)
+grep --color "pattern" file.txt # [Output Control] - Highlight matches in color
+
+    # Colorize matched text (useful for terminal output)
+grep --color=never "pattern" file.txt # [Output Control] - Disable color output
+
+    # Remove colorization
+grep -m 5 "pattern" file.txt # [Output Control] - Stop after N matches
+
+    # Display only first 5 matches then exit
+
+
+
+grep -f patterns.txt file.txt # [Pattern Files] - Read patterns from file
+
+    # Search using patterns from external file (one per line)
+grep -F "pattern" file.txt # [Pattern Files] - Use literal string (not regex)
+
+    # Treat pattern as literal (no regex special chars; use this for fixed strings)
+grep -x "pattern" file.txt # [Pattern Files] - Match entire lines only
+
+    # Line must match entire pattern (usually combined with -F)
+grep -G "pattern" file.txt # [Pattern Files] - Use basic regex (default)
+
+    # Explicitly enable basic regex mode
+grep --null file.txt # [Pattern Files] - Null-terminated output
+
+    # Use null bytes as separators (for piping to xargs -0)
+grep -z "pattern" file.txt # [Pattern Files] - Treat newlines as null bytes
+
+    # Process input where lines are separated by null bytes
+
+
+
+grep -e "pattern1" -e "pattern2" file.txt # [Multiple Patterns] - Match multiple patterns
+
+    # Search for either pattern (OR logic)
+grep "pattern" file.txt | grep "other" # [Multiple Patterns] - Pipe for AND logic
+
+    # Find lines matching both patterns (AND)
+grep -E "(foo|bar|baz)" file.txt # [Multiple Patterns] - Match any of several alternatives
+
+    # Search for multiple alternatives
+grep -f patterns.txt file.txt # [Multiple Patterns] - Patterns from file
+
+    # Each line in file is a separate pattern
+grep -e "start" -e "end" --only-matching file.txt # [Multiple Patterns] - Show all matching patterns
+
+    # Display each matching portion separately
+grep --max-count=10 "pattern" file.txt # [Multiple Patterns] - Limit matches per file
+
+    # Stop after 10 matches (useful with large files)
+
+
+
+grep "pattern" <(cat file.txt) # [Special Usage] - Use process substitution
+
+    # Grep output of command without creating temp file
+grep "pattern" file.txt | head -20 # [Special Usage] - Combine with pipes
+
+    # Get first 20 matching lines
+grep "pattern" file.txt | tail -5 # [Special Usage] - Get last matches
+
+    # Show last 5 matching lines
+grep "ERROR" *.log # [Special Usage] - Search multiple files
+
+    # Search all log files at once
+grep -r "TODO" . --include="*.js" # [Special Usage] - Find TODOs in code
+
+    # Recursively search JavaScript files for TODO comments
+grep "pattern" file.txt > results.txt # [Special Usage] - Save results to file
+
+    # Redirect grep output to file for later analysis

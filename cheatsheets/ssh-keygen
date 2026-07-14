@@ -1,0 +1,152 @@
+# ssh-keygen - OpenSSH key pair generation and management
+
+ssh-keygen -t rsa # [Generate] - Create RSA keypair
+
+    # Generate 3072-bit RSA key (default for authentication)
+ssh-keygen -t rsa -b 4096 # [Generate] - Create 4096-bit RSA key
+
+    # Stronger RSA key (recommended for security)
+ssh-keygen -t ed25519 # [Generate] - Create Ed25519 key (modern)
+
+    # Generate elliptic curve key (faster, smaller, secure)
+ssh-keygen -t dsa # [Generate] - Create DSA key (deprecated)
+
+    # Legacy DSA key (not recommended anymore)
+ssh-keygen -t ecdsa # [Generate] - Create ECDSA key
+
+    # Elliptic curve DSA (less common than Ed25519)
+ssh-keygen -t rsa -N "password" # [Generate] - Key with passphrase
+
+    # Create key with password protection
+
+
+
+ssh-keygen -f mykey -t rsa # [Naming] - Custom key filename
+
+    # Save to 'mykey' and 'mykey.pub' instead of id_rsa
+ssh-keygen -f ~/.ssh/id_rsa_github -t ed25519 # [Naming] - Named key for service
+
+    # Create GitHub-specific key pair
+ssh-keygen -f ~/.ssh/id_rsa_work -t rsa # [Naming] - Work identity key
+
+    # Separate key for work/personal accounts
+ssh-keygen -C "user@example.com" -t ed25519 # [Naming] - Add comment to key
+
+    # Include email/identifier in public key
+
+
+
+ssh-keygen -p # [Passphrase] - Change key passphrase
+
+    # Modify password for existing key
+ssh-keygen -p -f ~/.ssh/id_rsa # [Passphrase] - Change passphrase for specific key
+
+    # Update password for named key
+ssh-keygen -p -f ~/.ssh/id_rsa -N "newpass" -P "oldpass" # [Passphrase] - Old to new passphrase
+
+    # Automate passphrase change (non-interactive)
+ssh-keygen -p -N "" -f ~/.ssh/id_rsa # [Passphrase] - Remove passphrase
+
+    # Disable key password (less secure)
+ssh-keygen -p -N "newpass" -f ~/.ssh/id_rsa # [Passphrase] - Add passphrase to unencrypted key
+
+    # Encrypt previously unencrypted key
+
+
+
+ssh-keygen -l -f ~/.ssh/id_rsa # [Display] - Show key fingerprint
+
+    # Display fingerprint of private key
+ssh-keygen -l -f ~/.ssh/id_rsa.pub # [Display] - Show public key fingerprint
+
+    # Display fingerprint of public key
+ssh-keygen -L -f ~/.ssh/id_rsa.pub # [Display] - Detailed public key info
+
+    # Show key format, algorithm, bits, comment
+ssh-keygen -v -f ~/.ssh/id_rsa # [Display] - Verbose key info
+
+    # Detailed private key information
+ssh-keygen -y -f ~/.ssh/id_rsa # [Display] - Extract public from private
+
+    # Recover/show public key from private key
+ssh-keygen -F example.com # [Display] - Search known_hosts by hostname
+
+    # Find key entry for host in known_hosts
+
+
+
+ssh-keygen -R example.com # [Management] - Remove host from known_hosts
+
+    # Delete host key (for re-keying or changing servers)
+ssh-keygen -H # [Management] - Hash known_hosts file
+
+    # Obscure hostnames in known_hosts (privacy)
+ssh-keygen -h -f ~/.ssh/known_hosts # [Management] - Show hashed known_hosts
+
+    # Display hashed entries (not human-readable)
+ssh-keygen -r example.com # [Management] - Print SSHFP DNS record
+
+    # Generate DNS fingerprint record for host verification
+
+
+
+ssh-keygen -A # [Conversion] - Generate all host keys
+
+    # Create RSA, ECDSA, Ed25519 host keys
+ssh-keygen -e -f ~/.ssh/id_rsa.pub # [Conversion] - Export to OpenSSH format
+
+    # Convert to OpenSSH format
+ssh-keygen -m pem -f ~/.ssh/id_rsa # [Conversion] - PEM format
+
+    # Change key format to PEM (older SSH servers)
+ssh-keygen -m pkcs8 -f ~/.ssh/id_rsa # [Conversion] - PKCS8 format
+
+    # Convert to PKCS#8 format
+ssh-keygen -p -m pem -f ~/.ssh/id_rsa # [Conversion] - Reformat to PEM
+
+    # Change passphrase and format simultaneously
+
+
+
+ssh-keygen -i -f key.pub # [Import] - Import public key
+
+    # Read public key from file
+ssh-keygen -i -f foreign_key.pub # [Import] - Import from other format
+
+    # Convert imported key to OpenSSH format
+ssh-copy-id -i ~/.ssh/mykey user@example.com # [Deploy] - Copy public key to server
+
+    # Install public key to ~/.ssh/authorized_keys on remote
+ssh-copy-id -f -i ~/.ssh/id_ed25519.pub user@host # [Deploy] - Force overwrite
+
+    # Copy key even if file exists
+ssh-copy-id -i ~/.ssh/id_rsa.pub -p 2222 user@example.com # [Deploy] - Non-standard SSH port
+
+    # Install key to non-default SSH port
+
+
+
+ssh-keygen -g -f ~/.ssh/id_rsa.pub # [Visualization] - ASCII art fingerprint
+
+    # Show randomart visualization of key
+ssh-keygen -B -f ~/.ssh/id_rsa.pub # [Visualization] - Bubble babble format
+
+    # Alternative fingerprint format (visual)
+ssh-keygen -E sha256 -l -f ~/.ssh/id_rsa.pub # [Fingerprint] - SHA256 fingerprint
+
+    # Modern fingerprint hash (default in newer SSH)
+ssh-keygen -E md5 -l -f ~/.ssh/id_rsa.pub # [Fingerprint] - MD5 fingerprint
+
+    # Legacy fingerprint format (for compatibility)
+
+
+
+ssh-keygen -s ca_key -I user_cert -n user ~/.ssh/id_rsa.pub # [Certificates] - Sign user certificate
+
+    # Create certificate for public key
+ssh-keygen -s host_ca_key -I host_cert -h ~/.ssh/id_rsa.pub # [Certificates] - Sign host certificate
+
+    # Create certificate for host key
+ssh-keygen -L -f user_cert.pub # [Certificates] - Show certificate details
+
+    # Display certificate validity and principals

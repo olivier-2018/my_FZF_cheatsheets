@@ -1,0 +1,268 @@
+# find - search for files and directories by name and properties
+
+find <synopsis>  # Usage: find [-H] [-L] [-P] [-Olevel] [-D debugopts] [path...] [expression]
+
+# Default path is the current directory; default expression is -print.
+# Expression may consist of: operators, options, tests, and actions.
+
+# Operators (decreasing precedence; -and is implicit where no others are given):
+#       ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2
+#       EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2
+
+# Positional options (always true):
+#       -daystart -follow -nowarn -regextype -warn
+
+# Normal options (always true, specified before other expressions):
+#       -depth -files0-from FILE -maxdepth LEVELS -mindepth LEVELS
+#        -mount -noleaf -xdev -ignore_readdir_race -noignore_readdir_race
+
+# Tests (N can be +N or -N or N):
+#       -amin N -anewer FILE -atime N -cmin N -cnewer FILE -context CONTEXT
+#       -ctime N -empty -false -fstype TYPE -gid N -group NAME -ilname PATTERN
+#       -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN
+#       -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE
+#       -nouser -nogroup -path PATTERN -perm [-/]MODE -regex PATTERN
+#       -readable -writable -executable
+#       -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N
+#       -used N -user NAME -xtype [bcdpfls]
+
+# Actions:
+#       -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print
+#       -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit
+#       -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;
+#       -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;
+
+# Other common options:
+#       --help                   display this help and exit
+#       --version                output version information and exit
+
+
+
+find /path -name "*.txt" # [Basic Search] - Find files by name pattern
+
+    # Recursively find all .txt files in directory tree
+find . -name "file.txt" # [Basic Search] - Find file by exact name
+
+    # Search current directory for exact filename
+find /path -iname "*.txt" # [Basic Search] - Case-insensitive name search
+
+    # Match filenames ignoring letter case (FILE.TXT = file.txt)
+find . -type f -name "*.log" # [Basic Search] - Find only regular files
+
+    # Search for files of specific type (f=file, d=directory, l=link)
+find . -type d -name "temp*" # [Basic Search] - Find only directories
+
+    # Search for directories matching pattern
+find . -type l # [Basic Search] - Find symbolic links
+
+    # Locate all symlinks in directory tree
+find . -name "*" -path "*/.git/*" -prune -o -print # [Basic Search] - Exclude directories
+
+    # Skip .git directory from search
+
+
+
+find . -mtime -7 # [Time-based] - Find files modified in last N days
+
+    # Files modified in last 7 days (-7), exactly 7 days (7), or older (+7)
+find . -atime +30 # [Time-based] - Find files not accessed in N days
+
+    # Files not accessed for more than 30 days
+find . -ctime 0 # [Time-based] - Find files changed today
+
+    # Files whose metadata changed in last 24 hours
+find . -mmin -60 # [Time-based] - Find files modified in last N minutes
+
+    # Files modified in last 60 minutes
+find . -newer file.txt # [Time-based] - Find files newer than reference
+
+    # Files modified after specified file
+find . -type f -mtime -1 -ls # [Time-based] - List recent files with details
+
+    # Show files modified today with permissions and sizes
+
+
+
+find . -size +100M # [Size-based] - Find files larger than N size
+
+    # Files larger than 100 MB (+larger, -smaller, =exact)
+find . -size -1M # [Size-based] - Find small files
+
+    # Files smaller than 1 MB
+find . -size 0 # [Size-based] - Find empty files
+
+    # Locate zero-byte files (empty)
+find . -type f -size +1G # [Size-based] - Find huge files
+
+    # Files larger than 1 GB (useful for cleanup)
+find . -size +10k -size -100k # [Size-based] - Find files in size range
+
+    # Files between 10 KB and 100 KB
+find . -type f -empty # [Size-based] - Find all empty files
+
+    # Empty regular files (easier than -size 0)
+
+
+
+find . -user username # [Ownership] - Find files owned by user
+
+    # Locate files owned by specific user
+find . -group groupname # [Ownership] - Find files by group owner
+
+    # Files belonging to specific group
+find . -uid 1000 # [Ownership] - Find by numeric user ID
+
+    # Files owned by user with UID 1000
+find . -perm 644 # [Ownership] - Find files with exact permissions
+
+    # Files with exactly 644 permissions (rw-r--r--)
+find . -perm -644 # [Ownership] - Find with at least these permissions
+
+    # Files that have at least 644 permissions (may have more)
+find . -perm /644 # [Ownership] - Find with any of these permissions
+
+    # Files matching any permission bit in 644
+
+
+
+find . -name "*.bak" -delete # [Actions] - Delete matching files
+
+    # Recursively remove all .bak files
+find . -name "*.tmp" -exec rm {} \; # [Actions] - Execute command on matches
+
+    # Run command for each matched file; {} = filename
+find . -name "*.log" -exec gzip {} \; # [Actions] - Compress matching files
+
+    # Gzip all log files
+find . -type f -exec chmod 644 {} \; # [Actions] - Change permissions
+
+    # Set all files to 644 permissions
+find . -type d -exec chmod 755 {} \; # [Actions] - Change directory permissions
+
+    # Set all directories to 755 permissions
+find . -name "*.txt" -exec wc -l {} \; # [Actions] - Count lines in matches
+
+    # Show line count for each matched file
+
+
+
+find . -name "*.jpg" -print0 | xargs -0 du -sh # [Actions] - Process with xargs
+
+    # Get disk usage for images (safe with spaces in names)
+find . -name "*.log" -mtime +7 -delete # [Actions] - Delete old files
+
+    # Remove log files older than 7 days
+find . -type f -name "*.mp4" -exec ls -lh {} \; # [Actions] - List files with details
+
+    # Show long format for video files
+find . -name "*.pdf" -exec cp {} backup/ \; # [Actions] - Copy matching files
+
+    # Backup all PDFs to backup directory
+find . -type f -exec grep -l "error" {} \; # [Actions] - Find files containing text
+
+    # Locate files with "error" in content
+find . -name "*.txt" -newer ref.txt -exec cat {} \; # [Actions] - Show newer files
+
+    # Display contents of files modified after ref.txt
+
+
+
+find . -maxdepth 1 -type f # [Depth Control] - Search only top level
+
+    # Files in current directory only (non-recursive)
+find . -maxdepth 2 -type d # [Depth Control] - Limit search depth
+
+    # Directories up to 2 levels deep
+find . -mindepth 2 -type f # [Depth Control] - Skip top levels
+
+    # Skip files in current dir; start from subdirectories
+find . -maxdepth 3 -mindepth 2 -type f # [Depth Control] - Search specific depth range
+
+    # Files between 2 and 3 levels deep
+find / -maxdepth 1 -type d # [Depth Control] - Limit filesystem scan
+
+    # Search only root-level directories (doesn't recurse)
+
+
+
+find . -name "*.c" -o -name "*.h" # [Complex Logic] - Match multiple patterns (OR)
+
+    # C source or header files
+find . -type f -name "*.txt" ! -name "*.bak" # [Complex Logic] - Exclude pattern (NOT)
+
+    # Text files except backups
+find . \( -name "*.mp3" -o -name "*.flac" \) -type f # [Complex Logic] - OR with parentheses
+
+    # Music files (two formats)
+find . -path "*/.git" -prune -o -type f -print # [Complex Logic] - Prune directories
+
+    # Find all files excluding .git directory
+find . -type f ! -perm 755 -name "*.sh" # [Complex Logic] - Multiple conditions (AND)
+
+    # Shell scripts that don't have 755 permissions
+find . -type f -perm /u=s,g=s,o=t # [Complex Logic] - Find SUID/SGID/sticky bits
+
+    # Files with special permissions
+
+
+
+find . -type f -name "*.log" -printf "%T@ %p\n" | sort -n # [Output Control] - Format output
+
+    # List files with timestamp in sortable format
+find . -type f -printf "%s %p\n" # [Output Control] - Show file size and name
+
+    # Display size and full path
+find . -name "*.txt" -ls # [Output Control] - Long format listing
+
+    # Directory listing format (permissions, owner, size, name)
+find . -type f -print0 # [Output Control] - Null-terminated output
+
+    # Separate results with null bytes (safe for xargs -0)
+find . -type f | sort # [Output Control] - Sort results
+
+    # Alphabetical sort of all matched files
+find . -type f -printf "%h/%f\n" # [Output Control] - Custom format with directory/file
+
+    # Show full path separately from filename
+
+
+
+find . -type f -readable # [Permissions Check] - Find readable files
+
+    # Files with read permission for current user
+find . -type f -writable # [Permissions Check] - Find writable files
+
+    # Files with write permission for current user
+find . -type f -executable # [Permissions Check] - Find executable files
+
+    # Executable programs and scripts
+find . -type f ! -readable # [Permissions Check] - Find unreadable files
+
+    # Files without read permission
+find . -type f -perm -u+x # [Permissions Check] - Find user-executable files
+
+    # Files with user execute bit set
+find . -type f -perm -g+w # [Permissions Check] - Find group-writable files
+
+    # Files with group write permission
+
+
+
+find . -type f -name "*.txt" -okdir rm -i {} \; # [Interactive] - Interactive removal
+
+    # Prompt for confirmation before deleting each file
+find . -type f -name "*.log" -printf "%P\n" # [Interactive] - Show relative paths
+
+    # Print paths relative to search directory (not absolute)
+find . -type f -samefile ref.txt # [Comparison] - Find hard links
+
+    # Locate all links to same inode as ref.txt
+find . -type f -inum 12345 # [Comparison] - Find by inode number
+
+    # Files with specific inode (rarely needed)
+find . -type f -links +1 # [Comparison] - Find hard-linked files
+
+    # Files with more than one link (duplicate inodes)
+find . -type f -fstype ext4 # [Comparison] - Find on specific filesystem
+
+    # Files on ext4 filesystem

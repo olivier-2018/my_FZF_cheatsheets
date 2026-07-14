@@ -1,0 +1,143 @@
+# cut - extract columns or fields from lines of files
+
+cut -c 1-5 file.txt # [Character Selection] - Extract characters 1-5 from each line
+
+    # Get first 5 characters of each line
+cut -c 1,3,5 file.txt # [Character Selection] - Extract specific character positions
+
+    # Get characters at positions 1, 3, and 5
+cut -c 5- file.txt # [Character Selection] - Extract from character N to end
+
+    # Get all characters from position 5 onwards
+cut -c 1-3,7-9 file.txt # [Character Selection] - Extract character ranges
+
+    # Get characters 1-3 and 7-9 (two ranges)
+cut -c -5 file.txt # [Character Selection] - Extract up to character N
+
+    # Get first 5 characters (same as 1-5)
+cut -c 1-100 file.txt # [Character Selection] - Extract range longer than line
+
+    # Handles lines shorter than 100 gracefully
+
+
+
+cut -f 1 file.txt # [Field Selection] - Extract first field (tab-delimited)
+
+    # Get first field (default separator is tab)
+cut -f 1,3 file.txt # [Field Selection] - Extract multiple fields
+
+    # Get fields 1 and 3
+cut -f 2- file.txt # [Field Selection] - Extract from field N to end
+
+    # Get all fields from field 2 onwards
+cut -f -3 file.txt # [Field Selection] - Extract up to field N
+
+    # Get first 3 fields
+cut -f 1-5 file.txt # [Field Selection] - Extract field range
+
+    # Get fields 1 through 5
+cut -f 3 file.txt # [Field Selection] - Single field extraction
+
+    # Get only third field
+
+
+
+cut -d ':' -f 1 file.txt # [Delimiters] - Use colon delimiter (for /etc/passwd)
+
+    # Extract first field separated by colons
+cut -d ',' -f 2 data.csv # [Delimiters] - Use comma delimiter (CSV)
+
+    # Get second column from CSV file
+cut -d ' ' -f 1 file.txt # [Delimiters] - Use space delimiter
+
+    # Split by space and get first field
+cut -d '|' -f 1,3 data.txt # [Delimiters] - Use pipe delimiter
+
+    # Extract fields separated by pipe character
+cut -d ';' -f 1,2,3 data.txt # [Delimiters] - Use semicolon delimiter
+
+    # Get semicolon-separated fields
+cut -d $'\t' -f 1,2 file.txt # [Delimiters] - Use tab explicitly
+
+    # Use literal tab character as separator
+
+
+
+cut -d ':' -f 1 --output-delimiter='|' file.txt # [Output] - Change output delimiter
+
+    # Read tab-delimited, output pipe-delimited
+cut -f 1,2 file.txt --output-delimiter='-' # [Output] - Hyphen in output
+
+    # Join fields with hyphens instead of tabs
+cut -f 1,2,3 file.txt --output-delimiter=$'\n' # [Output] - Newline as output delimiter
+
+    # Output each field on separate line
+cut -c 1-3 file.txt --output-delimiter=',' # [Output] - Add separator between characters
+
+    # Join character ranges with commas
+cut -d ',' -f 1,3 data.csv | cut -d ',' -f 1 # [Output] - Chain cuts
+
+    # Multiple cut operations in pipeline
+
+
+
+cut -d ',' -f 1-3 file.txt --complement # [Advanced] - Invert field selection
+
+    # Get all fields EXCEPT 1-3
+cut -f 2,4,6 file.txt --complement # [Advanced] - Exclude specific fields
+
+    # Show all fields except 2, 4, and 6
+cut -c 1-10 file.txt --complement # [Advanced] - Exclude character range
+
+    # Get all characters except positions 1-10
+cut -f 1 file.txt -s # [Advanced] - Skip lines without delimiter
+
+    # Only process lines containing the delimiter
+cut -d ':' -f 1 /etc/passwd # [Advanced] - Extract usernames from passwd
+
+    # Get login names from system password file
+cut -d ':' -f 1,3,5 /etc/passwd # [Advanced] - Multiple fields from passwd
+
+    # Get username, UID, and GECOS comment
+
+
+
+cut -b 1-3 file.txt # [Byte Selection] - Extract by byte position
+
+    # Get first 3 bytes (similar to character with ASCII)
+cut -b 1,5,10 file.txt # [Byte Selection] - Specific byte positions
+
+    # Extract bytes at positions 1, 5, 10
+cut -b 2-4 file.txt # [Byte Selection] - Byte range
+
+    # Get bytes 2 through 4
+cut -b 5- file.txt # [Byte Selection] - From byte N to end
+
+    # All bytes from position 5 onwards
+cut -b 1-100 file.txt # [Byte Selection] - Byte range with UTF-8 text
+
+    # Handles multi-byte UTF-8 characters
+cut -b -5 file.txt # [Byte Selection] - Up to byte N
+
+    # First 5 bytes
+
+
+
+cut -d ' ' -f 1 /etc/hosts # [Common Uses] - Extract hostnames
+
+    # Get first column (IP addresses) from hosts file
+cut -d ':' -f 1,7 /etc/passwd # [Common Uses] - Show user and shell
+
+    # Get username and login shell from passwd
+cut -d ' ' -f 2 /var/log/auth.log # [Common Uses] - Extract username from logs
+
+    # Get second field (username) from auth logs
+cut -d ',' -f 1-2 data.csv > subset.csv # [Common Uses] - Extract CSV columns
+
+    # Save selected columns to new file
+cut -d '=' -f 2 config.txt # [Common Uses] - Extract config values
+
+    # Get values from key=value configuration files
+ps aux | cut -c 1-80 # [Common Uses] - Truncate long output
+
+    # Limit ps output to 80 characters

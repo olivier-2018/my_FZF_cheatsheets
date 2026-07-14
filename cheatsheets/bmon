@@ -1,0 +1,110 @@
+# bmon - bandwidth monitor for monitoring network device statistics
+
+bmon # [Basic] - Start bandwidth monitor
+
+    # Interactive real-time network traffic monitoring
+bmon -n # [Interface] - No interface list
+
+    # Omit interface list (full screen graph)
+bmon -p eth0 # [Interface] - Monitor specific interface
+
+    # Show statistics only for eth0
+bmon -a # [Display] - Show all interfaces
+
+    # Display all available interfaces (default)
+bmon -b # [Display] - Brief mode
+
+    # Simplified output format
+bmon -r # [Display] - Rate only
+
+    # Show only transmission rates
+
+
+
+bmon -o curses # [Output] - Curses UI (default)
+
+    # Interactive graphical interface
+bmon -o ascii # [Output] - ASCII output
+
+    # Text-based display (no graphics)
+bmon -o json # [Output] - JSON output
+
+    # Machine-readable JSON format
+bmon -o csv # [Output] - CSV output
+
+    # Comma-separated values
+bmon -o html # [Output] - HTML output
+
+    # Generate HTML report
+bmon -o none # [Output] - No output
+
+    # Suppress graphical display
+
+
+
+bmon -i 1 # [Timing] - 1-second refresh interval
+
+    # Update statistics every 1 second
+bmon -i 5 # [Timing] - 5-second interval
+
+    # Slower updates (less CPU usage)
+bmon -i 0.5 # [Timing] - 0.5-second interval
+
+    # Fast updates (500ms refresh)
+bmon -s 60 # [Duration] - Run for 60 seconds
+
+    # Stop monitoring after 60 seconds
+bmon -t # [Duration] - Test/batch mode
+
+    # Non-interactive mode
+
+
+
+bmon -f file.log # [File Output] - Log to file
+
+    # Save output to file
+bmon -s 30 -o csv > traffic.csv # [File Output] - CSV export
+
+    # Export 30 seconds of data as CSV
+bmon -s 120 -i 2 -o json > traffic.json # [File Output] - JSON export
+
+    # Export 2-minute interval data as JSON
+bmon -o curses 2>&1 | tee bmon.log # [File Output] - Curses with logging
+
+    # Display GUI while saving to log
+
+
+
+sudo bmon # [Permission] - With root access
+
+    # May show more detailed statistics with elevated privileges
+watch -n 1 bmon # [Monitoring] - Continuous refresh
+
+    # Wrap with watch command for external updates
+bmon --help # [Help] - Show usage
+
+    # Display all command options
+bmon -h # [Help] - Abbreviated help
+
+    # Quick reference
+man bmon # [Help] - Manual page
+
+    # Full documentation
+
+
+
+bmon -p eth0 -i 2 # [Combination] - Monitor single interface, 2s refresh
+
+    # Focus on one network interface
+bmon -a -o ascii -i 1 # [Combination] - ASCII all interfaces, 1s update
+
+    # Text display of all interfaces
+bmon -p eth0:eth1 # [Multiple] - Multiple interfaces
+
+    # Monitor specific interfaces together
+bmon -s 30 -o csv -p eth0 # [Export] - 30s CSV for one interface
+
+    # Export specific interface data
+bmon -c 10 # [Count] - 10 updates then exit
+
+    # Alternative way to limit runtime

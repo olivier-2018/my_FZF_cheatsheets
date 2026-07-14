@@ -1,0 +1,173 @@
+# ftp - file transfer protocol client
+
+ftp example.com # [Connect] - Connect to FTP server
+
+    # Interactively connect to FTP server
+ftp -n example.com # [Connect] - No auto-login
+
+    # Connect without automatic login prompt
+ftp -i example.com # [Connect] - No prompts on multi-file
+
+    # Disable interactive prompts (batch mode)
+ftp -v example.com # [Connect] - Verbose output
+
+    # Show detailed connection information
+
+
+
+ftp> open example.com # [Inside FTP] - Open connection (in FTP prompt)
+
+    # Establish connection from FTP prompt
+ftp> quit # [Inside FTP] - Exit FTP
+
+    # Close connection and exit FTP
+ftp> bye # [Inside FTP] - Goodbye (exit)
+
+    # Same as quit
+ftp> help # [Inside FTP] - Show all commands
+
+    # List all available FTP commands
+ftp> help get # [Inside FTP] - Help on specific command
+
+    # Show usage for get command
+
+
+
+ftp> user username # [Inside FTP] - Login with username
+
+    # Authenticate to server (prompts for password)
+ftp> prompt # [Inside FTP] - Toggle prompting
+
+    # Turn prompts on/off for interactive commands
+ftp> verbose # [Inside FTP] - Toggle verbose output
+
+    # Show/hide detailed responses
+ftp> debug # [Inside FTP] - Toggle debug mode
+
+    # Show verbose protocol details
+ftp> trace # [Inside FTP] - Toggle tracing
+
+    # Trace all commands sent
+
+
+
+ftp> ls # [Inside FTP] - List remote directory
+
+    # Show files on remote server
+ftp> dir # [Inside FTP] - Detailed directory listing
+
+    # Long format listing of remote files
+ftp> pwd # [Inside FTP] - Show remote directory
+
+    # Print working directory on remote server
+ftp> cd /path/to/dir # [Inside FTP] - Change remote directory
+
+    # Navigate to directory on server
+ftp> cd .. # [Inside FTP] - Parent directory
+
+    # Go up one level on remote server
+ftp> mkdir dirname # [Inside FTP] - Create remote directory
+
+    # Make directory on server
+ftp> rmdir dirname # [Inside FTP] - Remove remote directory
+
+    # Delete directory on server
+
+
+
+ftp> get file.txt # [Download] - Download single file
+
+    # Transfer file from server to local machine
+ftp> mget *.txt # [Download] - Download multiple files
+
+    # Glob pattern download (all matching files)
+ftp> get remote.txt local.txt # [Download] - Download with rename
+
+    # Download and save as different name
+ftp> get file.txt - # [Download] - Download to stdout
+
+    # Stream file to standard output (pipe to other commands)
+ftp> lcd /tmp # [Download] - Change local directory
+
+    # Set local download directory
+ftp> ! ls # [Download] - Local shell command
+
+    # Execute local shell command from FTP
+
+
+
+ftp> put file.txt # [Upload] - Upload single file
+
+    # Transfer file from local to server
+ftp> mput *.txt # [Upload] - Upload multiple files
+
+    # Glob pattern upload (all matching files)
+ftp> put local.txt remote.txt # [Upload] - Upload with rename
+
+    # Upload and save as different name
+ftp> append file.txt # [Upload] - Append to file
+
+    # Append local file to remote file
+ftp> put - remote.txt # [Upload] - Upload from stdin
+
+    # Read from stdin and create remote file
+
+
+
+ftp> binary # [Mode] - Binary transfer mode
+
+    # Use binary mode (for non-text files)
+ftp> ascii # [Mode] - ASCII transfer mode
+
+    # Use text mode (converts line endings)
+ftp> image # [Mode] - Image mode (same as binary)
+
+    # Binary mode alternative name
+ftp> type binary # [Mode] - Set transfer type
+
+    # Explicit binary type setting
+ftp> status # [Status] - Show current status
+
+    # Display connection and settings
+
+
+
+ftp> delete file.txt # [Remote Ops] - Delete remote file
+
+    # Remove file from server
+ftp> mdelete *.txt # [Remote Ops] - Delete multiple files
+
+    # Delete multiple matching files
+ftp> rename oldname newname # [Remote Ops] - Rename file on server
+
+    # Change filename on remote server
+ftp> chmod 644 file.txt # [Remote Ops] - Change permissions
+
+    # Modify file permissions on server
+ftp> size file.txt # [Remote Ops] - Get file size
+
+    # Show file size on server
+ftp> nlist # [Remote Ops] - Bare filename list
+
+    # Simple file list (names only)
+
+
+
+sftp user@example.com # [Secure] - SFTP (SSH-based FTP)
+
+    # Secure file transfer using SSH
+sftp -oPort=2222 user@example.com # [Secure] - SFTP custom port
+
+    # Connect to non-standard SSH port
+scp file.txt user@example.com:/path/ # [Secure] - SCP (simpler alternative)
+
+    # Copy file via SSH (one-liner alternative)
+ftp -n -i -v example.com << EOF # [Script] - Script FTP session
+
+    # Automated FTP via heredoc (non-interactive)
+ftp> rhelp # [Help] - Remote server help
+
+    # Get FTP server help
+ftp> quote NOOP # [Advanced] - Send raw FTP command
+
+    # Send literal FTP protocol command

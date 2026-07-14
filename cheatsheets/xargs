@@ -1,0 +1,161 @@
+# xargs - build and execute commands from standard input
+
+echo "file1.txt file2.txt" | xargs rm # [Basic] - Execute command on arguments
+
+    # Remove files listed in input (separated by spaces/newlines)
+ls *.txt | xargs wc -l # [Basic] - Pass piped input as arguments
+
+    # Count lines in all text files
+find . -name "*.log" | xargs rm # [Basic] - Find and process results
+
+    # Delete all .log files found by find
+cat list.txt | xargs echo # [Basic] - Echo input (demonstrates argument passing)
+
+    # Display arguments passed to echo
+echo "item1 item2 item3" | xargs -n 1 echo # [Basic] - Process one argument at a time
+
+    # Execute echo once per argument (-n 1)
+echo "a b c" | xargs printf "%s\n" # [Basic] - Format output
+
+    # Execute printf once with all arguments
+
+
+
+xargs -0 rm # [Delimiters] - Handle null-terminated input
+
+    # Process null-byte-delimited arguments (safe with spaces/newlines in filenames)
+find . -name "*.tmp" -print0 | xargs -0 rm # [Delimiters] - Find with null terminator
+
+    # Find output with -print0, xargs with -0 (safe for special chars)
+echo -e "line1\nline2\nline3" | xargs -d '\n' echo # [Delimiters] - Custom delimiter
+
+    # Use newline as delimiter instead of space/tab
+echo "a:b:c" | xargs -d ':' echo # [Delimiters] - Colon-delimited input
+
+    # Split by colon character
+
+
+
+xargs -n 2 echo # [Batch Size] - Group into batches of N
+
+    # Take 2 arguments per invocation
+xargs -n 3 diff # [Batch Size] - Diff files in groups of 3
+
+    # Execute diff with 3 arguments per run
+xargs -L 1 echo # [Batch Size] - One line per invocation
+
+    # Process one input line per execution
+echo "a b\nc d" | xargs -I {} echo "Got: {}" # [Batch Size] - Replace placeholder
+
+    # -I {} replaces {} with each argument
+seq 1 10 | xargs -n 5 echo # [Batch Size] - Batch numerical sequence
+
+    # Group 5 numbers per echo call
+
+
+
+xargs -I {} sh -c 'echo "Processing: {}"; cat "{}"' # [Placeholders] - Use placeholder in complex command
+
+    # {} is replaced with each argument; -I allows complex commands
+find . -name "*.jpg" | xargs -I {} cp {} backup/ # [Placeholders] - Copy files to backup
+
+    # Use {} to reference filename in cp command
+xargs -I {} -n 1 mv {} {}.bak # [Placeholders] - Rename with placeholder
+
+    # Rename each file by appending .bak
+echo "file1 file2" | xargs -I X mv X X.old # [Placeholders] - Custom placeholder name (X)
+
+    # Use custom placeholder instead of {}
+ls *.txt | xargs -I FILE gzip FILE # [Placeholders] - Descriptive placeholder
+
+    # Use FILE instead of {} for clarity
+
+
+
+xargs -p echo # [Interaction] - Prompt before each execution
+
+    # Ask for confirmation before running command
+xargs -t echo # [Interaction] - Print command before execution
+
+    # Show command being run before executing
+xargs -v echo # [Interaction] - Verbose output
+
+    # Print each invocation details
+find . -name "*.log" | xargs -p rm # [Interaction] - Confirm file deletion
+
+    # Prompt before removing each file
+xargs -t ls # [Interaction] - Show what's being listed
+
+    # Print each ls invocation before executing
+
+
+
+xargs -P 4 -n 1 long-running-task # [Parallel] - Run 4 jobs in parallel
+
+    # Execute with parallelism: -P N for N concurrent processes
+find . -name "*.gz" | xargs -P 2 gunzip # [Parallel] - Parallel decompression
+
+    # Decompress 2 files simultaneously
+seq 1 100 | xargs -P 8 -n 1 process_item # [Parallel] - Heavy parallelization
+
+    # Process 8 items concurrently
+xargs -P 0 # [Parallel] - Unlimited parallelism
+
+    # Run as many jobs in parallel as possible
+ls *.iso | xargs -P 2 -I {} sh -c 'echo "Uploading {}" && upload-file {}' # [Parallel] - Parallel with logging
+
+    # Upload multiple files in parallel with feedback
+
+
+
+xargs -s 1000 # [Size Control] - Max command line length
+
+    # Limit command line to 1000 characters (fewer args if needed)
+xargs --max-chars 500 # [Size Control] - Explicit character limit
+
+    # Enforce 500-character limit on command line
+xargs --max-args 10 # [Size Control] - Maximum arguments per invocation
+
+    # Pass at most 10 arguments to command
+find . -name "*.txt" | xargs -x rm # [Size Control] - Strict argument checking
+
+    # Exit if arguments would exceed command line limit
+
+
+
+xargs -0 -I {} cp {} backup/ # [Combination] - Null delimiter with placeholder
+
+    # Safe file handling with custom replacement
+find . -type f -print0 | xargs -0 -n 5 tar czf # [Combination] - Batch compress with find
+
+    # Create tar archives of 5 files each (safely)
+cat urls.txt | xargs -I {} -n 1 wget {} # [Combination] - Download with batching
+
+    # Wget each URL from file
+seq 1 100 | xargs -P 4 -n 10 -I {} process-group {} # [Combination] - Parallel batch processing
+
+    # Process in groups of 10, 4 parallel processes
+ls -1 *.mp3 | xargs -I {} -n 1 ffmpeg -i {} {}.mp4 # [Combination] - Transform with placeholder
+
+    # Convert each MP3 to MP4
+
+
+
+echo "test" | xargs # [Edge Cases] - Empty input handling
+
+    # Does nothing if input is empty
+echo "" | xargs echo "default" # [Edge Cases] - Default value with no args
+
+    # Command still executes even with empty input
+xargs < file.txt # [Edge Cases] - Read from file instead of pipe
+
+    # Read arguments from file using input redirection
+xargs -e // # [Edge Cases] - Stop processing at marker
+
+    # Treat // as end-of-input marker
+xargs --verbose --show-limits # [Edge Cases] - Show system limits
+
+    # Display command line and argument limits
+seq 1 1000 | xargs | wc -w # [Edge Cases] - Count processed arguments
+
+    # Count total arguments passed

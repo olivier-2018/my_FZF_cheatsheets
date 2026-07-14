@@ -1,0 +1,227 @@
+# jq - command-line JSON processor and query language
+
+jq '.' file.json # [Basic] - Pretty-print JSON file
+
+    # Format and display JSON with indentation
+jq '.key' file.json # [Basic] - Extract top-level key value
+
+    # Get value of specific key
+jq '.array[0]' file.json # [Basic] - Extract array element
+
+    # Get first element from array
+jq '.array | length' file.json # [Basic] - Count array elements
+
+    # Get array length
+jq '.key = "value"' file.json # [Basic] - Modify key value
+
+    # Set/update key to new value
+jq 'keys' file.json # [Basic] - List all keys in object
+
+    # Show all object keys as array
+
+
+
+jq '.[] ' file.json # [Iteration] - Iterate over array elements
+
+    # Process each array item separately
+jq '.[] | .name' file.json # [Iteration] - Extract field from each item
+
+    # Get specific field from all array elements
+jq '.[] | select(.age > 30)' file.json # [Iteration] - Filter by condition
+
+    # Output only items matching condition
+jq 'to_entries | .[]' file.json # [Iteration] - Iterate over key-value pairs
+
+    # Convert object to key-value array and iterate
+jq 'group_by(.type)' file.json # [Iteration] - Group items by field
+
+    # Organize array items into groups by key
+jq 'sort_by(.name)' file.json # [Iteration] - Sort by field
+
+    # Sort array elements by field value
+
+
+
+jq 'keys | .[]' file.json # [Filtering] - List all keys (expanded)
+
+    # Show each key on separate line
+jq '.[] | select(.status == "active")' file.json # [Filtering] - Filter exact value
+
+    # Keep items where status equals "active"
+jq '.[] | select(.count > 5 and .name)' file.json # [Filtering] - Multiple conditions (AND)
+
+    # Filter by multiple conditions
+jq '.[] | select(.type == "user" or .type == "admin")' file.json # [Filtering] - Multiple values (OR)
+
+    # Match any of several values
+jq '.[] | select(.email | contains("@"))' file.json # [Filtering] - String contains
+
+    # Filter by substring match
+jq '.[] | select(.tags | index("important"))' file.json # [Filtering] - Array contains
+
+    # Filter if array contains specific value
+
+
+
+jq 'map(.name)' file.json # [Transformation] - Transform each element
+
+    # Extract one field from all array items
+jq 'map(select(.age > 30))' file.json # [Transformation] - Filter and transform
+
+    # Filter items and keep in array form
+jq 'map({name, age})' file.json # [Transformation] - Project fields
+
+    # Create new objects with selected fields
+jq 'map(.price * 1.1)' file.json # [Transformation] - Arithmetic on all items
+
+    # Multiply all price values by 1.1
+jq '.[] | {id: .id, name: .name}' file.json # [Transformation] - Construct new objects
+
+    # Build custom object from selected fields
+jq 'with_entries(.value |= . * 2)' file.json # [Transformation] - Transform all values
+
+    # Double all numeric values in object
+
+
+
+jq '.[] | .name, .age' file.json # [Output] - Output multiple fields per line
+
+    # Extract multiple fields (one per line)
+jq -r '.name' file.json # [Output] - Raw string output (no quotes)
+
+    # Output string value without JSON quotes
+jq -c '.' file.json # [Output] - Compact output (one line)
+
+    # Minified JSON without formatting
+jq -r '.[] | "\(.name): \(.email)"' file.json # [Output] - String interpolation
+
+    # Create formatted strings with values
+jq '@csv' file.json # [Output] - Convert to CSV
+
+    # Format as comma-separated values
+jq '@json' file.json # [Output] - Convert to JSON string
+
+    # Encode as JSON string (double-encoded)
+jq '@base64' file.json # [Output] - Base64 encode
+
+    # Encode output as base64
+
+
+
+jq '.[] | @base64d' file.json # [Encoding] - Base64 decode
+
+    # Decode base64 strings
+jq '@uri' file.json # [Encoding] - URL encode
+
+    # Encode as URL-safe string
+jq '@html' file.json # [Encoding] - HTML encode
+
+    # Escape HTML special characters
+jq '@sh' file.json # [Encoding] - Shell escape
+
+    # Escape for safe shell usage
+jq 'tojson' file.json # [Encoding] - Convert to JSON string
+
+    # Double-encode as JSON string
+jq 'fromjson' file.json # [Encoding] - Parse JSON string
+
+    # Decode JSON string to object
+
+
+
+jq 'add' file.json # [Aggregation] - Sum array elements
+
+    # Add all numbers in array
+jq 'add | keys' file.json # [Aggregation] - Merge objects
+
+    # Combine all objects into one
+jq 'min' file.json # [Aggregation] - Find minimum value
+
+    # Get smallest number in array
+jq 'max' file.json # [Aggregation] - Find maximum value
+
+    # Get largest number in array
+jq 'min_by(.age)' file.json # [Aggregation] - Find by minimum field
+
+    # Get item with smallest age value
+jq 'max_by(.age)' file.json # [Aggregation] - Find by maximum field
+
+    # Get item with largest age value
+
+
+
+jq 'unique' file.json # [Arrays] - Remove duplicates
+
+    # Get unique values from array
+jq 'unique_by(.id)' file.json # [Arrays] - Deduplicate by field
+
+    # Remove duplicates based on field value
+jq 'reverse' file.json # [Arrays] - Reverse array order
+
+    # Flip array order
+jq 'flatten' file.json # [Arrays] - Flatten nested arrays
+
+    # Convert nested arrays to single level
+jq 'flatten(2)' file.json # [Arrays] - Flatten N levels
+
+    # Flatten up to 2 levels deep
+jq '.[] | [.name, .age]' file.json # [Arrays] - Collect into new array
+
+    # Create array from multiple fields
+
+
+
+jq 'length' file.json # [Type/Info] - Object or array length
+
+    # Count keys or array elements
+jq 'type' file.json # [Type/Info] - Get value type
+
+    # Return type: "string", "number", "object", "array", etc.
+jq 'keys_unsorted' file.json # [Type/Info] - Keys in original order
+
+    # Show keys without sorting
+jq 'has("key")' file.json # [Type/Info] - Check if key exists
+
+    # Boolean: true if key present
+jq 'in({"a":1})' file.json # [Type/Info] - Check if value is key
+
+    # Test if value is a key in object
+jq 'paths' file.json # [Type/Info] - All paths in structure
+
+    # Get all nested key paths
+
+
+
+jq 'if .age > 30 then "adult" else "young" end' file.json # [Conditionals] - If-then-else
+
+    # Conditional logic based on value
+jq 'if .type == "user" then .name elif .type == "admin" then .title else "unknown" end' file.json # [Conditionals] - If-elif-else
+
+    # Multiple condition branches
+jq '.age // 0' file.json # [Conditionals] - Alternative operator (null coalescing)
+
+    # Use default value if null/false
+jq '.[] | select(.status) | .name' file.json # [Conditionals] - Filter by truthiness
+
+    # Select where field is truthy (non-null, non-false)
+jq 'if . then "yes" else "no" end' file.json # [Conditionals] - Boolean evaluation
+
+    # Conditional based on truthiness
+
+
+
+jq 'reduce .[] as $item (0; . + $item)' file.json # [Advanced] - Sum with reduce
+
+    # Accumulate values using reduce
+jq '[.[] | select(.active)] | length' file.json # [Advanced] - Count matching items
+
+    # Filter then count results
+jq 'group_by(.type) | map({key: .[0].type, count: length})' file.json # [Advanced] - Group and count
+
+    # Group by field, then count each group
+jq 'def addprefix(p): p + .; .[] | addprefix("Mr. ")' file.json # [Advanced] - Custom function
+
+    # Define and use custom function
+jq '.[] | @base64 | @base64d' file.json # [Advanced] - Pipe encoding operations
+
+    # Chain transformations

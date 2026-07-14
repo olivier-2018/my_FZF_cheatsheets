@@ -1,0 +1,506 @@
+# Azure CLI, manage Microsoft Azure resources
+
+az login # [Identity & Configuration] - Authenticate to Azure and manage subscriptions
+
+    # Log in to Azure; opens browser for authentication
+az login --username <email> --password <password> # [Identity & Configuration] - Authenticate with username/password
+
+    # Log in with credentials (non-interactive)
+az logout # [Identity & Configuration] - Log out and remove stored credentials
+
+    # Deauthenticate from Azure
+az account list # [Identity & Configuration] - List all Azure subscriptions
+
+    # Show all subscriptions your account has access to
+az account set --subscription <id> # [Identity & Configuration] - Set active subscription
+
+    # Switch to a specific subscription by ID or name
+az account show # [Identity & Configuration] - Get current subscription details
+
+    # Display currently active subscription info
+
+
+
+az group list # [Resource Groups] - Container for managing related Azure resources
+
+    # List all resource groups in current subscription
+az group create --name <name> --location <region> # [Resource Groups] - Create a resource group
+
+    # Create new resource group; specify region (eastus, westus, etc.)
+az group delete --name <name> # [Resource Groups] - Delete resource group and all resources
+
+    # Remove resource group and all contained resources
+az group show --name <name> # [Resource Groups] - Get resource group details
+
+    # Display configuration and metadata for specific group
+az group exists --name <name> # [Resource Groups] - Check if resource group exists
+
+    # Return true/false for group existence
+az group wait --created --name <name> # [Resource Groups] - Wait for resource group creation
+
+    # Block until group is fully provisioned
+
+
+
+az vm list # [Compute - Virtual Machines] - On-demand scalable computing resources with Windows/Linux
+
+    # List all VMs in current subscription
+az vm list --resource-group <group> # [Compute - Virtual Machines] - List VMs in specific resource group
+
+    # Show only VMs in the specified group
+az vm create --resource-group <group> --name <name> --image UbuntuLTS # [Compute - Virtual Machines] - Create a new VM
+
+    # Launch new virtual machine with specified image
+az vm start --resource-group <group> --name <name> # [Compute - Virtual Machines] - Start a stopped VM
+
+    # Boot up VM from deallocated state
+az vm stop --resource-group <group> --name <name> # [Compute - Virtual Machines] - Gracefully stop VM
+
+    # Shut down VM without deallocating (keeps IP/storage attached)
+az vm delete --resource-group <group> --name <name> # [Compute - Virtual Machines] - Delete VM and associated resources
+
+    # Permanently remove VM and its managed disks
+
+
+
+az vmss list # [Compute - Scale Sets] - Auto-scaling groups of identical VMs for load balancing
+
+    # List all virtual machine scale sets
+az vmss create --resource-group <group> --name <name> --image UbuntuLTS # [Compute - Scale Sets] - Create scale set
+
+    # Create auto-scaling group from image template
+az vmss scale --resource-group <group> --name <name> --new-capacity 5 # [Compute - Scale Sets] - Change instance count
+
+    # Scale set to desired number of VMs
+az vmss update-instances --resource-group <group> --name <name> --instance-ids '*' # [Compute - Scale Sets] - Force reimage VMs
+
+    # Redeploy all instances in scale set
+az vmss delete --resource-group <group> --name <name> # [Compute - Scale Sets] - Delete scale set and VMs
+
+    # Remove all VMs and scale set configuration
+az vmss list-skus # [Compute - Scale Sets] - List available VM sizes and types
+
+    # Show compatible instance types for scale sets
+
+
+
+az storage account list # [Storage - Accounts] - Blob, file, table, queue storage unified account
+
+    # List all storage accounts in subscription
+az storage account create --resource-group <group> --name <name> # [Storage - Accounts] - Create storage account
+
+    # Provision new storage account (must be globally unique)
+az storage account delete --resource-group <group> --name <name> # [Storage - Accounts] - Delete storage account
+
+    # Remove storage account and all contained data
+az storage account show --resource-group <group> --name <name> # [Storage - Accounts] - Get account configuration
+
+    # Display storage account properties (endpoints, kind, replication)
+az storage account keys list --resource-group <group> --name <name> # [Storage - Accounts] - List storage account access keys
+
+    # Get primary and secondary key for authentication
+az storage account update --resource-group <group> --name <name> --access-tier Hot # [Storage - Accounts] - Change access tier
+
+    # Switch between Hot/Cool tiers for blob storage pricing
+
+
+
+az storage container list --account-name <name> # [Storage - Blobs] - Store unstructured data (blobs/objects)
+
+    # List all blob containers in storage account
+az storage container create --account-name <name> --name <container> # [Storage - Blobs] - Create blob container
+
+    # Create new container for uploading blobs
+az storage container delete --account-name <name> --name <container> # [Storage - Blobs] - Delete container and blobs
+
+    # Remove container and all objects inside
+az storage blob upload --account-name <name> --container-name <container> --name <blob-name> --file <path> # [Storage - Blobs] - Upload blob
+
+    # Upload file to blob storage container
+az storage blob download --account-name <name> --container-name <container> --name <blob-name> --file <path> # [Storage - Blobs] - Download blob
+
+    # Download blob from container to local file
+az storage blob list --account-name <name> --container-name <container> # [Storage - Blobs] - List blobs in container
+
+    # Show all objects in container with metadata
+
+
+
+az sql server list # [Databases - SQL] - Managed relational database (SQL Server/MySQL/PostgreSQL)
+
+    # List all SQL servers in subscription
+az sql server create --resource-group <group> --name <name> --admin-user <user> --admin-password <pwd> # [Databases - SQL] - Create SQL server
+
+    # Provision new SQL database server
+az sql db create --resource-group <group> --server <server> --name <name> # [Databases - SQL] - Create database
+
+    # Create new database on SQL server
+az sql db delete --resource-group <group> --server <server> --name <name> # [Databases - SQL] - Delete database
+
+    # Remove database (cannot restore after this)
+az sql db restore --resource-group <group> --server <server> --name <name> --time <timestamp> # [Databases - SQL] - Restore from backup
+
+    # Restore database to specific point-in-time
+az sql server delete --resource-group <group> --name <name> # [Databases - SQL] - Delete SQL server
+
+    # Remove server and all databases inside
+
+
+
+az mysql server list # [Databases - MySQL] - Managed open-source relational database
+
+    # List all MySQL servers in subscription
+az mysql server create --resource-group <group> --name <name> --admin-user <user> --admin-password <pwd> # [Databases - MySQL] - Create MySQL server
+
+    # Provision new managed MySQL instance
+az mysql db create --resource-group <group> --server-name <name> --name <db-name> # [Databases - MySQL] - Create database
+
+    # Create new database on MySQL server
+az mysql db delete --resource-group <group> --server-name <name> --name <db-name> # [Databases - MySQL] - Delete database
+
+    # Remove database from server
+az mysql server delete --resource-group <group> --name <name> # [Databases - MySQL] - Delete MySQL server
+
+    # Remove server and all databases
+az mysql server restore --resource-group <group> --name <name> --backup-name <backup> # [Databases - MySQL] - Restore from backup
+
+    # Restore database to previous state
+
+
+
+az postgres server list # [Databases - PostgreSQL] - Managed open-source relational database with advanced features
+
+    # List all PostgreSQL servers in subscription
+az postgres server create --resource-group <group> --name <name> --admin-user <user> --admin-password <pwd> # [Databases - PostgreSQL] - Create PostgreSQL server
+
+    # Provision new managed PostgreSQL instance
+az postgres db create --resource-group <group> --server-name <name> --name <db-name> # [Databases - PostgreSQL] - Create database
+
+    # Create new database on PostgreSQL server
+az postgres db delete --resource-group <group> --server-name <name> --name <db-name> # [Databases - PostgreSQL] - Delete database
+
+    # Remove database from server
+az postgres server delete --resource-group <group> --name <name> # [Databases - PostgreSQL] - Delete PostgreSQL server
+
+    # Remove server and all databases
+az postgres server restore --resource-group <group> --name <name> --backup-name <backup> # [Databases - PostgreSQL] - Restore from backup
+
+    # Restore database to previous state
+
+
+
+az container create --resource-group <group> --name <name> --image <image> # [Containers] - Run Docker containers without managing VMs
+
+    # Deploy container instance from image
+az container show --resource-group <group> --name <name> # [Containers] - Get container instance details
+
+    # Display running container configuration and IP
+az container delete --resource-group <group> --name <name> # [Containers] - Delete container instance
+
+    # Stop and remove running container
+az container list --resource-group <group> # [Containers] - List all container instances
+
+    # Show all running containers in resource group
+az container logs --resource-group <group> --name <name> # [Containers] - Get container output logs
+
+    # Stream container stdout/stderr
+az container exec --resource-group <group> --name <name> --exec-command /bin/bash # [Containers] - Execute command in running container
+
+    # Run interactive shell inside container
+
+
+
+az aks cluster list # [Kubernetes - AKS] - Managed Kubernetes container orchestration service
+
+    # List all AKS clusters in subscription
+az aks create --resource-group <group> --name <cluster> --node-count 3 # [Kubernetes - AKS] - Create AKS cluster
+
+    # Provision new Kubernetes cluster with worker nodes
+az aks delete --resource-group <group> --name <cluster> # [Kubernetes - AKS] - Delete AKS cluster
+
+    # Remove cluster and all node pools
+az aks get-credentials --resource-group <group> --name <cluster> # [Kubernetes - AKS] - Download cluster credentials
+
+    # Update kubeconfig with cluster connection details
+az aks scale --resource-group <group> --name <cluster> --node-count 5 # [Kubernetes - AKS] - Change node count
+
+    # Scale cluster by adding/removing nodes
+az aks nodepool list --resource-group <group> --cluster-name <cluster> # [Kubernetes - AKS] - List node pools
+
+    # Show all node groups in cluster
+
+
+
+az acr list # [Container Registry] - Private Docker image registry for container storage
+
+    # List all container registries in subscription
+az acr create --resource-group <group> --name <name> --sku Basic # [Container Registry] - Create container registry
+
+    # Provision new ACR registry for private images
+az acr delete --resource-group <group> --name <name> # [Container Registry] - Delete registry
+
+    # Remove registry and all images inside
+az acr build --registry <name> --image <image>:<tag> --file Dockerfile . # [Container Registry] - Build and push image
+
+    # Compile Docker image and upload to registry
+az acr repository list --name <name> # [Container Registry] - List repositories in registry
+
+    # Show all image repositories
+az acr login --name <name> # [Container Registry] - Log in to registry
+
+    # Authenticate for pushing/pulling images
+
+
+
+az appservice plan list # [App Service] - Managed web hosting for web apps and APIs
+
+    # List all App Service plans in subscription
+az appservice plan create --resource-group <group> --name <name> --sku B1 # [App Service] - Create App Service plan
+
+    # Provision new hosting plan (defines compute and cost)
+az webapp create --resource-group <group> --plan <plan> --name <name> # [App Service] - Create web app
+
+    # Deploy web application on App Service plan
+az webapp delete --resource-group <group> --name <name> # [App Service] - Delete web app
+
+    # Remove web app and stop serving requests
+az webapp restart --resource-group <group> --name <name> # [App Service] - Restart web app
+
+    # Bounce web app process (clears memory/connections)
+az webapp deployment source config-zip --resource-group <group> --name <name> --src <file.zip> # [App Service] - Deploy from zip file
+
+    # Upload application code as zip and auto-deploy
+
+
+
+az keyvault create --resource-group <group> --name <name> # [Security - Key Vault] - Secure storage for secrets, keys, and certificates
+
+    # Create Key Vault for credential management
+az keyvault secret set --vault-name <name> --name <secret-name> --value <value> # [Security - Key Vault] - Store secret
+
+    # Save secret (password, API key) in Key Vault
+az keyvault secret show --vault-name <name> --name <secret-name> # [Security - Key Vault] - Retrieve secret
+
+    # Get secret value from vault (with audit logging)
+az keyvault secret delete --vault-name <name> --name <secret-name> # [Security - Key Vault] - Delete secret
+
+    # Remove secret from vault
+az keyvault key create --vault-name <name> --name <key-name> # [Security - Key Vault] - Create encryption key
+
+    # Generate cryptographic key for data encryption
+az keyvault certificate create --vault-name <name> --name <cert-name> # [Security - Key Vault] - Create certificate
+
+    # Generate/import SSL/TLS certificate
+
+
+
+az network vnet list # [Networking] - Virtual networks for connecting Azure resources securely
+
+    # List all virtual networks in subscription
+az network vnet create --resource-group <group> --name <name> --address-prefix 10.0.0.0/16 # [Networking] - Create virtual network
+
+    # Create VNet with address space for subnets
+az network vnet delete --resource-group <group> --name <name> # [Networking] - Delete virtual network
+
+    # Remove VNet and all connected resources
+az network subnet create --resource-group <group> --vnet-name <vnet> --name <subnet> --address-prefix 10.0.1.0/24 # [Networking] - Create subnet
+
+    # Create subnet within VNet
+az network nsg list # [Networking] - List network security groups (firewalls)
+
+    # Show all NSGs in subscription
+az network nsg rule create --resource-group <group> --nsg-name <nsg> --name <rule> --priority 100 --source-address-prefixes '*' --destination-port-ranges 80 # [Networking] - Add NSG rule
+
+    # Create firewall rule (allow/deny traffic)
+
+
+
+az cdn profile list # [CDN] - Content Delivery Network for caching and accelerating content
+
+    # List all CDN profiles in subscription
+az cdn profile create --resource-group <group> --name <name> --sku Standard_Akamai # [CDN] - Create CDN profile
+
+    # Provision new CDN profile
+az cdn endpoint create --resource-group <group> --profile-name <profile> --name <name> --origin <origin-url> # [CDN] - Create CDN endpoint
+
+    # Add origin and create endpoint for content delivery
+az cdn endpoint delete --resource-group <group> --profile-name <profile> --name <name> # [CDN] - Delete CDN endpoint
+
+    # Remove endpoint from profile
+az cdn endpoint purge --resource-group <group> --profile-name <profile> --name <name> --content-paths '/*' # [CDN] - Purge CDN cache
+
+    # Clear cached content from all edge nodes
+az cdn profile delete --resource-group <group> --name <name> # [CDN] - Delete CDN profile
+
+    # Remove entire CDN profile
+
+
+
+az function app list # [Serverless] - Run event-driven code without managing infrastructure
+
+    # List all function apps in subscription
+az function app create --resource-group <group> --consumption-plan-location <region> --name <name> --runtime python # [Serverless] - Create function app
+
+    # Provision new serverless function app
+az function app delete --resource-group <group> --name <name> # [Serverless] - Delete function app
+
+    # Remove function app and all functions
+az function function create --resource-group <group> --function-app-name <app> --name <function> --template-name HttpTrigger # [Serverless] - Create function
+
+    # Add new trigger-based function to app
+az function app publish --resource-group <group> --name <name> --build remote # [Serverless] - Deploy function app
+
+    # Upload code and deploy functions
+az function app show --resource-group <group> --name <name> # [Serverless] - Get function app details
+
+    # Display function app configuration and endpoints
+
+
+
+az search service list # [Search] - Full-text search service for indexing and querying data
+
+    # List all search services in subscription
+az search service create --resource-group <group> --name <name> --sku basic # [Search] - Create search service
+
+    # Provision new Azure Search instance
+az search service delete --resource-group <group> --name <name> # [Search] - Delete search service
+
+    # Remove service and all indexes
+az search admin-key show --resource-group <group> --service-name <name> # [Search] - Get admin API keys
+
+    # Retrieve keys for indexing and query operations
+az search query-key show --resource-group <group> --service-name <name> # [Search] - Get query API keys
+
+    # Get read-only keys for search queries
+az search index create --service-name <name> --index-definition <file.json> # [Search] - Create search index
+
+    # Define searchable schema for documents
+
+
+
+az cosmosdb database account list # [NoSQL - Cosmos DB] - Globally distributed NoSQL database with multi-model support
+
+    # List all Cosmos DB accounts in subscription
+az cosmosdb database account create --resource-group <group> --name <name> --locations regionName=<region> # [NoSQL - Cosmos DB] - Create Cosmos DB account
+
+    # Provision new NoSQL database with replication
+az cosmosdb database account delete --resource-group <group> --name <name> # [NoSQL - Cosmos DB] - Delete Cosmos DB account
+
+    # Remove account and all databases
+az cosmosdb database create --resource-group <group> --account-name <account> --name <db> # [NoSQL - Cosmos DB] - Create database
+
+    # Create new database within account
+az cosmosdb collection create --resource-group <group> --account-name <account> --database-name <db> --name <collection> # [NoSQL - Cosmos DB] - Create collection
+
+    # Create collection with partition key and throughput
+az cosmosdb database-account show --resource-group <group> --name <name> # [NoSQL - Cosmos DB] - Get account details
+
+    # Display account configuration and connection info
+
+
+
+az eventhub namespace list # [Event Streaming] - Publish-subscribe event ingestion at scale
+
+    # List all Event Hub namespaces in subscription
+az eventhub namespace create --resource-group <group> --name <name> # [Event Streaming] - Create Event Hub namespace
+
+    # Provision new namespace for event hubs
+az eventhub create --resource-group <group> --namespace-name <namespace> --name <hub> # [Event Streaming] - Create event hub
+
+    # Add event hub for producing/consuming events
+az eventhub authorization-rule create --resource-group <group> --namespace-name <namespace> --eventhub-name <hub> --name <rule> --rights Listen Send # [Event Streaming] - Create auth rule
+
+    # Set permissions for hub access
+az eventhub namespace delete --resource-group <group> --name <name> # [Event Streaming] - Delete namespace
+
+    # Remove namespace and all hubs
+az eventhub consumer-group create --resource-group <group> --namespace-name <namespace> --eventhub-name <hub> --name <group> # [Event Streaming] - Create consumer group
+
+    # Create group for parallel message processing
+
+
+
+az servicebus namespace list # [Messaging] - Reliable message queue and topic-based pub/sub
+
+    # List all Service Bus namespaces in subscription
+az servicebus namespace create --resource-group <group> --name <name> # [Messaging] - Create Service Bus namespace
+
+    # Provision new namespace for queues and topics
+az servicebus queue create --resource-group <group> --namespace-name <namespace> --name <queue> # [Messaging] - Create queue
+
+    # Add message queue for FIFO messaging
+az servicebus topic create --resource-group <group> --namespace-name <namespace> --name <topic> # [Messaging] - Create topic
+
+    # Add topic for publish-subscribe messaging
+az servicebus subscription create --resource-group <group> --namespace-name <namespace> --topic-name <topic> --name <sub> # [Messaging] - Create subscription
+
+    # Add subscription to topic for message delivery
+az servicebus namespace delete --resource-group <group> --name <name> # [Messaging] - Delete namespace
+
+    # Remove namespace and all queues/topics
+
+
+
+az monitor alert-rule list --resource-group <group> # [Monitoring] - Alerting and diagnostics for Azure resources
+
+    # List all alert rules in resource group
+az monitor alert-rule create --resource-group <group> --name <name> --description <desc> --condition "avg Percentage CPU > 80" # [Monitoring] - Create alert rule
+
+    # Set alert to trigger on metric threshold
+az monitor alert-rule delete --resource-group <group> --name <name> # [Monitoring] - Delete alert rule
+
+    # Remove alert rule
+az monitor metrics list-definitions --resource <id> # [Monitoring] - List available metrics for resource
+
+    # Show all metrics that can be monitored
+az monitor diagnostic-settings create --resource <id> --name <name> --logs '[{"category":"Requests","enabled":true}]' # [Monitoring] - Create diagnostic setting
+
+    # Configure log collection to storage or analytics
+az monitor log-analytics workspace list # [Monitoring] - List Log Analytics workspaces
+
+    # Show all analytics workspaces for log queries
+
+
+
+az policy definition list # [Governance] - Enforce organizational standards and compliance
+
+    # List all policy definitions in subscription
+az policy assignment create --name <name> --policy <definition> --scope <scope> # [Governance] - Assign policy to scope
+
+    # Enforce policy on resources (subscription/group/resource)
+az policy definition create --name <name> --rules <rules.json> # [Governance] - Create policy definition
+
+    # Define custom compliance rule
+az policy assignment delete --name <name> --scope <scope> # [Governance] - Delete policy assignment
+
+    # Stop enforcing policy
+az role assignment list # [Governance] - List role assignments in subscription
+
+    # Show who has what permissions
+az role assignment create --assignee <principal-id> --role <role> --scope <scope> # [Governance] - Assign role to principal
+
+    # Grant permissions (Owner, Contributor, Reader, etc.)
+
+
+
+az image list # [Images] - Reusable VM templates with pre-installed software
+
+    # List all managed images in subscription
+az image create --resource-group <group> --name <name> --source <vm-id> # [Images] - Create image from VM
+
+    # Create snapshot of VM for deployment template
+az image delete --resource-group <group> --name <name> # [Images] - Delete image
+
+    # Remove managed image
+az image show --resource-group <group> --name <name> # [Images] - Get image details
+
+    # Display image configuration and source
+az disk list # [Images] - List all managed disks in subscription
+
+    # Show all unattached and attached disks
+az disk create --resource-group <group> --name <name> --size-gb 128 # [Images] - Create managed disk
+
+    # Provision new data disk for VM attachment
+az disk delete --resource-group <group> --name <name> # [Images] - Delete managed disk
+
+    # Remove disk permanently

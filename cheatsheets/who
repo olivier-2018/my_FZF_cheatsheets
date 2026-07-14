@@ -1,0 +1,143 @@
+# who - show who is logged in
+
+who # [Display] - List all logged in users
+
+    # Show users currently logged in with session details
+whoami # [Display] - Show current user only
+
+    # Display username of current user
+w # [Display] - Logged in users with activity
+
+    # Show logged in users and what they're doing
+w -s # [Display] - Short format
+
+    # Abbreviated user listing
+w -u # [Display] - Idle time only
+
+    # Show user idle times
+w -h # [Display] - No header line
+
+    # Omit column headers
+who -a # [Detail] - All information
+
+    # Show all details available
+who -b # [Detail] - Boot time only
+
+    # Display system boot time
+who -d # [Detail] - Dead processes only
+
+    # Show terminated processes
+who -l # [Detail] - Login records only
+
+    # Display login entries
+who -r # [Detail] - Runlevel only
+
+    # Show system runlevel
+
+
+
+who -H # [Format] - Show headers
+
+    # Include column headers (default)
+who -q # [Format] - Quick listing
+
+    # Simple list of usernames only
+who --count # [Count] - Total user count
+
+    # Display number of logged in users
+who -u # [Status] - Idle time
+
+    # Show how long each user has been idle
+who -T # [Terminal] - Terminal write permission
+
+    # Show if terminal is writable (+, -, or ?)
+who -u -s # [Combined] - Usernames and idle time
+
+    # Compact format with idle information
+
+
+
+who root # [Specific User] - Show root sessions only
+
+    # List sessions for specific user
+w username # [Specific User] - Show user activity
+
+    # Show processes for specific user
+finger username # [Specific User] - Detailed user info
+
+    # Extended user information (login details, mail)
+id # [User Info] - Show current user IDs
+
+    # Display UID, GID, and groups
+id username # [User Info] - Show user IDs
+
+    # UID/GID info for specific user
+id -u # [User Info] - Current UID only
+
+    # Show numeric user ID
+id -g # [User Info] - Current GID only
+
+    # Show numeric group ID
+
+
+
+lastlog # [Login History] - Last login for all users
+
+    # Show most recent login for each user account
+lastlog -u username # [Login History] - Last login for user
+
+    # Most recent login time for specific user
+lastlog -t 1 # [Login History] - Since 1 day ago
+
+    # Users logged in within past day
+last # [Session Logs] - Full login history
+
+    # Show login/logout history (from wtmp)
+last username # [Session Logs] - User session history
+
+    # All sessions for specific user
+last -n 10 # [Session Logs] - Last 10 sessions
+
+    # Show 10 most recent logins
+last reboot # [Session Logs] - Reboot history
+
+    # Display system reboots
+
+
+
+utmpdump /var/run/utmp # [Database] - Current session file
+
+    # Dump current session database
+utmpdump /var/log/wtmp # [Database] - Historical sessions
+
+    # Dump login history
+ps aux | grep bash # [Processes] - Show shell processes
+
+    # Find running shell sessions
+ps -u username # [Processes] - User processes
+
+    # Show all processes for specific user
+pgrep -u username # [Processes] - Process IDs for user
+
+    # Get PIDs for user's processes
+
+
+
+who -w # [TTY] - Include TTY name
+
+    # Show terminal device for each user
+tty # [TTY] - Current terminal
+
+    # Display current terminal device
+who | grep pts # [TTY] - Pseudo-terminals only
+
+    # Show only SSH/remote sessions
+who | grep tty # [TTY] - Real terminals only
+
+    # Show physical terminal logins
+w | grep pts # [Remote] - SSH sessions
+
+    # List remote SSH connections
+who -m # [Current] - Current user session
+
+    # Show only current session

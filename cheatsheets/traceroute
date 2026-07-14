@@ -1,0 +1,110 @@
+# traceroute - show network path to destination host
+
+traceroute example.com # [Basic] - Trace route to destination
+
+    # Display hops from localhost to destination
+traceroute -m 30 example.com # [Basic] - Maximum hops
+
+    # Stop after 30 hops (default is 30)
+traceroute -w 3 example.com # [Basic] - Timeout per probe (seconds)
+
+    # Wait 3 seconds for responses
+traceroute -n example.com # [Basic] - Numeric output only
+
+    # Show IPs instead of hostnames (faster)
+traceroute -I example.com # [Basic] - Use ICMP instead of UDP
+
+    # ICMP echo requests (some networks block UDP)
+traceroute -T example.com # [Basic] - Use TCP instead of UDP
+
+    # TCP SYN packets (port 80 by default)
+
+
+
+traceroute -p 443 example.com # [Ports] - Destination port
+
+    # Trace using port 443 (HTTPS)
+traceroute -p 22 example.com # [Ports] - Trace to SSH port
+
+    # Test connectivity to SSH (port 22)
+traceroute -p 53 8.8.8.8 # [Ports] - DNS server (port 53)
+
+    # Trace to DNS service
+traceroute -T -p 80 example.com # [Ports] - TCP to port 80
+
+    # HTTP traceroute for web servers
+traceroute -T -p 443 example.com # [Ports] - TCP to port 443
+
+    # HTTPS traceroute path
+
+
+
+traceroute -q 1 example.com # [Probes] - 1 query per hop
+
+    # Send 1 probe per hop (faster, less accurate)
+traceroute -q 3 example.com # [Probes] - 3 queries per hop (default)
+
+    # Standard 3 probes to each hop
+traceroute -q 5 example.com # [Probes] - 5 queries per hop
+
+    # More probes per hop (slower but more detailed)
+traceroute -N 32 example.com # [Probes] - Parallel probes
+
+    # Send probes in parallel (fast but requires support)
+traceroute -z 50 example.com # [Probes] - Minimum wait between probes
+
+    # 50ms minimum delay between probes
+
+
+
+traceroute -A example.com # [Output] - Show AS number (autonomous system)
+
+    # Display BGP autonomous system for each hop
+traceroute -v example.com # [Verbose] - Verbose output
+
+    # Include ICMP codes and other details
+traceroute -g 10.0.0.1 example.com # [Routing] - Use loose source route
+
+    # Route packets through specific gateway
+traceroute -M tcp example.com # [Method] - Use TCP SYN for traceroute
+
+    # TCP-based traceroute (port 80 default)
+traceroute6 example.com # [IPv6] - Trace IPv6 route
+
+    # IPv6 traceroute (if available)
+
+
+
+traceroute example.com | head -5 # [Filtering] - First 5 hops only
+
+    # Show only first 5 network hops
+traceroute -m 15 example.com # [Filtering] - Limit to 15 hops
+
+    # Stop at hop 15 instead of default 30
+traceroute example.com | grep -v '* * *' # [Filtering] - Hide timeouts
+
+    # Show only responsive hops (skip unreachable)
+traceroute example.com | tail -1 # [Filtering] - Destination only
+
+    # Show only the final hop (destination)
+traceroute example.com | wc -l # [Analysis] - Count hops
+
+    # How many hops to destination
+
+
+
+traceroute -c 2 -w 2 example.com # [Quick] - Fast trace (2 probes, 2s timeout)
+
+    # Quick diagnostic (fewer probes, shorter wait)
+traceroute -n -m 20 -w 2 example.com # [Quick] - Numeric, limited hops, short timeout
+
+    # Aggressive tracing for slow networks
+traceroute 8.8.8.8 # [Common] - Google DNS
+
+    # Trace to public DNS server
+traceroute 1.1.1.1 # [Common] - Cloudflare DNS
+
+    # Alternative DNS for comparison
+traceroute -w 5 -q 2 example.com 2>&1 | tee trace.log # [Common] - Save output
+
+    # Log trace for analysis

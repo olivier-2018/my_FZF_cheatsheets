@@ -1,0 +1,134 @@
+#!/bin/bash
+
+set -euo pipefail
+
+CHEATSHEETS_DIR="${FZF_CHEATSHEETS_DIR-"$(realpath "$(dirname "${0}")/../cheatsheets/")"}"
+
+# Whether we are in widget mode, controls whether commands are directly executed
+WIDGET=0
+
+function list_cheatsheets() {
+    local query="$1"
+    local lines=()
+    while IFS= read -r -d '' cheatsheet; do
+        if ! $(file "${cheatsheet}" | grep -q 'text'); then
+            continue
+        fi
+        local subpath="${cheatsheet#$CHEATSHEETS_DIR}"
+        subpath="${subpath#/}"
+        lines+=("${subpath}	$(head -n1 "${cheatsheet}" | sed -e 's/^#[[:space:]]//')")
+    done < <(find "${CHEATSHEETS_DIR}" -not -path '*/.*' -not -name 'LICENSE' -not -name 'README.md' -type f -print0)
+    local result
+    result=$(printf "%s\n" "${lines[@]}" | fzf --no-multi --delimiter='\t' --preview="cat \"$CHEATSHEETS_DIR\"/{1}")
+    if [ -n "${result}" ]; then
+        show_cheatsheet "$(echo "${result}" | awk '{ print $1 }')" "$query"
+    else
+        return 1
+    fi
+}
+
+function strip_comments() {
+    sed -e 's/[[:space:]]*#.*//' -e '/^[[:space:]]*$/d'
+}
+
+function with_help() {
+    local cheatsheet=$1
+    local num=$2
+    awk -v "n=$num" '
+        NR<n {}
+        NR==n { print }
+        NR>n {
+            if ($0 !~ /^([[:space:]]|#|$)/) {
+                exit
+            }
+            print
+        }
+    ' < "${cheatsheet}"
+}
+
+function help_for() {
+    local cheatsheet=$1
+    local num=$2
+    with_help "$1" "$2" | sed -e 's/[^#]*# //'
+}
+
+function show_cheatsheet() {
+    local cheatsheet_name="$1"
+    local query="$2"
+    local cheatsheet="${CHEATSHEETS_DIR}/${cheatsheet_name}"
+    if [ ! -f "${cheatsheet}" ]; then
+        cheatsheet="$(find ${CHEATSHEETS_DIR} -not -path '*/.*' -not -name 'LICENSE' -not -name 'README.md' -type f -name "${cheatsheet_name}*" | head -n1)"
+        if [ ! -f "${cheatsheet}" ]; then
+            echo "Cheatsheet '${cheatsheet_name}' does not exist" 1>&2
+            return 2
+        fi
+    fi
+    result=$(cat -n "${cheatsheet}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*\(#.*\)//' -e '/^[[:digit:]]\+[[:space:]]*\(#.*\)\?$/d' | fzf --no-multi --delimiter='\t' --preview="\"$0\" --get_help \"${cheatsheet}\" {1}" --query="$query" --expect=ctrl-e --with-nth=2)
+    local lines
+    # We specifically want splitting here, so avoid the shellcheck warning about it
+    # shellcheck disable=SC2206
+    IFS=$'\n' lines=(${result})
+    if [ "${#lines[@]}" -gt 1 ]; then
+        local key="${lines[0]}"
+        local line="${lines[1]}"
+        local num
+        num=$(echo "${line}" | cut -f1)
+        if [ "${key}" == "ctrl-e" ]; then
+            local cmd
+            cmd=$(with_help "${cheatsheet}" "${num}" | vipe | strip_comments)
+        else
+            echo "Unknown binding: ${key}" 1>&2
+            return 1
+        fi
+    elif [ "${#lines[@]}" -eq 1 ]; then
+        local num
+        num=$(echo "${lines[0]}" | cut -f1)
+        cmd=$(with_help "${cheatsheet}" "${num}" | strip_comments)
+    else
+        return 1
+    fi
+    if [ "${WIDGET}" -eq 1 ]; then
+        echo "$cmd"
+    else
+        # We want to execute the output, so ignore the shellcheck warning
+        # shellcheck disable=SC2091
+        $SHELL -c "$cmd"
+    fi
+}
+
+CHEATSHEET=""
+NUM=""
+
+while (( "$#" )); do
+  case "$1" in
+    --widget)
+      WIDGET=1
+      shift
+      ;;
+    --get_help)
+      CHEATSHEET=$2
+      NUM=$3
+      shift 3
+      ;;
+    --) # end argument parsing
+      shift
+      break
+      ;;
+    --*|-*=) # unsupported flags
+      echo "Error: Unsupported flag $1" >&2
+      exit 1
+      ;;
+    *) # preserve positional arguments
+      CHEATSHEET="$1"
+      shift
+      ;;
+  esac
+done
+
+if [ -n "$NUM" ]; then
+    help_for "$CHEATSHEET" "$NUM"
+elif [ -z "$CHEATSHEET" ]; then
+    list_cheatsheets "$*"
+else
+    show_cheatsheet "$CHEATSHEET" "$*"
+fi

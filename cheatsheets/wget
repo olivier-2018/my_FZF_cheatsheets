@@ -1,0 +1,149 @@
+# wget - non-interactive network downloader
+
+wget https://example.com/file.zip # [Basic] - Download file
+
+    # Fetch single file and save to current directory
+wget -O myfile.zip https://example.com/file.zip # [Basic] - Save with custom name
+
+    # Download and rename output file
+wget -P /tmp https://example.com/file.zip # [Basic] - Save to specific directory
+
+    # Download to specified folder
+wget -q https://example.com/file.zip # [Basic] - Quiet mode (no output)
+
+    # Suppress progress meter and logging
+wget -v https://example.com/file.zip # [Basic] - Verbose output
+
+    # Detailed logging of download process
+wget -i urls.txt # [Basic] - Download URLs from file
+
+    # Read URLs from text file, one per line
+
+
+
+wget -c https://example.com/largefile.iso # [Resume] - Resume partial download
+
+    # Continue interrupted download from last byte
+wget --progress=bar https://example.com/file.zip # [Progress] - Progress bar
+
+    # Simple progress indicator
+wget --progress=dot https://example.com/file.zip # [Progress] - Dot progress
+
+    # Show progress with dots
+wget -b https://example.com/file.zip # [Background] - Download in background
+
+    # Run download in background (logs to wget-log)
+wget -w 2 https://example.com/file.zip # [Timing] - 2-second delay between requests
+
+    # Wait between requests (respect server)
+wget --wait=5 https://example.com/file.zip # [Timing] - Long form delay
+
+    # Equivalent to -w flag
+
+
+
+wget -t 3 https://example.com/file.zip # [Retry] - Retry 3 times on failure
+
+    # Automatically retry failed downloads
+wget --tries=5 https://example.com/file.zip # [Retry] - Max retries
+
+    # Long form for retry attempts
+wget --timeout=10 https://example.com/file.zip # [Timeout] - 10-second timeout
+
+    # Abort if no data for 10 seconds
+wget -T 5 https://example.com/file.zip # [Timeout] - Short form
+
+    # 5-second timeout
+
+
+
+wget -r https://example.com # [Recursive] - Download entire website
+
+    # Recursively download all pages and links
+wget -r -l 2 https://example.com # [Recursive] - Limit depth to 2 levels
+
+    # Recursive download limited to specified depth
+wget -r -l inf https://example.com # [Recursive] - Unlimited depth
+
+    # Recursively download everything (dangerous)
+wget -r --no-parent https://example.com/section/ # [Recursive] - Don't go to parent
+
+    # Recursive but stay within subdirectory
+wget -r -A "*.pdf" https://example.com # [Selective] - Download only PDFs
+
+    # Recursive download of specific file types
+wget -r --reject="*.jpg,*.png" https://example.com # [Selective] - Exclude file types
+
+    # Skip images when downloading site
+
+
+
+wget --mirror https://example.com # [Mirror] - Mirror entire website
+
+    # Create local copy of website with directory structure
+wget -m -l inf https://example.com # [Mirror] - Infinite depth mirror
+
+    # Deep mirror (use with caution)
+wget --mirror -p https://example.com # [Mirror] - Include dependencies
+
+    # Mirror with CSS, images, other dependencies
+wget --mirror --convert-links https://example.com # [Mirror] - Convert to local links
+
+    # Rewrite links to work offline
+wget -r -H -D example.com https://example.com # [Mirror] - Allow host spanning
+
+    # Download linked resources from same domain
+
+
+
+wget -U "Mozilla/5.0" https://example.com # [Headers] - Set User-Agent
+
+    # Identify as specific browser
+wget -H https://example.com # [Headers] - Enable host-spanning
+
+    # Follow links to other hosts
+wget --header="Authorization: Bearer token" https://example.com # [Headers] - Add auth header
+
+    # Send authentication token
+wget --header="Accept-Language: en-US" https://example.com # [Headers] - Language header
+
+    # Request English language content
+wget --referer="https://google.com" https://example.com # [Headers] - Set referrer
+
+    # Specify referrer page
+
+
+
+wget --cookies=on https://example.com # [Cookies] - Enable cookies
+
+    # Support cookie handling
+wget --save-cookies=cookies.txt https://example.com # [Cookies] - Save cookies to file
+
+    # Persist cookies for future requests
+wget --load-cookies=cookies.txt https://example.com # [Cookies] - Load saved cookies
+
+    # Reuse previously saved cookies
+wget --keep-session-cookies https://example.com # [Cookies] - Keep session cookies
+
+    # Preserve session cookies
+
+
+
+wget -k https://example.com/page.html # [HTML] - Make links relative
+
+    # Convert absolute links to relative (for offline viewing)
+wget -K https://example.com/page.html # [HTML] - Backup original
+
+    # Keep backup of original HTML before conversion
+wget --convert-links -k https://example.com # [HTML] - Convert all links
+
+    # Rewrite all links for offline browsing
+wget -np https://example.com/section/ # [Navigation] - Don't ascend to parent
+
+    # Stay within directory when following links
+wget -nd https://example.com # [Navigation] - No directories
+
+    # Save all files in current directory (flat)
+wget -nH https://example.com # [Navigation] - No host directory
+
+    # Skip creating host directory

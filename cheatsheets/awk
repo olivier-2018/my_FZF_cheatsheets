@@ -1,0 +1,294 @@
+# awk - pattern scanning and processing language for text transformation
+
+awk <help> # Usage: awk [POSIX or GNU style options] -f progfile [--] file ...
+# Usage: awk [POSIX or GNU style options] [--] 'program' file ...
+
+# POSIX options:          GNU long options: (standard)
+#         -f progfile             --file=progfile
+#         -F fs                   --field-separator=fs
+#         -v var=val              --assign=var=val
+# Short options:          GNU long options: (extensions)
+#         -b                      --characters-as-bytes
+#         -c                      --traditional
+#         -C                      --copyright
+#         -d[file]                --dump-variables[=file]
+#         -D[file]                --debug[=file]
+#         -e 'program-text'       --source='program-text'
+#         -E file                 --exec=file
+#         -g                      --gen-pot
+#         -h                      --help
+#         -i includefile          --include=includefile
+#         -I                      --trace
+#         -l library              --load=library
+#         -L[fatal|invalid|no-ext]        --lint[=fatal|invalid|no-ext]
+#         -M                      --bignum
+#         -N                      --use-lc-numeric
+#         -n                      --non-decimal-data
+#         -o[file]                --pretty-print[=file]
+#         -O                      --optimize
+#         -p[file]                --profile[=file]
+#         -P                      --posix
+#         -r                      --re-interval
+#         -s                      --no-optimize
+#         -S                      --sandbox
+#         -t                      --lint-old
+#         -V                      --version
+
+# Examples:
+#         awk '{ sum += $1 }; END { print sum }' file
+#         awk -F: '{ print $1 }' /etc/passwd
+
+
+
+awk '{print}' file.txt # [Basic Output] - Print every line
+
+    # Output entire line (same as cat)
+awk '{print $1}' file.txt # [Basic Output] - Print first field
+
+    # Extract first column (space-separated by default)
+awk '{print $1, $3}' file.txt # [Basic Output] - Print multiple fields
+
+    # Extract columns 1 and 3 with space separator
+awk '{print $NF}' file.txt # [Basic Output] - Print last field
+
+    # $NF references final field regardless of column count
+awk '{print $(NF-1)}' file.txt # [Basic Output] - Print second-to-last field
+
+    # Reference field by expression (column count minus 1)
+awk '{print NR, $0}' file.txt # [Basic Output] - Print line number and line
+
+    # NR = current line number; $0 = entire line
+
+
+
+awk 'BEGIN {print "Header"}' file.txt # [BEGIN/END] - Execute before processing
+
+    # BEGIN block runs once before reading input
+awk 'END {print "Total: " NR}' file.txt # [BEGIN/END] - Execute after processing
+
+    # END block runs after all lines processed; print total lines
+awk 'BEGIN {FS=":"} {print $1}' file.txt # [BEGIN/END] - Set field separator
+
+    # BEGIN changes separator before reading (colon for /etc/passwd)
+awk 'BEGIN {OFS=","} {print $1, $2, $3}' file.txt # [BEGIN/END] - Set output separator
+
+    # Output fields joined by comma instead of space
+awk 'BEGIN {ORS="|"} {print}' file.txt # [BEGIN/END] - Set output record separator
+
+    # Records joined by | instead of newline
+awk 'BEGIN {RS=";"} {print NR, $0}' file.txt # [BEGIN/END] - Set input record separator
+
+    # Treat semicolon as line separator (not newline)
+
+
+
+awk '/pattern/' file.txt # [Pattern Matching] - Print lines matching pattern
+
+    # Extract lines containing pattern (like grep)
+awk '!/pattern/' file.txt # [Pattern Matching] - Print non-matching lines
+
+    # Show lines NOT containing pattern
+awk '/start/,/end/' file.txt # [Pattern Matching] - Print between patterns
+
+    # Output from start pattern to end pattern (inclusive)
+awk '/pattern1/ || /pattern2/' file.txt # [Pattern Matching] - Match multiple patterns (OR)
+
+    # Print lines matching either pattern
+awk '/pattern1/ && /pattern2/' file.txt # [Pattern Matching] - Match both patterns (AND)
+
+    # Print only if line matches both patterns
+awk 'NR==5' file.txt # [Pattern Matching] - Match specific line number
+
+    # Print only line 5
+
+
+
+awk '$1 == "admin"' file.txt # [Conditional] - Match field value
+
+    # Print lines where first field equals "admin"
+awk '$2 > 100' file.txt # [Conditional] - Numeric comparison
+
+    # Print lines where second field is greater than 100
+awk '$3 ~ /pattern/' file.txt # [Conditional] - Field matches regex
+
+    # Print if third field matches pattern (~ operator)
+awk '$3 !~ /pattern/' file.txt # [Conditional] - Field doesn't match regex
+
+    # Print if third field does NOT match pattern
+awk 'length($1) > 5' file.txt # [Conditional] - String length comparison
+
+    # Print lines where first field is longer than 5 characters
+awk '$NF ~ /\.txt$/' file.txt # [Conditional] - Last field ends with .txt
+
+    # Print lines where last column ends with .txt extension
+
+
+
+awk '{sum += $1} END {print sum}' file.txt # [Arithmetic] - Sum column
+
+    # Add up all values in first column
+awk '{sum += $2; count++} END {print sum/count}' file.txt # [Arithmetic] - Calculate average
+
+    # Compute average of second column
+awk '{prod *= $1} END {print prod}' file.txt # [Arithmetic] - Multiply column
+
+    # Multiply all values in first column
+awk '$1 > max {max = $1} END {print max}' file.txt # [Arithmetic] - Find maximum
+
+    # Track highest value in column 1
+awk '$1 < min || NR == 1 {min = $1} END {print min}' file.txt # [Arithmetic] - Find minimum
+
+    # Track lowest value (skip on first line check)
+
+
+
+awk '{for(i=1; i<=NF; i++) print $i}' file.txt # [Loops] - Loop over fields
+
+    # Process each field separately (print each on own line)
+awk 'BEGIN {for(i=1; i<=10; i++) print i}' # [Loops] - Print numbers 1-10
+
+    # Generate sequence using for loop
+awk '{while(i++ < NF) print $i}' file.txt # [Loops] - While loop example
+
+    # Iterate through fields with while
+awk '{for(i in array) print i}' # [Loops] - Loop over array keys
+
+    # Iterate through associative array indices
+awk 'BEGIN {for(i=0; i<3; i++) for(j=0; j<3; j++) print i,j}' # [Loops] - Nested loops
+
+    # Cartesian product (3x3 grid of pairs)
+awk '{do {print; i++} while(i<5)}' # [Loops] - Do-while loop
+
+    # Execute at least once, then repeat while condition
+
+
+
+awk '{a[$1]++} END {for(k in a) print k, a[k]}' file.txt # [Arrays] - Count occurrences
+
+    # Tally how many times each first field value appears
+awk '{lines[$1] = $0} END {for(k in lines) print k, lines[k]}' file.txt # [Arrays] - Store lines by key
+
+    # Store entire line with first field as key
+awk 'BEGIN {a[1]="one"; a[2]="two"; a[3]="three"} {print a[$1]}' file.txt # [Arrays] - Lookup table
+
+    # Use array as dictionary for value translation
+awk '{split($0, a, ","); print a[2]}' file.txt # [Arrays] - Split line into array
+
+    # Split CSV line by comma; access second field
+awk '{n=split($0, a, ":"); for(i=1; i<=n; i++) print a[i]}' file.txt # [Arrays] - Process delimited fields
+
+    # Split and loop through all resulting fields
+awk 'BEGIN {IGNORECASE=1} /PATTERN/' file.txt # [Arrays] - Case-insensitive matching
+
+    # Set IGNORECASE flag for regex operations
+
+
+
+awk 'NR%2 == 1' file.txt # [Advanced] - Print odd-numbered lines
+
+    # NR modulo 2; shows lines 1, 3, 5, 7...
+awk 'NR%2 == 0' file.txt # [Advanced] - Print even-numbered lines
+
+    # Show lines 2, 4, 6, 8...
+awk 'NR > 5 && NR < 10' file.txt # [Advanced] - Print line range
+
+    # Output lines 6 through 9
+awk '{$2 = "REDACTED"; print}' file.txt # [Advanced] - Modify field value
+
+    # Replace second column content
+awk '{gsub(/old/, "new"); print}' file.txt # [Advanced] - Global substitution
+
+    # Replace all occurrences in each line
+awk '{gsub(/old/, "new", $2); print}' file.txt # [Advanced] - Replace in specific field
+
+    # Substitution in column 2 only
+awk '{print tolower($1)}' file.txt # [Advanced] - Convert to lowercase
+
+    # Transform first field to lowercase
+awk '{print toupper($1)}' file.txt # [Advanced] - Convert to uppercase
+
+    # Transform first field to uppercase
+
+
+
+awk 'BEGIN {print substr("hello", 2, 3)}' # [String Functions] - Extract substring
+
+    # substr(string, start, length) = "ell"
+awk 'BEGIN {print index("hello", "ll")}' # [String Functions] - Find substring position
+
+    # index returns position of first match (4)
+awk 'BEGIN {print length("hello")}' # [String Functions] - String length
+
+    # Count characters (5)
+awk 'BEGIN {print split("a:b:c", a, ":"); print a[2]}' # [String Functions] - Split and count
+
+    # Returns number of fields; a[2] = "b"
+awk 'BEGIN {print match("hello123", /[0-9]+/)}' # [String Functions] - Regex match position
+
+    # Returns starting position of match (6)
+awk '{print substr($0, 1, 5)}' file.txt # [String Functions] - First 5 characters
+
+    # Left trim to 5 chars
+
+
+
+awk 'BEGIN {print int(3.7)}' # [Math Functions] - Integer part
+
+    # Truncate decimal (3)
+awk 'BEGIN {print sqrt(16)}' # [Math Functions] - Square root
+
+    # Returns 4
+awk 'BEGIN {print sin(0)}' # [Math Functions] - Trigonometry
+
+    # Sine, cosine, atan2, exp, log, etc. supported
+awk 'BEGIN {print rand()}' # [Math Functions] - Random number 0-1
+
+    # Generate random decimal
+awk 'BEGIN {srand(42); print rand()}' # [Math Functions] - Seeded randomness
+
+    # Reproducible random with seed
+awk 'BEGIN {print 10 % 3}' # [Math Functions] - Modulo operation
+
+    # Remainder (1)
+
+
+
+awk '{printf "%5d %10s\n", NR, $1}' file.txt # [Formatting] - Printf formatting
+
+    # Padded output: 5-char right-aligned number, 10-char string
+awk '{printf "%.2f\n", $1}' file.txt # [Formatting] - Decimal precision
+
+    # Format number with 2 decimal places
+awk 'BEGIN {printf "%s: %d\n", "Count", 42}' # [Formatting] - Formatted output
+
+    # String formatting with %s, %d, %f
+awk '{printf "%s,", $1}' file.txt # [Formatting] - CSV formatting
+
+    # Print fields as comma-separated (no newline)
+awk '{printf "%-20s %10.2f\n", $1, $2}' file.txt # [Formatting] - Left-aligned with decimals
+
+    # Left-aligned string, right-aligned decimal number
+awk 'BEGIN {FS=","; OFS="|"} {$1=$1; print}' file.txt # [Formatting] - Change delimiter
+
+    # Read CSV, output pipe-delimited (triggers rebuild)
+
+
+
+awk 'NR==FNR {a[$1]=$0; next} $1 in a {print}' file1.txt file2.txt # [Files] - File join operation
+
+    # Output lines from file2 where first field exists in file1
+awk '{a[NR]=$0} END {for(i=NR; i>=1; i--) print a[i]}' file.txt # [Files] - Reverse line order
+
+    # Print file in reverse (bottom to top)
+awk 'BEGIN {getline x < "file.txt"; print x}' # [Files] - Read from file
+
+    # Load first line of external file
+awk '{if((getline x) > 0) print $0 " -> " x}' file.txt # [Files] - Read next line
+
+    # Parallel read: get current and next line together
+awk '{if(system("test -f " $1) == 0) print $1}' file.txt # [Files] - Execute system command
+
+    # Run shell command from awk script
+awk 'BEGIN {print "date" | "sh"; close("sh")}' # [Files] - Pipe output to command
+
+    # Send data to external command

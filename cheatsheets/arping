@@ -1,0 +1,104 @@
+# arping - send ARP requests and reply to ARP requests
+
+arping 192.168.1.1 # [Basic] - ARP ping to IP address
+
+    # Send ARP echo requests to find MAC address
+arping -c 5 192.168.1.1 # [Basic] - 5 ARP pings
+
+    # Send exactly 5 ARP requests
+arping -w 5 192.168.1.1 # [Basic] - 5 second timeout
+
+    # Stop after 5 seconds
+arping -f 192.168.1.1 # [Basic] - Finish on first response
+
+    # Exit after first successful reply
+arping 192.168.1.100 -d # [Basic] - Find duplicate addresses
+
+    # Detect duplicate IP addresses on network
+
+
+
+arping -i eth0 192.168.1.1 # [Interface] - Specific interface
+
+    # Use specific network interface
+arping -i eth0:1 192.168.1.1 # [Interface] - Virtual interface
+
+    # Use virtual/alias interface
+arping -I eth0 192.168.1.1 # [Interface] - Upper case I
+
+    # Alternative interface specification
+ip addr show # [Interface] - Show interfaces
+
+    # List available network interfaces
+arping -B 192.168.1.0/24 # [Network] - Broadcast on subnet
+
+    # ARP scan all IPs in network
+
+
+
+arping -s 192.168.1.100 192.168.1.1 # [Spoofing] - Spoof source IP
+
+    # Send ARP from specified IP
+arping -S 192.168.1.100 192.168.1.1 # [Spoofing] - Source MAC spoofing
+
+    # Spoof source MAC address
+arping -t 00:11:22:33:44:55 192.168.1.1 # [Target] - Specific target MAC
+
+    # Target specific MAC address
+arping -h 00:11:22:33:44:55 192.168.1.1 # [Target] - Host MAC
+
+    # Explicit target MAC address
+
+
+
+arping -e 192.168.1.1 # [Echo] - Echo mode
+
+    # Reply to ARP requests (listen mode)
+arping -a 192.168.1.1 # [Listen] - Listen for ARP
+
+    # Monitor ARP traffic for IP
+arping -D 192.168.1.100 # [Detection] - Duplicate detection
+
+    # Detect duplicate addresses before assignment
+arping -U 192.168.1.100 # [Update] - Update neighbors
+
+    # Announce new MAC for IP address
+arping -p 192.168.1.100 # [Payload] - Show payload
+
+    # Display ARP packet contents
+
+
+
+arping -v 192.168.1.1 # [Output] - Verbose mode
+
+    # Show detailed ARP responses
+arping -q 192.168.1.1 # [Output] - Quiet mode
+
+    # Minimal output
+arping -n 192.168.1.1 # [Output] - Numeric only
+
+    # Don't resolve MAC to vendor
+arping 192.168.1.1 | tail -5 # [Statistics] - Summary
+
+    # Show final statistics
+arping -r 192.168.1.1 # [Raw] - Raw output
+
+    # Minimal formatting (machine-readable)
+
+
+
+sudo arping -B 192.168.1.0/24 # [Scanning] - Network scan
+
+    # ARP scan all IPs on subnet (needs root)
+sudo arping -B -c 1 192.168.1.0/24 # [Scanning] - Fast scan
+
+    # Single packet per IP scan
+sudo arping -B -s 192.168.1.100 192.168.1.0/24 # [Spoofing Scan] - Spoof scan
+
+    # Network scan with spoofed source
+arping -t ff:ff:ff:ff:ff:ff 192.168.1.1 # [Broadcast] - Broadcast
+
+    # Send to broadcast MAC
+arping --help # [Help] - Show options
+
+    # Display all available flags

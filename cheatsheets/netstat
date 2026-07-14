@@ -1,0 +1,143 @@
+# netstat - display network statistics and connections
+
+netstat # [Display] - Show all network connections and listening ports
+
+    # Display active connections and sockets
+netstat -a # [Display] - Show all connections and listening sockets
+
+    # Include both established and listening ports
+netstat -t # [Display] - Show TCP connections only
+
+    # Display TCP protocol connections
+netstat -u # [Display] - Show UDP connections only
+
+    # Display UDP protocol connections
+netstat -l # [Display] - Show listening sockets only
+
+    # Display ports/sockets waiting for connections
+netstat -p # [Display] - Show process name and PID
+
+    # Include program name and process ID for each connection
+netstat -n # [Display] - Show numeric addresses (no DNS)
+
+    # Display IP addresses instead of hostnames
+
+
+
+netstat -an # [Common] - Numeric addresses, all connections
+
+    # Fast view without DNS lookups
+netstat -ln # [Common] - Numeric listening sockets only
+
+    # Quickly see listening ports without DNS resolution
+netstat -tnp # [Common] - TCP connections with process info
+
+    # Find which process is listening on port
+netstat -tunp # [Common] - All TCP/UDP with processes
+
+    # Comprehensive view of all connections and listening ports
+netstat -i # [Common] - Show interface statistics
+
+    # Display network interface info (RX/TX packets, errors)
+netstat -r # [Common] - Show routing table
+
+    # Display kernel routing table (like route command)
+
+
+
+netstat -s # [Statistics] - Show summary statistics by protocol
+
+    # Aggregate stats: TCP, UDP, ICMP packets sent/received
+netstat -st # [Statistics] - TCP statistics only
+
+    # TCP protocol statistics (retransmissions, errors, etc.)
+netstat -su # [Statistics] - UDP statistics only
+
+    # UDP protocol statistics
+netstat -si # [Statistics] - Interface statistics
+
+    # Per-interface statistics (packets in/out, errors)
+netstat -se # [Statistics] - Extended statistics
+
+    # Detailed error and collision statistics
+netstat --statistics --raw # [Statistics] - Raw protocol statistics
+
+    # Low-level statistics for IP, ICMP protocols
+
+
+
+netstat -an | grep LISTEN # [Filtering] - Find all listening ports
+
+    # Grep output to show only listening sockets
+netstat -an | grep ESTABLISHED # [Filtering] - Show established connections
+
+    # Display active connections only
+netstat -tunp | grep ':80' # [Filtering] - Connections on specific port
+
+    # Find what's using port 80
+netstat -an | grep TIME_WAIT # [Filtering] - Show TIME_WAIT connections
+
+    # Connections in TIME_WAIT state (for cleanup timing)
+netstat -an | wc -l # [Filtering] - Count total connections
+
+    # Get total number of active connections
+netstat -an | grep CLOSE_WAIT # [Filtering] - Find hung connections
+
+    # Identify sockets stuck in CLOSE_WAIT state
+
+
+
+netstat -c # [Real-time] - Continuous updates (every second)
+
+    # Refresh statistics every second (interactive)
+netstat -c -t # [Real-time] - Monitor TCP connections live
+
+    # Live TCP connection updates
+watch netstat -an # [Real-time] - Watch with refresh (default 2s)
+
+    # Alternative: use watch command for monitoring
+watch 'netstat -tunp | grep ESTABLISHED' # [Real-time] - Monitor established connections
+
+    # Watch established connections change in real-time
+netstat -c 1 # [Real-time] - Update every 1 second
+
+    # Custom refresh interval (1 second)
+
+
+
+netstat -an | grep -c ESTABLISHED # [Analysis] - Count established connections
+
+    # How many active connections exist
+netstat -an | grep 'TIME_WAIT' | wc -l # [Analysis] - Count waiting connections
+
+    # Measure connection cleanup delays
+netstat -an | cut -c 106- | cut -d' ' -f1 | sort | uniq -c | sort -rn # [Analysis] - Connections by state
+
+    # Breakdown of connection states (SYN_RECV, ESTABLISHED, etc.)
+netstat -an --inet | grep -v LISTEN | awk '{print $4}' | cut -d: -f2 | sort | uniq -c # [Analysis] - Ports in use
+
+    # Show which ports are active (non-listening)
+netstat -tulpn # [Analysis] - Complete listening ports overview
+
+    # All TCP/UDP, listening only, with process details
+
+
+
+netstat -aW # [Formatting] - Wide output (no truncation)
+
+    # Display full addresses without truncation
+netstat --inet # [Formatting] - IPv4 only
+
+    # Show only IPv4 connections
+netstat --inet6 # [Formatting] - IPv6 only
+
+    # Show only IPv6 connections (if available)
+netstat --all # [Formatting] - Explicit all flag
+
+    # Same as -a
+netstat -v # [Formatting] - Verbose output
+
+    # Include additional detail in output
+netstat --numeric-hosts # [Formatting] - Numeric IPs, named services
+
+    # Show IP addresses but service names (port 80 not 80)

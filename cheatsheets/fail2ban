@@ -1,0 +1,122 @@
+# fail2ban - intrusion prevention software to prevent brute force attacks
+
+sudo systemctl status fail2ban # [Status] - Check if running
+
+    # Display fail2ban service status
+sudo fail2ban-client status # [Status] - Fail2ban status overview
+
+    # Show daemon status and active jails
+sudo fail2ban-client status sshd # [Status] - Specific jail status
+
+    # Show activity in SSH jail
+sudo systemctl start fail2ban # [Service] - Start fail2ban
+
+    # Activate fail2ban service
+sudo systemctl stop fail2ban # [Service] - Stop fail2ban
+
+    # Deactivate fail2ban service
+sudo systemctl restart fail2ban # [Service] - Restart service
+
+    # Reload configuration
+sudo systemctl enable fail2ban # [Service] - Start on boot
+
+    # Enable automatic startup
+sudo systemctl disable fail2ban # [Service] - Don't start on boot
+
+    # Disable autostart
+
+
+
+sudo fail2ban-client set sshd banip 192.168.1.100 # [Banning] - Ban IP address
+
+    # Immediately block specific IP
+sudo fail2ban-client set sshd unbanip 192.168.1.100 # [Banning] - Unban IP
+
+    # Remove IP from ban list
+sudo fail2ban-client set sshd bantime 3600 # [Banning] - Ban duration
+
+    # Set ban time to 3600 seconds (1 hour)
+sudo fail2ban-client set sshd maxretry 3 # [Banning] - Max attempts
+
+    # Number of failures before banning
+sudo fail2ban-client set sshd findtime 600 # [Banning] - Lookback window
+
+    # Check failures within 600-second window
+
+
+
+sudo fail2ban-client start sshd # [Jails] - Start SSH jail
+
+    # Activate SSH brute-force protection
+sudo fail2ban-client stop sshd # [Jails] - Stop SSH jail
+
+    # Deactivate SSH protection
+sudo fail2ban-client restart sshd # [Jails] - Restart jail
+
+    # Reload SSH jail configuration
+sudo fail2ban-client status # [Jails] - List active jails
+
+    # Show all running protection jails
+sudo fail2ban-client set sshd unbanall # [Jails] - Clear all bans
+
+    # Unban all IPs in jail
+tail -f /var/log/fail2ban.log # [Logs] - Monitor fail2ban log
+
+    # Watch real-time ban/unban events
+grep "Ban\|Unban" /var/log/fail2ban.log # [Logs] - View ban events
+
+    # Show all ban/unban entries
+sudo fail2ban-client get sshd banned # [Logs] - List banned IPs
+
+    # Show currently banned addresses
+sudo fail2ban-client set sshd reset # [Logs] - Reset statistics
+
+    # Clear jail statistics
+
+
+
+sudo cat /etc/fail2ban/jail.local # [Config] - Local configuration
+
+    # Edit main fail2ban settings
+sudo cat /etc/fail2ban/jail.conf # [Config] - Default configuration
+
+    # View default jail definitions (read-only)
+sudo vim /etc/fail2ban/jail.d/sshd.local # [Config] - SSH jail config
+
+    # Customize SSH protection
+sudo fail2ban-client reload # [Config] - Load configuration
+
+    # Apply changes from config files
+sudo fail2ban-client -d # [Config] - Debug mode
+
+    # Show configuration parsing details
+sudo fail2ban-client ping # [Testing] - Test connectivity
+
+    # Check if daemon is responsive
+sudo fail2ban-client version # [Testing] - Show version
+
+    # Display fail2ban version
+
+
+
+sudo fail2ban-client set httpd banip 203.0.113.1 # [Web] - Ban web scanner
+
+    # Block IP attacking web server
+sudo fail2ban-client status httpd # [Web] - HTTP jail status
+
+    # Show Apache/Nginx protection stats
+sudo fail2ban-client set recidive banip 10.0.0.5 # [Recidivism] - Recidive jail
+
+    # Ban repeat offenders permanently
+sudo fail2ban-client set sshd actionban /path/to/script.sh # [Actions] - Custom ban action
+
+    # Execute custom script on ban
+iptables -L -n | grep -i fail2ban # [IPTables] - Fail2ban rules
+
+    # View firewall rules created by fail2ban
+sudo fail2ban-client -x start sshd # [Advanced] - Start with socket
+
+    # Explicit socket connection
+sudo fail2ban-client backend auto # [Advanced] - Auto backend detection
+
+    # Automatically select backend (systemd/file/socket)
