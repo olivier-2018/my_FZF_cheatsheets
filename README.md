@@ -73,7 +73,7 @@ added to your command line.
 
 ## Available Cheatsheets
 
-The cheatsheets directory includes **5000+ commands** across **35 CLI tools** organized for quick reference:
+The cheatsheets directory includes **6000+ commands** across **51 CLI tools** organized for quick reference:
 
 ### Cloud & Infrastructure (900+ commands)
 - **aws** — Amazon Web Services; 50+ services (S3, EC2, Lambda, RDS, IAM, CloudWatch, etc.)
@@ -115,6 +115,24 @@ The cheatsheets directory includes **5000+ commands** across **35 CLI tools** or
 - **arping** — ARP ping for MAC discovery
 - **bmon** — Bandwidth monitor
 - **who/whoami/w** — User login and activity monitoring
+
+### Linux System & Administration (1400+ commands)
+- **ps** — Process snapshot and listing
+- **top** — Interactive process monitor
+- **kill** — Send signals to terminate processes
+- **sudo** — Execute with superuser privileges
+- **free** — Display memory usage and statistics
+- **systemctl** — Systemd service and unit manager
+- **passwd** — Change user passwords
+- **usermod** — Modify user account properties
+- **crontab** — Schedule recurring tasks
+- **shutdown** — Halt, power-off, or reboot system
+- **nice** — Adjust process priority
+- **time** — Measure command execution time
+- **screen** — Terminal multiplexer/session manager
+- **history** — Shell command history navigation
+- **lsof** — List open files and network connections
+- **vmstat** — Virtual memory and performance statistics
 
 Each cheatsheet provides practical examples with grouped categories and descriptions optimized for the fzf preview pane.
 

@@ -1,0 +1,89 @@
+# history - bash command history
+
+history # [Display] - Show command history
+
+    # List all commands from shell history
+history 10 # [Limit] - Last 10 commands
+
+    # Show only recent 10 commands
+history -c # [Clear] - Clear history from memory
+
+    # Delete current session history (not file)
+history -w # [Write] - Save history to file
+
+    # Write history to ~/.bash_history
+history -r # [Read] - Read history from file
+
+    # Load history from ~/.bash_history
+history -a # [Append] - Append new history
+
+    # Add session commands to history file
+history -n # [Notify] - Read unread history
+
+    # Load new entries since session start
+history -d 1234 # [Delete Entry] - Delete line number
+
+    # Remove specific command from history
+history -s command # [Add] - Add command to history
+
+    # Manually add entry to history
+
+
+
+!!  # [Last Command] - Last command
+
+    # Re-execute previous command
+!$ # [Last Argument] - Last argument
+
+    # Use final argument from previous command
+!* # [All Arguments] - All arguments
+
+    # Use all arguments from previous command
+!command # [Search] - Last command starting with word
+
+    # Re-execute most recent matching command
+!?text # [Substring] - Last command containing text
+
+    # Find and re-execute based on substring
+^old^new^ # [Substitute] - Replace in last command
+
+    # Modify and re-execute previous command
+!-2 # [N Back] - Command N lines back
+
+    # Execute command from 2 lines ago
+!100 # [Line Number] - Execute line 100
+
+    # Re-run command from history line 100
+
+
+
+history | grep command # [Search] - Find in history
+
+    # Search history for specific command
+history | tail -20 # [Recent] - Recent commands
+
+    # Show last 20 commands
+grep command ~/.bash_history # [File Search] - Search history file
+
+    # Search command history file directly
+cat ~/.bash_history # [Show File] - Display history file
+
+    # View full history file contents
+history -p '!!' # [Print] - Print without executing
+
+    # Show what would execute without running it
+fc -l -10 # [Last 10] - List recent commands
+
+    # Alternative history display (last 10)
+fc -e - command # [Edit] - Edit and execute
+
+    # Open previous command in editor
+HISTSIZE=1000 # [Size] - Set history size
+
+    # Limit history to 1000 commands
+HISTFILE=~/.history # [File Location] - Change history file
+
+    # Store history in custom location
+history -p '!$' # [Expand] - Show expansion
+
+    # Display what $ expands to

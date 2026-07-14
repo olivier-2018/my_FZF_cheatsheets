@@ -1,0 +1,95 @@
+# shutdown - halt, power-off, or reboot system
+
+shutdown -h now # [Halt Now] - Immediate shutdown
+
+    # Stop system and halt immediately
+shutdown -h +10 # [Halt Delay] - Shutdown in 10 minutes
+
+    # Halt system after 10-minute countdown
+shutdown -h 14:30 # [Halt Time] - Shutdown at specific time
+
+    # Halt at 2:30 PM today
+shutdown -r now # [Reboot Now] - Immediate reboot
+
+    # Restart system immediately
+shutdown -r +5 # [Reboot Delay] - Reboot in 5 minutes
+
+    # Restart system after 5-minute countdown
+shutdown -r 22:00 # [Reboot Time] - Reboot at specific time
+
+    # Restart system at 10 PM
+shutdown -P now # [Power Off] - Power off immediately
+
+    # Turn off system power (halt and power down)
+shutdown -c # [Cancel] - Cancel pending shutdown
+
+    # Abort scheduled shutdown/reboot
+
+
+
+shutdown -k now # [Warn Only] - Send warning only
+
+    # Send shutdown warning without actually shutting down
+shutdown -f now # [Force Reboot] - Skip fsck on reboot
+
+    # Reboot without filesystem checks
+shutdown -F now # [Force fsck] - Run fsck after reboot
+
+    # Force filesystem check after reboot
+shutdown -H now # [Halt without Power] - Halt but don't power off
+
+    # Stop system but leave power on
+shutdown --dry-run -r +10 # [Test] - Simulate shutdown
+
+    # Show what would happen without actually doing it
+shutdown -w # [Write Only] - Write to wtmp only
+
+    # Log shutdown to wtmp without executing
+
+
+
+reboot # [Reboot] - Immediate system restart
+
+    # Restart the system
+reboot -f # [Force Reboot] - Force reboot immediately
+
+    # Reboot without proper shutdown sequence
+reboot -w # [Write Only] - Log reboot (don't execute)
+
+    # Record reboot to wtmp without actually rebooting
+halt # [Halt] - Halt system
+
+    # Stop system (leave powered on)
+halt -f # [Force Halt] - Force halt immediately
+
+    # Immediate halt without graceful shutdown
+poweroff # [Power Off] - Power off system
+
+    # Stop system and turn off power
+poweroff -f # [Force Power Off] - Force power off
+
+    # Immediate power off without sequence
+
+
+
+sudo shutdown -h 23:59 "Maintenance window at midnight" # [Message] - Shutdown with message
+
+    # Notify users via message (appears on login)
+sudo shutdown -r +30 "System restart required" # [Reboot Message] - Reboot with notification
+
+    # Schedule reboot with user notification
+sudo shutdown -c # [Cancel Shutdown] - Cancel scheduled
+
+    # Abort any pending shutdown
+shutdown -h 0 # [Immediate] - Alternative immediate halt
+
+    # Another way to immediately halt system
+systemctl poweroff # [Systemctl] - Power off via systemd
+
+    # Modern poweroff using systemctl
+systemctl reboot # [Systemctl Reboot] - Reboot via systemd
+
+    # Reboot using systemctl
+systemctl halt # [Systemctl Halt] - Halt via systemd
+
+    # Halt using systemctl

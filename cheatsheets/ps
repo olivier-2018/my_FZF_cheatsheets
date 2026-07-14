@@ -1,0 +1,134 @@
+# ps - report a snapshot of current processes
+
+ps # [Basic] - Show current shell processes
+
+    # Display processes in current session
+ps aux # [All Processes] - All processes with details
+
+    # Show all running processes (user, PID, CPU%, memory%, etc.)
+ps auxf # [Tree View] - Process tree hierarchy
+
+    # Display processes in tree format (parent-child relationships)
+ps -e # [All Processes] - All processes running
+
+    # Show every process on system
+ps -u username # [User Processes] - Processes for specific user
+
+    # List all processes owned by user
+ps -p 1234 # [Single Process] - Process by PID
+
+    # Show information for specific process ID
+ps -C process_name # [By Name] - Process by command name
+
+    # Show processes matching command name
+ps -G groupname # [By Group] - Processes by group
+
+    # Show processes owned by specific group
+
+
+
+ps --sort=%cpu # [Sorting] - Sort by CPU usage
+
+    # Order processes by CPU consumption (descending)
+ps aux --sort=-%cpu # [Sorting] - Highest CPU first
+
+    # Show most CPU-intensive processes first
+ps aux --sort=%mem # [Sorting] - Sort by memory usage
+
+    # Order by memory consumption
+ps aux --sort=-rss # [Sorting] - Highest memory first
+
+    # Most memory-hungry processes at top
+ps aux --sort=pid # [Sorting] - Sort by process ID
+
+    # Ascending order by PID
+ps -eo pid,user,cmd # [Columns] - Custom columns
+
+    # Show PID, user, and command only
+
+
+
+ps -eo pid,user,cmd,%mem,%cpu # [Columns] - Multiple metrics
+
+    # Display selected fields with percentages
+ps -eo user,pid,cmd --sort=user # [Columns] - Custom output and sort
+
+    # Show user, PID, command sorted by user
+ps ww # [Full Output] - Unlimited line width
+
+    # Show full command line (no truncation)
+ps aux | grep python # [Search] - Find specific process
+
+    # Filter processes by pattern
+ps -eo comm,pid | grep bash # [Search] - Find by command name
+
+    # Locate bash processes
+ps aux | grep -v grep | grep python # [Search] - Exclude grep from results
+
+    # Refined search excluding grep itself
+
+
+
+ps -L # [Threads] - Show threads
+
+    # Display light-weight processes (threads)
+ps -eLf # [Threads] - Threads with details
+
+    # Full listing including threads
+ps -T # [Thread IDs] - Show thread IDs
+
+    # Display LWP (light-weight process) IDs
+ps -o pid,tid,cmd -L # [Threads] - Custom thread columns
+
+    # Show PID, thread ID, and command
+ps -p 1234 -L # [Thread Count] - Threads for process
+
+    # Show all threads of specific process
+ps -eo cmd,pid,ppid # [Parent-Child] - Show parent PID
+
+    # Display parent process relationship
+
+
+
+ps -ef | head -20 # [Limit Output] - First 20 processes
+
+    # Show initial processes
+ps aux | tail -10 # [Limit Output] - Last 10 processes
+
+    # Show final processes
+ps aux | wc -l # [Count] - Total process count
+
+    # How many processes running
+ps -eo user --no-headers | sort | uniq -c # [Count] - Processes per user
+
+    # Count processes owned by each user
+ps -u root # [Root Processes] - Only root processes
+
+    # Show processes running as root
+ps -eo pid,comm,etime # [Elapsed Time] - Running time
+
+    # Show process elapsed time
+ps -eo pid,comm,lstart # [Start Time] - Process start time
+
+    # Display when each process started
+
+
+
+ps -o stat= -p 1234 # [State] - Process state
+
+    # Show process state (R=running, S=sleeping, etc.)
+ps --state R # [State] - Running processes
+
+    # Show only processes in running state
+ps --state S # [State] - Sleeping processes
+
+    # Show only sleeping processes
+ps -eo pid,stat,cmd # [State Display] - With state column
+
+    # Include state in output
+ps -eo nice,pid,cmd # [Priority] - Show priority
+
+    # Display nice value (process priority)
+ps -eo pid,rtprio,cmd # [Real-time Priority] - Real-time processes
+
+    # Show real-time priority for RT processes

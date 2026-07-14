@@ -1,0 +1,74 @@
+# usermod - modify user account properties
+
+usermod -l newname oldname # [Rename] - Rename user account
+
+    # Change username (must not be logged in)
+usermod -d /new/home username # [Home Dir] - Change home directory
+
+    # Update home directory path
+usermod -m -d /new/home username # [Move Home] - Move home contents
+
+    # Relocate home directory and copy files
+usermod -s /bin/bash username # [Shell] - Change login shell
+
+    # Set default shell for user
+usermod -s /sbin/nologin username # [Disable Login] - Disable login
+
+    # Prevent user from logging in
+usermod -u 1234 username # [UID] - Change user ID
+
+    # Modify numeric user ID
+usermod -g group username # [Primary Group] - Change primary group
+
+    # Set new primary group
+usermod -G group1,group2 username # [Groups] - Set supplementary groups
+
+    # Add to multiple groups (overwrites existing)
+usermod -aG group username # [Append Groups] - Add to groups
+
+    # Add to groups without removing others
+
+
+
+usermod -c "Full Name" username # [Comment] - Change GECOS comment
+
+    # Update real name field in passwd
+usermod -L username # [Lock] - Lock user account
+
+    # Disable password login
+usermod -U username # [Unlock] - Unlock user account
+
+    # Re-enable previously locked account
+usermod -p hashedpassword username # [Password Hash] - Set password hash
+
+    # Set password from hash (rarely recommended)
+usermod -e 2025-12-31 username # [Expiry] - Set account expiry
+
+    # Disable account on specific date
+usermod -f 7 username # [Inactive Days] - Days after expiry
+
+    # Disable if password not changed for N days
+usermod -s $(which nologin) username # [Nologin] - Set nologin shell
+
+    # Prevent interactive login
+
+
+
+useradd -m username # [Create User] - Create new user with home
+
+    # Add new user account with home directory
+useradd -m -s /bin/bash username # [Create with Shell] - Create user with shell
+
+    # New user with specified shell
+userdel username # [Delete] - Remove user account
+
+    # Delete user (keep home directory)
+userdel -r username # [Delete Home] - Remove user and home
+
+    # Delete user account and all files
+id username # [Show Info] - Display user information
+
+    # Show UID, GID, groups
+getent passwd username # [Get Entry] - Show passwd entry
+
+    # Display user entry from passwd database

@@ -1,0 +1,101 @@
+# kill - send signals to processes
+
+kill 1234 # [Terminate] - Terminate process gracefully
+
+    # Send SIGTERM (signal 15) to process ID 1234
+kill -9 1234 # [Force Kill] - Force kill process
+
+    # Send SIGKILL (signal 9) - immediate termination, cannot be caught
+kill -15 1234 # [SIGTERM] - Termination signal (default)
+
+    # Graceful shutdown request (process can clean up)
+kill -1 1234 # [Hangup] - Reload configuration
+
+    # Send SIGHUP (signal 1) - often reloads config
+kill -2 1234 # [Interrupt] - Keyboard interrupt
+
+    # SIGINT - same as Ctrl-C
+kill -3 1234 # [Quit] - Quit signal
+
+    # SIGQUIT - core dump signal
+kill -19 1234 # [Stop] - Suspend process
+
+    # SIGSTOP - pause process (cannot be caught)
+kill -18 1234 # [Continue] - Resume process
+
+    # SIGCONT - restart paused process
+
+
+
+kill -SIGTERM 1234 # [Named Signal] - By signal name
+
+    # Alternative to numeric signal
+kill -s KILL 1234 # [Signal Option] - Explicit signal option
+
+    # Equivalent to kill -9
+kill -l # [List Signals] - Show all signals
+
+    # Display available signals and numbers
+kill -l TERM # [Signal Number] - Get number for signal
+
+    # Convert signal name to number
+kill %1 # [Job] - Terminate job (shell job control)
+
+    # Kill job number 1 (from jobs command)
+kill %2 # [Job Number] - Terminate by job ID
+
+    # Kill job 2
+
+
+
+pkill process_name # [By Name] - Kill by process name
+
+    # Terminate all processes matching name
+pkill -u username # [User Processes] - Kill user's processes
+
+    # Terminate all processes owned by user
+pkill -f "python script.py" # [By Pattern] - Kill by pattern
+
+    # Terminate processes matching command pattern
+pgrep process_name # [Find Processes] - Find by name
+
+    # List PIDs matching name
+pgrep -u username # [User PIDs] - Find user's processes
+
+    # Show process IDs for user
+
+
+
+killall process_name # [Kill All] - Terminate all by name
+
+    # Kill all processes with matching name
+killall -9 process_name # [Force Kill All] - Force terminate all
+
+    # SIGKILL all matching processes
+killall -u username # [User Killall] - Kill user's processes
+
+    # Terminate all processes owned by user
+killall -i process_name # [Confirm] - Confirm before killing
+
+    # Ask for confirmation per process
+killall -s TERM process_name # [Named Signal] - With signal name
+
+    # Send specific signal to all matching
+
+
+
+kill -0 1234 # [Test] - Check if process exists
+
+    # Test without sending signal (exit 0 if exists)
+kill -l 15 # [Signal Name] - Number to name
+
+    # Show signal name for number
+ps aux | grep python | grep -v grep | awk '{print $2}' | xargs kill -9 # [Batch] - Kill filtered processes
+
+    # Complex pattern matching and killing
+for pid in $(pgrep firefox); do kill $pid; done # [Loop] - Kill multiple with loop
+
+    # Programmatic termination of matching processes
+kill 1234 2>/dev/null || echo "Process not found" # [Safe] - Safe termination
+
+    # Error handling in scripts

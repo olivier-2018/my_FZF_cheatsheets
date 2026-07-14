@@ -1,0 +1,103 @@
+# crontab - schedule recurring tasks
+
+crontab -e # [Edit] - Edit user's crontab
+
+    # Interactive editor for creating/modifying scheduled tasks
+crontab -l # [List] - List user's crontab
+
+    # Display scheduled jobs for current user
+crontab -r # [Remove] - Delete user's crontab
+
+    # Completely remove all scheduled tasks
+crontab -i # [Interactive] - Confirm before removing
+
+    # Ask for confirmation before deleting crontab
+sudo crontab -e -u username # [User Edit] - Edit user's crontab
+
+    # Modify another user's scheduled tasks (root)
+sudo crontab -l -u username # [User List] - List user's crontab
+
+    # Show another user's scheduled jobs
+sudo crontab -r -u username # [User Remove] - Remove user's crontab
+
+    # Delete another user's tasks
+
+
+
+# Crontab format: MIN HOUR DAY MONTH WEEKDAY COMMAND
+
+0 * * * * command # [Hourly] - Run at start of every hour
+
+    # Execute at 00 minutes past every hour
+0 0 * * * command # [Daily] - Run daily at midnight
+
+    # Execute once per day (00:00)
+0 0 * * 0 command # [Weekly] - Run Sundays at midnight
+
+    # Execute every Sunday at 00:00
+0 0 1 * * command # [Monthly] - Run first day at midnight
+
+    # Execute once per month
+0 0 1 1 * command # [Yearly] - Run January 1st at midnight
+
+    # Execute once per year
+*/5 * * * * command # [Every 5 Minutes] - Every 5 minutes
+
+    # Execute every 5 minutes
+0 9-17 * * 1-5 command # [Business Hours] - Weekdays 9am-5pm
+
+    # Run during work hours (Monday-Friday, 9-17)
+30 2 * * * command # [Specific Time] - 2:30 AM daily
+
+    # Execute at precise time each day
+
+
+
+crontab -e # [Edit Default] - Using default editor
+
+    # Opens in vim or configured EDITOR
+EDITOR=nano crontab -e # [Nano Editor] - Edit with nano
+
+    # Use specific editor
+crontab -l | grep command # [Find Job] - Find specific job
+
+    # Search crontab for particular command
+sudo crontab -l -u root # [Root Jobs] - Show root's crontab
+
+    # Display system-wide scheduled tasks
+cat /etc/crontab # [System Crontab] - System-wide crontab
+
+    # View system crontab file
+ls /etc/cron.d/ # [Cron.d] - Show additional cron files
+
+    # System cron jobs directory
+cat /var/log/syslog | grep CRON # [Logs] - View cron execution logs
+
+    # Check system log for cron activity
+sudo tail -f /var/log/syslog | grep CRON # [Live Logs] - Monitor cron
+
+    # Watch cron execution in real-time
+
+
+
+@hourly command # [Shortcut] - Every hour
+
+    # Simplified syntax: @hourly, @daily, @weekly, etc.
+@daily command # [Shortcut Daily] - Every day
+
+    # Equivalent to 0 0 * * *
+@weekly command # [Shortcut Weekly] - Every week
+
+    # Equivalent to 0 0 * * 0
+@monthly command # [Shortcut Monthly] - Every month
+
+    # Equivalent to 0 0 1 * *
+@yearly command # [Shortcut Yearly] - Every year
+
+    # Equivalent to 0 0 1 1 *
+@reboot command # [On Boot] - Run at system startup
+
+    # Execute once when system boots
+# Comments start with # # [Comments] - Document jobs
+
+    # Use comments to explain cron entries

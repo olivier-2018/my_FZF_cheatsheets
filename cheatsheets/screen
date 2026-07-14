@@ -1,0 +1,61 @@
+# screen - terminal multiplexer for managing multiple sessions
+
+screen # [Start] - Create new session
+
+    # Start new screen session (detached mode)
+screen -S name # [Named Session] - Session with name
+
+    # Create session with meaningful name
+screen -d # [Detached] - Start detached (no terminal)
+
+    # Start but don't attach immediately
+screen -ls # [List] - List all sessions
+
+    # Show all screen sessions with IDs and names
+screen -r # [Reattach] - Reattach to session
+
+    # Resume most recent detached session
+screen -r name # [Name Reattach] - Reattach by name
+
+    # Resume specific named session
+screen -d -m command # [Run Command] - Run command in background
+
+    # Execute command in detached session
+screen -x name # [Attach] - Attach to session
+
+    # Join existing session (multiple users)
+
+
+
+# Inside screen (press Ctrl-A prefix):
+# C-a c       - Create new window
+# C-a "       - List windows
+# C-a n       - Next window
+# C-a p       - Previous window
+# C-a 0-9     - Select window by number
+# C-a d       - Detach from session
+# C-a k       - Kill window
+# C-a :       - Command prompt
+# C-a ?       - Show key bindings
+
+screen -S work -d -m bash # [Session Bash] - Detached bash session
+
+    # Create named session running bash
+screen -S download -d -m wget http://example.com/file.zip # [Download] - Background download
+
+    # Long-running task in detached screen
+screen -r work -X stuff "command\n" # [Send Command] - Execute in session
+
+    # Send command to running session
+screen -r work -X quit # [Kill Session] - Terminate session
+
+    # End specific screen session
+screen -list # [Long List] - Verbose listing
+
+    # Detailed session information
+screen -X -S name quit # [Session Quit] - Kill named session
+
+    # Terminate by name
+screen -wipe # [Cleanup] - Remove dead sessions
+
+    # Clean up sessions marked dead

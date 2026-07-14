@@ -1,0 +1,68 @@
+# time - measure command execution time
+
+time command # [Basic] - Measure execution time
+
+    # Show wall-clock, user CPU, and system CPU time
+/usr/bin/time command # [Absolute Path] - Use system time
+
+    # Ensure using system time (not shell builtin)
+/usr/bin/time -v command # [Verbose] - Detailed timing info
+
+    # Extended statistics (memory, page faults, context switches)
+/usr/bin/time -p command # [POSIX Format] - Portable output
+
+    # POSIX-compliant time format
+time command > output.txt 2>&1 # [Redirect] - Capture output
+
+    # Measure time and save output
+{ time command; } 2>&1 | tee result.txt # [Tee] - See and save timing
+
+    # Display and save time measurement
+time -f "%e seconds" command # [Format] - Custom format
+
+    # Show elapsed time only
+/usr/bin/time -f "Time: %e sec, Memory: %M KB" command # [Custom Output] - Formatted output
+
+    # Display specific metrics with labels
+
+
+
+time for i in {1..10}; do command; done # [Loop] - Time multiple runs
+
+    # Measure total time for repeated execution
+time command1 & time command2 # [Parallel] - Time concurrent commands
+
+    # Measure both commands running together
+time (command1; command2) # [Sequential] - Time command sequence
+
+    # Measure two commands combined
+time find / -name file # [Long Operation] - Time expensive operation
+
+    # Measure search or long-running task
+time sleep 5 # [Test] - Test timing
+
+    # Verify time measurement works
+time true # [Minimal] - Measure minimal time
+
+    # Nearly zero time operation (for overhead)
+
+
+
+times # [Shell] - Show shell timing
+
+    # Display shell process and child times
+times command # [Shell Command] - Times for command
+
+    # Shell builtin timing
+date # [Date Utility] - Current time
+
+    # Show current date and time
+date +%s # [Epoch] - Current Unix timestamp
+
+    # Seconds since Jan 1, 1970
+date +%T # [Time Only] - Current time (HH:MM:SS)
+
+    # Display time portion only
+time bash -c 'for i in {1..1000}; do :; done' # [Benchmark] - Microbenchmark
+
+    # Test performance of repeated operations

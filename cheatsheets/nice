@@ -1,0 +1,53 @@
+# nice - run command with adjusted scheduling priority
+
+nice -n 10 command # [Priority] - Lower priority (higher number)
+
+    # Run command with lower priority (nice level +10)
+nice -n -10 command # [Higher Priority] - Higher priority (lower number)
+
+    # Run with higher priority (nice level -10, requires root)
+nice command # [Default] - Default nice (adds +10)
+
+    # Run with default reduced priority
+renice 5 -p 1234 # [Adjust PID] - Change priority by PID
+
+    # Increase nice value to 5 for process 1234
+renice -n 10 -u username # [Adjust User] - Change user's processes
+
+    # Adjust nice value for all user's processes
+renice -n -5 -g groupname # [Adjust Group] - Change group processes
+
+    # Adjust nice value for group's processes
+ps -o pid,nice,cmd | head # [Show Priority] - Show nice values
+
+    # Display current nice values for processes
+top -p 1234 # [Monitor] - Monitor priority in top
+
+    # Show priority (NI column) in top
+nice -n 19 command # [Lowest Priority] - Minimum priority
+
+    # Run with lowest possible priority (nice 19)
+nice -n -20 command # [Highest Priority] - Maximum priority (root)
+
+    # Run with highest priority (requires root, nice -20)
+
+
+
+nice -n 10 long_running_task.sh # [Background Task] - Lower priority task
+
+    # Run long process with reduced priority
+nice -n 5 make # [Build] - Lower priority compilation
+
+    # Compile with reduced priority
+renice 10 $$ # [Current Shell] - Change current shell priority
+
+    # Increase nice value of current shell
+renice -n 0 -p 1234 # [Reset] - Reset to normal priority
+
+    # Change nice value back to 0
+nice -n 10 tar czf backup.tar.gz /large/directory # [Backup] - Low priority backup
+
+    # Backup with minimal system impact
+nice -n 15 find / -name "*.tmp" -delete # [Cleanup] - Low priority cleanup
+
+    # Housekeeping with reduced priority

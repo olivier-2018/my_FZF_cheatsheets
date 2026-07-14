@@ -1,0 +1,113 @@
+# sudo - execute command with superuser privileges
+
+sudo command # [Basic] - Run command as root
+
+    # Execute single command with elevated privileges
+sudo -i # [Login Shell] - Interactive root shell
+
+    # Start interactive root session (login shell)
+sudo -s # [Shell] - Shell as root
+
+    # Interactive root shell (non-login)
+sudo su # [Switch User] - Become root
+
+    # Switch to root user (alternate method)
+sudo su - # [Root Login] - Login as root
+
+    # Root login shell (load environment)
+sudo -u username command # [User Switch] - Run as specific user
+
+    # Execute command as different user
+sudo -u www-data ls /home # [Web User] - Run as www-data
+
+    # Execute with web server user privileges
+
+
+
+sudo visudo # [Config] - Edit sudoers safely
+
+    # Edit sudo configuration with syntax checking
+sudo cat /etc/sudoers # [View] - Show sudo configuration
+
+    # Display current sudo rules (read-only, use visudo to edit)
+sudo -l # [List] - Show allowed commands
+
+    # Display what commands current user can run with sudo
+sudo -lU username # [User Permissions] - Check user's permissions
+
+    # Show what specific user can run with sudo
+sudo -v # [Validate] - Extend sudo timeout
+
+    # Refresh sudo credentials (extends timeout)
+sudo -k # [Clear] - Clear sudo credentials
+
+    # Invalidate cached credentials (re-prompt for password)
+
+
+
+sudo -H command # [Home] - Set HOME variable
+
+    # Run with target user's home directory
+sudo -E command # [Environment] - Preserve environment
+
+    # Keep current environment variables
+sudo -i command # [Login] - Login shell for command
+
+    # Execute in login shell context
+sudo -n command # [Non-interactive] - No password prompt
+
+    # Run without password (for scripts, must be configured)
+sudo -e file # [Edit] - Edit file as root
+
+    # Safely edit file with elevated privileges
+sudo tee file # [Write] - Write to protected file
+
+    # Redirect output to protected file
+sudo -s << 'EOF' # [Heredoc] - Multi-line commands
+
+    # Execute multiple commands in root shell
+sudo bash -c 'command1; command2' # [Multiple] - Multiple commands
+
+    # Run sequential commands with single sudo
+
+
+
+sudo passwd # [Change Password] - Change own password
+
+    # Update your password
+sudo passwd username # [User Password] - Change user password
+
+    # Reset another user's password
+sudo !! # [Repeat] - Repeat last command with sudo
+
+    # Quickly re-run failed command with privileges
+sudo -u user -i pwd # [Verify User] - Verify privilege level
+
+    # Check effective user ID
+sudo whoami # [Who Am I] - Show effective user
+
+    # Display current effective user (root)
+id # [Without sudo] - Show current user
+
+    # Display actual user (not sudo'd)
+sudo id # [With sudo] - Show sudo'd user
+
+    # Show root UID/GID
+
+
+
+visudo # [Alt Config] - Alternative sudoers editor
+
+    # Edit with sudo checks (if sudo not needed for own user)
+sudo systemctl restart service # [System Command] - Restart service
+
+    # Common administrative task with sudo
+sudo apt-get install package # [Package Manager] - Install package
+
+    # Install software with privileges
+sudo reboot # [System Control] - Reboot system
+
+    # Restart system with sudo
+sudo shutdown -h now # [Shutdown] - Immediate shutdown
+
+    # Halt system immediately

@@ -1,0 +1,89 @@
+# free - display memory usage
+
+free # [Basic] - Show memory usage
+
+    # Display RAM and swap statistics in KB
+free -h # [Human Readable] - Memory in human format
+
+    # Show sizes in B, KB, MB, GB (easier to read)
+free -b # [Bytes] - Memory in bytes
+
+    # Display all values in bytes
+free -k # [Kilobytes] - Memory in KB
+
+    # Display in kilobytes (default)
+free -m # [Megabytes] - Memory in MB
+
+    # Show memory in megabytes
+free -g # [Gigabytes] - Memory in GB
+
+    # Show memory in gigabytes
+free -w # [Wide Format] - Detailed memory breakdown
+
+    # Show additional columns (buffer/cache separate)
+
+
+
+free -l # [Low High] - Show low and high memory
+
+    # Display low/high memory separately (rarely used)
+free -t # [Total] - Include total line
+
+    # Add summary row with all totals
+free -s 1 # [Repeat] - Update every 1 second
+
+    # Continuous monitoring (refresh each second)
+free -s 2 -c 10 # [Repeat Count] - 10 updates, 2s interval
+
+    # Show 10 snapshots with 2-second delays
+free -c 5 # [Count] - 5 iterations
+
+    # Repeat 5 times (use with -s for timing)
+free -h -s 2 # [Formatted Repeat] - Human format, 2s updates
+
+    # Continuous monitoring in readable format
+
+
+
+free | grep Mem # [Parse] - Extract memory row
+
+    # Show just RAM line
+free | tail -2 # [Swap] - Show swap line
+
+    # Display swap memory statistics
+free | head -2 # [RAM Only] - First two lines
+
+    # Show headers and RAM only
+free -h | awk '{print $1, $2, $3}' # [Columns] - Custom columns
+
+    # Show Name, Total, Used
+free -t -h # [Summary] - Totals row
+
+    # Include total summary line
+df -h # [Disk Space] - Disk usage (not RAM)
+
+    # Use df for disk storage instead
+vmstat 1 5 # [VM Stats] - Memory and virtual memory
+
+    # Alternative: show virtual memory statistics
+
+
+
+free -h # [Most Used] - Most common usage
+
+    # Simple human-readable memory report
+watch free -h # [Monitor] - Continuous watch
+
+    # Monitor memory every 2 seconds
+watch -n 1 free -h # [Fast Monitor] - One-second updates
+
+    # Rapid memory monitoring
+free -m > memory.log # [Log] - Save to file
+
+    # Capture memory snapshot
+free -h -s 1 -c 60 > memory.log # [Continuous Log] - 60 snapshots
+
+    # Log 60 measurements at 1s interval
+cat /proc/meminfo # [Detailed] - Detailed memory info
+
+    # Raw kernel memory statistics

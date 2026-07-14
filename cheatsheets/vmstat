@@ -1,0 +1,70 @@
+# vmstat - report virtual memory statistics
+
+vmstat # [Basic] - Show virtual memory stats
+
+    # Display memory, swap, I/O, system, and CPU usage
+vmstat 1 # [Refresh] - Update every 1 second
+
+    # Continuous monitoring with 1-second interval
+vmstat 2 5 # [Multiple] - 5 updates every 2 seconds
+
+    # Display 5 snapshots, 2 seconds apart
+vmstat -a # [Active] - Show active/inactive memory
+
+    # Separate active and inactive memory columns
+vmstat -f # [Forks] - Show fork statistics
+
+    # Display number of processes forked
+vmstat -m # [Memory] - Show memory statistics
+
+    # Display memory slab information
+vmstat -d # [Disk] - Show disk statistics
+
+    # Display disk I/O per device
+vmstat -D # [Disk Summary] - Overall disk stats
+
+    # Summary of disk activity
+vmstat -p /dev/sda1 # [Partition] - Partition stats
+
+    # I/O statistics for specific partition
+vmstat -s # [Summary] - Memory summary
+
+    # Display various memory statistics
+vmstat -S m # [Megabytes] - Memory in MB
+
+    # Show memory values in megabytes
+vmstat -S M # [Megabytes Alt] - Alternative MB format
+
+    # Memory display in megabytes
+vmstat -t # [Timestamp] - Include timestamp
+
+    # Add timestamp to each output line
+
+
+
+# Columns explained:
+# procs: r (running), b (blocked)
+# memory: swpd, free, buff, cache
+# swap: si (swap in), so (swap out)
+# io: bi (disk in), bo (disk out)
+# system: in (interrupts), cs (context switches)
+# cpu: us (user %), sy (system %), id (idle %), wa (wait %)
+
+vmstat 1 | tail -20 # [Tail] - Last 20 measurements
+
+    # Skip initial average line, show only updates
+vmstat -n 1 5 # [No Headers] - No repeated headers
+
+    # Show header once for 5 samples
+vmstat 5 | grep -E "us|id" # [CPU Focus] - CPU usage
+
+    # Monitor CPU metrics
+vmstat -d sda # [Device Specific] - Single disk
+
+    # I/O statistics for one device
+watch vmstat 1 # [Watch] - Wrapped monitoring
+
+    # Monitor in watch command for better display
+vmstat 1 > vm.log & # [Background Log] - Log to file
+
+    # Continuous logging in background

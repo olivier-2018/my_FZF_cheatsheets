@@ -1,0 +1,105 @@
+# top - display Linux processes
+
+top # [Start] - Launch interactive process monitor
+
+    # Real-time view of system processes and resource usage
+top -b # [Batch Mode] - Non-interactive output
+
+    # Output snapshot to stdout (for logging/scripting)
+top -b -n 1 # [Single Update] - One iteration then exit
+
+    # Take single snapshot and quit
+top -u username # [User Processes] - Monitor specific user
+
+    # Show processes owned by user only
+top -p 1234 # [Single Process] - Monitor specific PID
+
+    # Watch single process continuously
+top -p 1234,5678 # [Multiple PIDs] - Monitor multiple processes
+
+    # Watch specific process IDs
+top -d 2 # [Refresh Rate] - 2-second updates
+
+    # Change delay between screen updates
+top -s 10 # [Batch Refresh] - 10-second delay
+
+    # Longer interval for batch mode
+
+
+
+top -H # [Threads] - Show threads
+
+    # Display individual threads instead of processes
+top -n 5 # [Iterations] - Run for 5 updates (batch)
+
+    # Exit after N iterations (batch mode)
+top -o %CPU # [Sort] - Sort by CPU usage
+
+    # Primary sort by CPU percentage
+top -o %MEM # [Sort] - Sort by memory usage
+
+    # Primary sort by memory percentage
+top -o TIME+ # [Sort] - Sort by CPU time
+
+    # Sort by total CPU time consumed
+top -o PID # [Sort] - Sort by process ID
+
+    # Ascending order by PID
+top -e # [Display] - Show memory in alternate units
+
+    # Toggle between KB, MB, GB display
+top -E # [Display] - Change numeric display
+
+    # Select different number display format
+top -1 # [Single CPU] - Show single CPU line
+
+    # Display CPU summary instead of per-core
+top -i # [Idle Processes] - Hide idle processes
+
+    # Don't display idle or zombie processes
+top -S # [Cumulative CPU] - Cumulative time
+
+    # Show CPU time including dead children processes
+
+
+
+top -c # [Command Display] - Full command line
+
+    # Show complete command paths (not just names)
+top -C # [Case Sensitive] - Case-sensitive filtering
+
+    # Matching is case-sensitive (with -p or -u)
+top -w 120 # [Display Width] - 120-character width
+
+    # Format output for specific terminal width
+top -b -n 1 | head -20 # [Batch Output] - First 20 lines
+
+    # Snapshot top 20 processes
+top -p 1234 -b -n 5 > top.log # [Log Output] - Log to file
+
+    # Capture multiple snapshots to file
+top -u root -b -n 1 | grep bash # [Filter] - Find process
+
+    # Filtered snapshot view
+
+
+
+# Inside top interactive mode:
+# press 'M' # Sort by memory
+# press 'P' # Sort by CPU
+# press 'T' # Sort by time
+# press 'N' # Sort by PID
+# press 'R' # Reverse sort order
+# press 'K' # Kill process (prompts for PID)
+# press 'R' # Renice process (change priority)
+# press 'F' # Add/remove fields
+# press 'O' # Change sort field
+# press 'U' # Filter by user
+# press 'Q' # Quit top
+
+top -b -n 1 -d 0.1 # [Minimal Delay] - Fastest updates
+
+    # Rapid refresh (0.1 second interval)
+top -s 1 -b -n 60 # [60 Snapshots] - 60 one-second snapshots
+
+    # Collect minute-long dataset

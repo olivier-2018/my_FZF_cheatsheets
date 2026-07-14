@@ -1,0 +1,110 @@
+# systemctl - control systemd system and service manager
+
+systemctl status # [Status] - Show system status overview
+
+    # Display systemd system state
+systemctl status service_name # [Service Status] - Check service status
+
+    # Show state of specific service
+systemctl start service_name # [Start] - Start service
+
+    # Activate and run service
+systemctl stop service_name # [Stop] - Stop service
+
+    # Deactivate and halt service
+systemctl restart service_name # [Restart] - Restart service
+
+    # Stop then start service
+systemctl reload service_name # [Reload] - Reload configuration
+
+    # Reload config without full restart
+systemctl reload-or-restart service_name # [Reload or Restart] - Smart restart
+
+    # Reload if supported, else restart
+
+
+
+systemctl enable service_name # [Enable] - Enable at boot
+
+    # Start service automatically on system startup
+systemctl disable service_name # [Disable] - Disable at boot
+
+    # Don't start on boot
+systemctl is-enabled service_name # [Check] - Check if enabled
+
+    # Query if service auto-starts
+systemctl is-active service_name # [Check Active] - Check if running
+
+    # Query if service is currently running
+systemctl is-failed service_name # [Check Failed] - Check if failed
+
+    # Query if service failed to start
+systemctl daemon-reload # [Reload Daemon] - Reload systemd config
+
+    # Reparse systemd unit files
+
+
+
+systemctl list-units # [List Units] - List all units
+
+    # Show all loaded systemd units
+systemctl list-units --type=service # [List Services] - List services only
+
+    # Show all service units
+systemctl list-unit-files # [List Files] - List all unit files
+
+    # Show all available units (not just loaded)
+systemctl list-units --state=failed # [Failed Units] - Show failed units
+
+    # List services that failed to start
+systemctl list-dependencies service_name # [Dependencies] - Service dependencies
+
+    # Show what service depends on/requires
+systemctl list-dependencies service_name --reverse # [Reverse] - What depends on service
+
+    # Show units that depend on this service
+
+
+
+systemctl enable --now service_name # [Enable and Start] - Enable and start
+
+    # Enable service at boot AND start now
+systemctl disable --now service_name # [Disable and Stop] - Disable and stop
+
+    # Disable at boot AND stop now
+systemctl mask service_name # [Mask] - Prevent starting
+
+    # Make service impossible to start
+systemctl unmask service_name # [Unmask] - Allow starting
+
+    # Re-enable previously masked service
+systemctl reset-failed # [Reset] - Clear failed state
+
+    # Reset all unit failure states
+systemctl status service_name -l # [Detailed] - Full output
+
+    # Show complete service information
+
+
+
+systemctl show service_name # [Properties] - Show all properties
+
+    # Display detailed service configuration
+systemctl show service_name -p Type # [Property] - Specific property
+
+    # Show single property value
+journalctl -u service_name # [Logs] - Service logs
+
+    # Show service logs via journal
+journalctl -u service_name -f # [Live Logs] - Follow logs
+
+    # Monitor service logs in real-time
+systemctl cat service_name # [Unit File] - Show unit file
+
+    # Display service unit file contents
+systemctl edit service_name # [Edit] - Edit service unit
+
+    # Modify service configuration with reload
+systemctl daemon-reload && systemctl restart service_name # [Reload and Restart] - Apply changes
+
+    # Common sequence: reload daemon, restart service

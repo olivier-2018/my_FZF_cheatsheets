@@ -1,0 +1,80 @@
+# lsof - list open files and network connections
+
+lsof # [All] - List all open files and sockets
+
+    # Display all open file descriptors system-wide
+lsof -i # [Network] - Show network connections
+
+    # Display open network sockets (TCP/UDP)
+lsof -i :80 # [Port] - Connections on port 80
+
+    # Show what's using HTTP port
+lsof -i :443 # [HTTPS] - Port 443 connections
+
+    # Show HTTPS traffic
+lsof -i TCP # [TCP] - TCP connections only
+
+    # Display all TCP sockets
+lsof -i UDP # [UDP] - UDP connections only
+
+    # Display all UDP sockets
+lsof -p 1234 # [PID] - Files for process 1234
+
+    # Show all open files for specific process
+lsof -u username # [User] - Files opened by user
+
+    # List open files owned by user
+lsof -c process_name # [Command] - By process name
+
+    # Files opened by named process
+
+
+
+lsof /path/to/file # [File] - Who has file open
+
+    # Find processes accessing specific file
+lsof /home # [Directory] - Files in directory
+
+    # Show what has directory open
+lsof | grep deleted # [Deleted] - Deleted open files
+
+    # Find files deleted but still open
+lsof -a -u username -i TCP # [Combine] - User's TCP connections
+
+    # User's network sockets only
+lsof -r 1 # [Repeat] - Refresh every 1 second
+
+    # Continuous monitoring mode
+lsof +D /home # [Recursive] - Recursive directory
+
+    # Show all open files in directory tree
+lsof -n # [Numeric] - No hostname resolution
+
+    # Display IPs instead of hostnames
+lsof -P # [Numeric Ports] - No service name resolution
+
+    # Show port numbers instead of names
+
+
+
+lsof -l # [UID] - Show UID instead of username
+
+    # Numeric user IDs in output
+lsof -s # [File Size] - Show file size
+
+    # Include file size column
+lsof -X # [Avoid Warnings] - Suppress warnings
+
+    # Don't warn about access errors
+lsof -t -i :22 # [PID Only] - Just PID for port 22
+
+    # Extract process ID only
+lsof -i :22 -n -P # [SSH Connection] - SSH details
+
+    # Show SSH connections with IPs and port numbers
+netstat -an | grep LISTEN # [Alternative] - Use netstat for listening
+
+    # Alternative view of listening ports
+ss -ltnp # [ss Alternative] - Modern socket stats
+
+    # Modern replacement for some lsof uses
