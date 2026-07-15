@@ -1,0 +1,20 @@
+# mii-tool - Link status
+
+mii-tool --help #   hardware standard that defines how a network card’s MAC (Media Access Controller) talks to its PHY (physical transceiver).
+
+# usage: mii-tool [-VvRrwl] [-A media,... | -F media] [-p addr] <interface ...>
+
+# Options:
+#        -V, --version               display version information
+#        -v, --verbose               more verbose output
+#        -R, --reset                 reset MII to poweron state
+#        -r, --restart               restart autonegotiation
+#        -w, --watch                 monitor for link status changes
+#        -l, --log                   with -w, write events to syslog
+#        -A, --advertise=media,...   advertise only specified media
+#        -F, --force=media           force specified media technology
+#        -p, --phy=addr              set PHY (MII address) to report
+# media: 1000baseTx-HD, 1000baseTx-FD,
+#        100baseT4, 100baseTx-FD, 100baseTx-HD,
+#        10baseT-FD, 10baseT-HD,
+#        (to advertise both HD and FD) 1000baseTx, 100baseTx, 10baseT

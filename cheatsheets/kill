@@ -1,5 +1,47 @@
 # kill - send signals to processes
 
+kill (man) #  usage:    kill [options] <pid> [...]
+
+# DESCRIPTION
+#        The default signal for kill is TERM.  
+#        Available signals:
+#        HUP INT QUIT ILL TRAP IOT BUS FPE KILL USR1 SEGV USR2 PIPE ALRM TERM STKFLT CHLD CONT STOP TSTP TTIN TTOU URG 
+#        XCPU XFSZ VTALRM PROF WINCH POLL PWR SYS
+    
+#        Alternate signals may be specified in three ways: -9, -SIGKILL or -KILL.  
+#        Negative PID values may be used to choose whole process groups; 
+#        A PID of -1 is special; it indicates all processes except the kill process itself and init.
+
+# OPTIONS
+#        <pid> [...]
+#               Send signal to every <pid> listed.
+
+#        -<signal>
+#        -s <signal>
+#        --signal <signal>
+#               Specify the signal to be sent.  The signal can be specified by using name or number.  The  behavior  of
+#               signals is explained in signal(7) manual page.
+
+#        -q, --queue value
+#               Use  sigqueue(3)  rather  than  kill(2) and the value argument is used to specify an integer to be sent
+#               with the signal. If the receiving process has installed a handler for this signal using the  SA_SIGINFO
+#               flag to sigaction(2), then it can obtain this data via the si_value field of the siginfo_t structure.
+
+#        -l, --list [signal]
+#               List signal names.  This option has optional argument, which will convert signal number to signal name,
+#               or other way round.
+
+#        -L, --table
+#               List signal names in a nice table.
+
+#        NOTES  Your  shell  (command line interpreter) may have a built-in kill command.  You may need to run the com‐
+#               mand described here as /bin/kill to solve the conflict.
+
+
+
+
+              
+
 kill 1234 # [Terminate] - Terminate process gracefully
 
     # Send SIGTERM (signal 15) to process ID 1234

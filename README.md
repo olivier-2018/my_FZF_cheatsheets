@@ -134,7 +134,11 @@ The cheatsheets directory includes **6000+ commands** across **51 CLI tools** or
 - **lsof** — List open files and network connections
 - **vmstat** — Virtual memory and performance statistics
 
-Each cheatsheet provides practical examples with grouped categories and descriptions optimized for the fzf preview pane.
+Each cheatsheet includes:
+- **Curated `--help` header** — Usage synopsis and key options at the top of the file
+- **Practical examples** — Real-world usage patterns organized by functionality
+- **Grouped categories** — Commands sorted by purpose for easy navigation
+- **Extended descriptions** — 1-3 line explanations optimized for the fzf preview pane
 
 ## Adding cheatsheets
 
@@ -184,3 +188,4 @@ and point your `FZF_CHEATSHEETS_DIR` to that directory in your `zshrc` or
 Reddit user u/techAndLanguage [suggested the idea](https://www.reddit.com/r/vim/comments/g8haqm/question_about_how_to_use_vim_as_a_stream_editor/)
 
 Some of the cheatsheets started from [awesome-cheatsheets](https://github.com/LeCoupa/awesome-cheatsheets)
+

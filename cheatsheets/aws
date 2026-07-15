@@ -1,7 +1,6 @@
 # AWS CLI, manage your AWS services
 
-aws <options>   # SYNOPSIS
-#        aws [options] <command> <subcommand> [parameters]
+aws --help   # Usage:  aws [options] <command> <subcommand> [parameters]
 
 # GLOBAL OPTIONS
 #        --debug (boolean)           Turn on debug logging.

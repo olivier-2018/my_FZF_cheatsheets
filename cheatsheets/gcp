@@ -1,833 +1,833 @@
 # Google Cloud CLI, manage Google Cloud resources
 
-gcloud auth login # [Identity & Configuration] - Authenticate and manage Google Cloud credentials
+gcp auth login # [Identity & Configuration] - Authenticate and manage Google Cloud credentials
 
     # Open browser to authenticate and store credentials locally
-gcloud auth login --no-browser # [Identity & Configuration] - Authenticate without browser redirect
+gcp auth login --no-browser # [Identity & Configuration] - Authenticate without browser redirect
 
     # Authenticate using device flow (for headless environments)
-gcloud auth logout # [Identity & Configuration] - Remove local credentials
+gcp auth logout # [Identity & Configuration] - Remove local credentials
 
     # Clear authentication credentials
-gcloud auth list # [Identity & Configuration] - List authenticated accounts
+gcp auth list # [Identity & Configuration] - List authenticated accounts
 
     # Show all logged-in accounts and active account
-gcloud auth application-default login # [Identity & Configuration] - Authenticate for application default credentials
+gcp auth application-default login # [Identity & Configuration] - Authenticate for application default credentials
 
     # Set up ADC for local development (used by SDKs)
-gcloud config list # [Identity & Configuration] - Show current configuration settings
+gcp config list # [Identity & Configuration] - Show current configuration settings
 
     # Display project, zone, region, and other settings
 
 
 
-gcloud projects list # [Projects] - Container for GCP resources with billing and IAM
+gcp projects list # [Projects] - Container for GCP resources with billing and IAM
 
     # List all GCP projects you have access to
-gcloud projects create --name <name> # [Projects] - Create new GCP project
+gcp projects create --name <name> # [Projects] - Create new GCP project
 
     # Create new project (automatically assigned unique ID)
-gcloud projects delete <project-id> # [Projects] - Delete project and all resources
+gcp projects delete <project-id> # [Projects] - Delete project and all resources
 
     # Permanently remove project (24-hour grace period)
-gcloud config set project <project-id> # [Projects] - Set active project
+gcp config set project <project-id> # [Projects] - Set active project
 
-    # Switch active project for gcloud commands
-gcloud projects describe <project-id> # [Projects] - Get project details
+    # Switch active project for gcp commands
+gcp projects describe <project-id> # [Projects] - Get project details
 
     # Display project metadata, billing account, and settings
-gcloud projects move <project-id> --folder-id <folder-id> # [Projects] - Move project to folder
+gcp projects move <project-id> --folder-id <folder-id> # [Projects] - Move project to folder
 
     # Organize project in resource hierarchy
 
 
 
-gcloud compute instances list # [Compute - VMs] - Virtual machine instances for running workloads
+gcp compute instances list # [Compute - VMs] - Virtual machine instances for running workloads
 
     # List all VM instances in current project
-gcloud compute instances create <name> --image-family=ubuntu-2004 --image-project=ubuntu-os-cloud # [Compute - VMs] - Create VM instance
+gcp compute instances create <name> --image-family=ubuntu-2004 --image-project=ubuntu-os-cloud # [Compute - VMs] - Create VM instance
 
     # Launch new VM with specified image
-gcloud compute instances start <name> # [Compute - VMs] - Start stopped VM
+gcp compute instances start <name> # [Compute - VMs] - Start stopped VM
 
     # Power on VM from stopped state
-gcloud compute instances stop <name> # [Compute - VMs] - Stop running VM
+gcp compute instances stop <name> # [Compute - VMs] - Stop running VM
 
     # Power off VM gracefully (keeps resources reserved)
-gcloud compute instances delete <name> # [Compute - VMs] - Delete VM and attached disks
+gcp compute instances delete <name> # [Compute - VMs] - Delete VM and attached disks
 
     # Permanently remove VM and associated storage
-gcloud compute instances reset <name> # [Compute - VMs] - Hard reset VM instance
+gcp compute instances reset <name> # [Compute - VMs] - Hard reset VM instance
 
     # Restart VM forcefully (loses in-memory state)
 
 
 
-gcloud compute instance-templates list # [Compute - Templates] - Reusable VM configuration for instances and groups
+gcp compute instance-templates list # [Compute - Templates] - Reusable VM configuration for instances and groups
 
     # List all instance templates in project
-gcloud compute instance-templates create <name> --source-instance=<instance> # [Compute - Templates] - Create template from instance
+gcp compute instance-templates create <name> --source-instance=<instance> # [Compute - Templates] - Create template from instance
 
     # Capture VM configuration as reusable template
-gcloud compute instance-templates delete <name> # [Compute - Templates] - Delete template
+gcp compute instance-templates delete <name> # [Compute - Templates] - Delete template
 
     # Remove template (doesn't affect existing VMs)
-gcloud compute instance-templates describe <name> # [Compute - Templates] - Get template configuration
+gcp compute instance-templates describe <name> # [Compute - Templates] - Get template configuration
 
     # Display template's machine type, image, and metadata
-gcloud compute instance-templates create-with-container <name> --container-image <image> # [Compute - Templates] - Create template for container VM
+gcp compute instance-templates create-with-container <name> --container-image <image> # [Compute - Templates] - Create template for container VM
 
     # Create template that auto-runs Docker container
-gcloud compute instance-groups managed list # [Compute - Templates] - List managed instance groups
+gcp compute instance-groups managed list # [Compute - Templates] - List managed instance groups
 
     # Show all auto-scaling groups
 
 
 
-gcloud compute instance-groups managed create <name> --template <template> # [Compute - Groups] - Auto-scaling group managing multiple VMs
+gcp compute instance-groups managed create <name> --template <template> # [Compute - Groups] - Auto-scaling group managing multiple VMs
 
     # Create managed instance group from template
-gcloud compute instance-groups managed delete <name> # [Compute - Groups] - Delete instance group and VMs
+gcp compute instance-groups managed delete <name> # [Compute - Groups] - Delete instance group and VMs
 
     # Remove group and all member instances
-gcloud compute instance-groups managed set-autoscaling <name> --min-num-replicas 1 --max-num-replicas 5 # [Compute - Groups] - Configure auto-scaling
+gcp compute instance-groups managed set-autoscaling <name> --min-num-replicas 1 --max-num-replicas 5 # [Compute - Groups] - Configure auto-scaling
 
     # Enable/change auto-scaling policy (min/max replicas)
-gcloud compute instance-groups managed resize <name> --size 3 # [Compute - Groups] - Manually set instance count
+gcp compute instance-groups managed resize <name> --size 3 # [Compute - Groups] - Manually set instance count
 
     # Scale group to exact number of VMs
-gcloud compute instance-groups managed rolling-action start-update <name> --version template=<template> # [Compute - Groups] - Update VMs in group
+gcp compute instance-groups managed rolling-action start-update <name> --version template=<template> # [Compute - Groups] - Update VMs in group
 
     # Roll out new template to group (gradual replacement)
-gcloud compute instance-groups managed list-instances <name> # [Compute - Groups] - List VMs in group
+gcp compute instance-groups managed list-instances <name> # [Compute - Groups] - List VMs in group
 
     # Show all instances in managed group
 
 
 
-gcloud compute firewall-rules list # [Networking] - Virtual network firewall for controlling traffic
+gcp compute firewall-rules list # [Networking] - Virtual network firewall for controlling traffic
 
     # List all firewall rules in project
-gcloud compute firewall-rules create <name> --allow=tcp:22,tcp:80,tcp:443 # [Networking] - Create firewall rule
+gcp compute firewall-rules create <name> --allow=tcp:22,tcp:80,tcp:443 # [Networking] - Create firewall rule
 
     # Create rule to allow/deny specific ports and protocols
-gcloud compute firewall-rules delete <name> # [Networking] - Delete firewall rule
+gcp compute firewall-rules delete <name> # [Networking] - Delete firewall rule
 
     # Remove firewall rule
-gcloud compute firewall-rules describe <name> # [Networking] - Get firewall rule details
+gcp compute firewall-rules describe <name> # [Networking] - Get firewall rule details
 
     # Display rule configuration (allowed ports, target tags)
-gcloud compute firewall-rules update <name> --allow=tcp:22,tcp:80 # [Networking] - Modify firewall rule
+gcp compute firewall-rules update <name> --allow=tcp:22,tcp:80 # [Networking] - Modify firewall rule
 
     # Change allowed traffic on existing rule
-gcloud compute networks list # [Networking] - Custom virtual networks for resource communication
+gcp compute networks list # [Networking] - Custom virtual networks for resource communication
 
     # List all VPCs in project
-gcloud compute networks create <name> --subnet-mode=custom # [Networking] - Create custom VPC
+gcp compute networks create <name> --subnet-mode=custom # [Networking] - Create custom VPC
 
     # Create virtual network with custom subnets
 
 
 
-gcloud compute disks list # [Storage - Persistent Disks] - Block storage for VMs and snapshots
+gcp compute disks list # [Storage - Persistent Disks] - Block storage for VMs and snapshots
 
     # List all persistent disks in project
-gcloud compute disks create <name> --size=100GB --type=pd-standard # [Storage - Persistent Disks] - Create disk
+gcp compute disks create <name> --size=100GB --type=pd-standard # [Storage - Persistent Disks] - Create disk
 
     # Create persistent disk (attach to VM separately)
-gcloud compute disks delete <name> # [Storage - Persistent Disks] - Delete disk
+gcp compute disks delete <name> # [Storage - Persistent Disks] - Delete disk
 
     # Remove persistent disk (must detach from VM first)
-gcloud compute disks describe <name> # [Storage - Persistent Disks] - Get disk details
+gcp compute disks describe <name> # [Storage - Persistent Disks] - Get disk details
 
     # Display disk size, type, and attached VMs
-gcloud compute disks snapshot <name> --snapshot-names=<snapshot> # [Storage - Persistent Disks] - Create disk snapshot
+gcp compute disks snapshot <name> --snapshot-names=<snapshot> # [Storage - Persistent Disks] - Create disk snapshot
 
     # Backup disk to snapshot for recovery/cloning
-gcloud compute disks resize <name> --size=200GB # [Storage - Persistent Disks] - Increase disk size
+gcp compute disks resize <name> --size=200GB # [Storage - Persistent Disks] - Increase disk size
 
     # Expand disk capacity (online on Linux)
 
 
 
-gcloud compute snapshots list # [Storage - Snapshots] - Incremental backups of persistent disks
+gcp compute snapshots list # [Storage - Snapshots] - Incremental backups of persistent disks
 
     # List all snapshots in project
-gcloud compute snapshots create <name> --source-disk <disk> # [Storage - Snapshots] - Create snapshot from disk
+gcp compute snapshots create <name> --source-disk <disk> # [Storage - Snapshots] - Create snapshot from disk
 
     # Backup disk state for recovery
-gcloud compute snapshots delete <name> # [Storage - Snapshots] - Delete snapshot
+gcp compute snapshots delete <name> # [Storage - Snapshots] - Delete snapshot
 
     # Remove snapshot and free space
-gcloud compute snapshots describe <name> # [Storage - Snapshots] - Get snapshot details
+gcp compute snapshots describe <name> # [Storage - Snapshots] - Get snapshot details
 
     # Show snapshot size and creation date
-gcloud compute disks create <name> --source-snapshot=<snapshot> # [Storage - Snapshots] - Create disk from snapshot
+gcp compute disks create <name> --source-snapshot=<snapshot> # [Storage - Snapshots] - Create disk from snapshot
 
     # Restore snapshot to new persistent disk
-gcloud compute images create <name> --source-disk=<disk> # [Storage - Snapshots] - Create image from disk
+gcp compute images create <name> --source-disk=<disk> # [Storage - Snapshots] - Create image from disk
 
     # Create custom image for deployment
 
 
 
-gcloud storage buckets list # [Storage - Cloud Storage] - Global object storage with fine-grained access
+gcp storage buckets list # [Storage - Cloud Storage] - Global object storage with fine-grained access
 
     # List all Cloud Storage buckets in project
-gcloud storage buckets create gs://<name> # [Storage - Cloud Storage] - Create storage bucket
+gcp storage buckets create gs://<name> # [Storage - Cloud Storage] - Create storage bucket
 
     # Create new bucket (must be globally unique)
-gcloud storage buckets delete gs://<name> # [Storage - Cloud Storage] - Delete bucket and objects
+gcp storage buckets delete gs://<name> # [Storage - Cloud Storage] - Delete bucket and objects
 
     # Remove bucket (must be empty first)
-gcloud storage cp file.txt gs://bucket-name/ # [Storage - Cloud Storage] - Upload file to bucket
+gcp storage cp file.txt gs://bucket-name/ # [Storage - Cloud Storage] - Upload file to bucket
 
     # Copy file to Cloud Storage
-gcloud storage cp gs://bucket-name/file.txt . # [Storage - Cloud Storage] - Download file from bucket
+gcp storage cp gs://bucket-name/file.txt . # [Storage - Cloud Storage] - Download file from bucket
 
     # Copy object from Cloud Storage to local disk
-gcloud storage rsync -r . gs://bucket-name/ # [Storage - Cloud Storage] - Synchronize directory to bucket
+gcp storage rsync -r . gs://bucket-name/ # [Storage - Cloud Storage] - Synchronize directory to bucket
 
     # Sync local directory to bucket (two-way or upload only)
 
 
 
-gcloud sql instances list # [Databases - Cloud SQL] - Managed relational database (MySQL, PostgreSQL, SQL Server)
+gcp sql instances list # [Databases - Cloud SQL] - Managed relational database (MySQL, PostgreSQL, SQL Server)
 
     # List all Cloud SQL instances
-gcloud sql instances create <name> --database-version=MYSQL_8_0 # [Databases - Cloud SQL] - Create SQL instance
+gcp sql instances create <name> --database-version=MYSQL_8_0 # [Databases - Cloud SQL] - Create SQL instance
 
     # Provision managed database server
-gcloud sql instances delete <name> # [Databases - Cloud SQL] - Delete SQL instance
+gcp sql instances delete <name> # [Databases - Cloud SQL] - Delete SQL instance
 
     # Remove instance and all databases
-gcloud sql instances describe <name> # [Databases - Cloud SQL] - Get instance configuration
+gcp sql instances describe <name> # [Databases - Cloud SQL] - Get instance configuration
 
     # Display IP, settings, and backup configuration
-gcloud sql backups create --instance=<name> # [Databases - Cloud SQL] - Create database backup
+gcp sql backups create --instance=<name> # [Databases - Cloud SQL] - Create database backup
 
     # Take on-demand backup of instance
-gcloud sql backups restore <backup-id> --backup-instance=<instance> # [Databases - Cloud SQL] - Restore from backup
+gcp sql backups restore <backup-id> --backup-instance=<instance> # [Databases - Cloud SQL] - Restore from backup
 
     # Restore instance from backup (point-in-time available)
 
 
 
-gcloud sql databases list --instance=<name> # [Databases - Cloud SQL] - List databases in instance
+gcp sql databases list --instance=<name> # [Databases - Cloud SQL] - List databases in instance
 
     # Show all databases in SQL instance
-gcloud sql databases create <name> --instance=<instance> # [Databases - Cloud SQL] - Create database
+gcp sql databases create <name> --instance=<instance> # [Databases - Cloud SQL] - Create database
 
     # Create new database on instance
-gcloud sql databases delete <name> --instance=<instance> # [Databases - Cloud SQL] - Delete database
+gcp sql databases delete <name> --instance=<instance> # [Databases - Cloud SQL] - Delete database
 
     # Remove database (cannot restore after deletion)
-gcloud sql users create <user> --instance=<instance> --password=<password> # [Databases - Cloud SQL] - Create database user
+gcp sql users create <user> --instance=<instance> --password=<password> # [Databases - Cloud SQL] - Create database user
 
     # Add database user with password
-gcloud sql users delete <user> --instance=<instance> # [Databases - Cloud SQL] - Delete database user
+gcp sql users delete <user> --instance=<instance> # [Databases - Cloud SQL] - Delete database user
 
     # Remove user from instance
-gcloud sql operations list --instance=<instance> # [Databases - Cloud SQL] - List instance operations
+gcp sql operations list --instance=<instance> # [Databases - Cloud SQL] - List instance operations
 
     # Show all maintenance, backup, and config operations
 
 
 
-gcloud firestore databases list # [Databases - Firestore] - NoSQL document database with real-time sync
+gcp firestore databases list # [Databases - Firestore] - NoSQL document database with real-time sync
 
     # List all Firestore databases in project
-gcloud firestore databases create --database=<id> # [Databases - Firestore] - Create Firestore database
+gcp firestore databases create --database=<id> # [Databases - Firestore] - Create Firestore database
 
     # Create new Firestore instance (native or datastore mode)
-gcloud firestore backups list # [Databases - Firestore] - List Firestore backups
+gcp firestore backups list # [Databases - Firestore] - List Firestore backups
 
     # Show all snapshots and scheduled backups
-gcloud firestore backups create --database=<id> # [Databases - Firestore] - Create Firestore backup
+gcp firestore backups create --database=<id> # [Databases - Firestore] - Create Firestore backup
 
     # Take on-demand backup of database
-gcloud firestore locations list # [Databases - Firestore] - List available Firestore regions
+gcp firestore locations list # [Databases - Firestore] - List available Firestore regions
 
     # Show multi-region and regional options
-gcloud firestore export gs://bucket/backup # [Databases - Firestore] - Export Firestore to Cloud Storage
+gcp firestore export gs://bucket/backup # [Databases - Firestore] - Export Firestore to Cloud Storage
 
     # Backup database to GCS for portability
 
 
 
-gcloud bigtable instances list # [Databases - Bigtable] - Wide-column NoSQL database for analytics and time-series
+gcp bigtable instances list # [Databases - Bigtable] - Wide-column NoSQL database for analytics and time-series
 
     # List all Bigtable instances
-gcloud bigtable instances create <name> # [Databases - Bigtable] - Create Bigtable instance
+gcp bigtable instances create <name> # [Databases - Bigtable] - Create Bigtable instance
 
     # Provision new Bigtable cluster
-gcloud bigtable instances delete <name> # [Databases - Bigtable] - Delete Bigtable instance
+gcp bigtable instances delete <name> # [Databases - Bigtable] - Delete Bigtable instance
 
     # Remove instance and all data
-gcloud bigtable clusters list --instances=<instance> # [Databases - Bigtable] - List clusters in instance
+gcp bigtable clusters list --instances=<instance> # [Databases - Bigtable] - List clusters in instance
 
     # Show all clusters and their replication zones
-gcloud bigtable clusters resize --instances=<instance> --cluster=<cluster> --nodes 3 # [Databases - Bigtable] - Resize cluster
+gcp bigtable clusters resize --instances=<instance> --cluster=<cluster> --nodes 3 # [Databases - Bigtable] - Resize cluster
 
     # Change number of nodes for scaling
-gcloud bigtable operations list --instances=<instance> # [Databases - Bigtable] - List instance operations
+gcp bigtable operations list --instances=<instance> # [Databases - Bigtable] - List instance operations
 
     # Show cluster maintenance and scaling operations
 
 
 
-gcloud spanner instances list # [Databases - Cloud Spanner] - Globally distributed relational database with strong consistency
+gcp spanner instances list # [Databases - Cloud Spanner] - Globally distributed relational database with strong consistency
 
     # List all Cloud Spanner instances
-gcloud spanner instances create <name> --config=regional-us-central1 # [Databases - Cloud Spanner] - Create Spanner instance
+gcp spanner instances create <name> --config=regional-us-central1 # [Databases - Cloud Spanner] - Create Spanner instance
 
     # Provision new multi-region database
-gcloud spanner instances delete <name> # [Databases - Cloud Spanner] - Delete Spanner instance
+gcp spanner instances delete <name> # [Databases - Cloud Spanner] - Delete Spanner instance
 
     # Remove instance and all databases
-gcloud spanner databases list --instance=<name> # [Databases - Cloud Spanner] - List databases in instance
+gcp spanner databases list --instance=<name> # [Databases - Cloud Spanner] - List databases in instance
 
     # Show all databases on instance
-gcloud spanner databases create <name> --instance=<instance> # [Databases - Cloud Spanner] - Create database
+gcp spanner databases create <name> --instance=<instance> # [Databases - Cloud Spanner] - Create database
 
     # Create new database in Spanner instance
-gcloud spanner databases backup <name> --instance=<instance> --retention-days 30 # [Databases - Cloud Spanner] - Create Spanner backup
+gcp spanner databases backup <name> --instance=<instance> --retention-days 30 # [Databases - Cloud Spanner] - Create Spanner backup
 
     # Backup database with retention period
 
 
 
-gcloud datastore databases list # [Databases - Datastore] - Serverless document database for applications
+gcp datastore databases list # [Databases - Datastore] - Serverless document database for applications
 
     # List Datastore databases (usually one default)
-gcloud datastore export gs://bucket/backup # [Databases - Datastore] - Export Datastore to Cloud Storage
+gcp datastore export gs://bucket/backup # [Databases - Datastore] - Export Datastore to Cloud Storage
 
     # Backup all entities to GCS
-gcloud datastore import gs://bucket/backup # [Databases - Datastore] - Import Datastore from Cloud Storage
+gcp datastore import gs://bucket/backup # [Databases - Datastore] - Import Datastore from Cloud Storage
 
     # Restore entities from previous export
-gcloud datastore databases describe <database> # [Databases - Datastore] - Get database configuration
+gcp datastore databases describe <database> # [Databases - Datastore] - Get database configuration
 
     # Display Datastore settings
-gcloud datastore databases create --database=<id> # [Databases - Datastore] - Create Datastore database
+gcp datastore databases create --database=<id> # [Databases - Datastore] - Create Datastore database
 
     # Create new Datastore instance
 
 
 
-gcloud container clusters list # [Kubernetes - GKE] - Managed Kubernetes cluster orchestration
+gcp container clusters list # [Kubernetes - GKE] - Managed Kubernetes cluster orchestration
 
     # List all GKE clusters in project
-gcloud container clusters create <name> --num-nodes 3 --zone us-central1-a # [Kubernetes - GKE] - Create GKE cluster
+gcp container clusters create <name> --num-nodes 3 --zone us-central1-a # [Kubernetes - GKE] - Create GKE cluster
 
     # Provision new Kubernetes cluster with nodes
-gcloud container clusters delete <name> --zone us-central1-a # [Kubernetes - GKE] - Delete GKE cluster
+gcp container clusters delete <name> --zone us-central1-a # [Kubernetes - GKE] - Delete GKE cluster
 
     # Remove cluster and all nodes
-gcloud container clusters get-credentials <name> --zone us-central1-a # [Kubernetes - GKE] - Download cluster credentials
+gcp container clusters get-credentials <name> --zone us-central1-a # [Kubernetes - GKE] - Download cluster credentials
 
     # Update kubeconfig to access cluster
-gcloud container clusters update <name> --num-nodes 5 --zone us-central1-a # [Kubernetes - GKE] - Scale cluster
+gcp container clusters update <name> --num-nodes 5 --zone us-central1-a # [Kubernetes - GKE] - Scale cluster
 
     # Add/remove nodes in cluster
-gcloud container clusters describe <name> --zone us-central1-a # [Kubernetes - GKE] - Get cluster configuration
+gcp container clusters describe <name> --zone us-central1-a # [Kubernetes - GKE] - Get cluster configuration
 
     # Display cluster settings, master version, network
 
 
 
-gcloud container node-pools list --cluster=<name> --zone us-central1-a # [Kubernetes - GKE] - List node pools in cluster
+gcp container node-pools list --cluster=<name> --zone us-central1-a # [Kubernetes - GKE] - List node pools in cluster
 
     # Show all node groups
-gcloud container node-pools create <name> --cluster=<cluster> --zone us-central1-a --num-nodes 2 # [Kubernetes - GKE] - Create node pool
+gcp container node-pools create <name> --cluster=<cluster> --zone us-central1-a --num-nodes 2 # [Kubernetes - GKE] - Create node pool
 
     # Add new node group to cluster (different machine types/zones)
-gcloud container node-pools delete <name> --cluster=<cluster> --zone us-central1-a # [Kubernetes - GKE] - Delete node pool
+gcp container node-pools delete <name> --cluster=<cluster> --zone us-central1-a # [Kubernetes - GKE] - Delete node pool
 
     # Remove node group (drains and deletes nodes)
-gcloud container operations list # [Kubernetes - GKE] - List cluster operations
+gcp container operations list # [Kubernetes - GKE] - List cluster operations
 
     # Show all cluster creation, upgrade, and scaling operations
-gcloud container images list # [Kubernetes - GKE] - List container images in project
+gcp container images list # [Kubernetes - GKE] - List container images in project
 
     # Show all images in Container Registry/Artifact Registry
 
 
 
-gcloud container images delete <image> # [Kubernetes - GKE] - Delete container image
+gcp container images delete <image> # [Kubernetes - GKE] - Delete container image
 
     # Remove image from registry
-gcloud container images list-tags <image> # [Kubernetes - GKE] - List image versions/tags
+gcp container images list-tags <image> # [Kubernetes - GKE] - List image versions/tags
 
     # Show all tags for an image
-gcloud container images scan <image> # [Kubernetes - GKE] - Scan image for vulnerabilities
+gcp container images scan <image> # [Kubernetes - GKE] - Scan image for vulnerabilities
 
     # Run security analysis on container image
 
 
 
-gcloud container registries list # [Container Registry] - Private Docker image registry
+gcp container registries list # [Container Registry] - Private Docker image registry
 
     # List container registries in project (GCR, Artifact Registry)
-gcloud container images list --repository=gcr.io/<project> # [Container Registry] - List GCR images
+gcp container images list --repository=gcr.io/<project> # [Container Registry] - List GCR images
 
     # Show images in Google Container Registry
-gcloud container images describe <image> # [Container Registry] - Get image metadata
+gcp container images describe <image> # [Container Registry] - Get image metadata
 
     # Display image size, creation date, vulnerabilities
-gcloud beta container images describe <image> # [Container Registry] - Describe image with beta features
+gcp beta container images describe <image> # [Container Registry] - Describe image with beta features
 
     # Show full image metadata including digest
-gcloud auth configure-docker # [Container Registry] - Configure Docker authentication for GCR
+gcp auth configure-docker # [Container Registry] - Configure Docker authentication for GCR
 
     # Set up local Docker to push/pull from GCR
-gcloud beta container images add-tag <source-image> <dest-image> # [Container Registry] - Tag image
+gcp beta container images add-tag <source-image> <dest-image> # [Container Registry] - Tag image
 
     # Create new tag pointing to image
 
 
 
-gcloud functions list # [Serverless - Cloud Functions] - Run event-driven code without managing infrastructure
+gcp functions list # [Serverless - Cloud Functions] - Run event-driven code without managing infrastructure
 
     # List all Cloud Functions in project
-gcloud functions create <name> --runtime python39 --trigger-http --entry-point hello_world # [Serverless - Cloud Functions] - Create function
+gcp functions create <name> --runtime python39 --trigger-http --entry-point hello_world # [Serverless - Cloud Functions] - Create function
 
     # Deploy serverless function with HTTP trigger
-gcloud functions delete <name> # [Serverless - Cloud Functions] - Delete function
+gcp functions delete <name> # [Serverless - Cloud Functions] - Delete function
 
     # Remove function and disable execution
-gcloud functions describe <name> # [Serverless - Cloud Functions] - Get function configuration
+gcp functions describe <name> # [Serverless - Cloud Functions] - Get function configuration
 
     # Display memory, timeout, runtime, and trigger
-gcloud functions deploy <name> --source . --runtime python39 # [Serverless - Cloud Functions] - Deploy/update function
+gcp functions deploy <name> --source . --runtime python39 # [Serverless - Cloud Functions] - Deploy/update function
 
     # Upload function code and redeploy
-gcloud functions call <name> --data='{"key":"value"}' # [Serverless - Cloud Functions] - Invoke function
+gcp functions call <name> --data='{"key":"value"}' # [Serverless - Cloud Functions] - Invoke function
 
     # Execute function with test payload
 
 
 
-gcloud run services list # [Serverless - Cloud Run] - Managed container execution (stateless)
+gcp run services list # [Serverless - Cloud Run] - Managed container execution (stateless)
 
     # List all Cloud Run services
-gcloud run deploy <name> --image <image> # [Serverless - Cloud Run] - Deploy container to Cloud Run
+gcp run deploy <name> --image <image> # [Serverless - Cloud Run] - Deploy container to Cloud Run
 
     # Deploy containerized service from image
-gcloud run services delete <name> # [Serverless - Cloud Run] - Delete Cloud Run service
+gcp run services delete <name> # [Serverless - Cloud Run] - Delete Cloud Run service
 
     # Remove service and stop receiving traffic
-gcloud run services describe <name> # [Serverless - Cloud Run] - Get service configuration
+gcp run services describe <name> # [Serverless - Cloud Run] - Get service configuration
 
     # Display service URL, traffic split, revision info
-gcloud run services update <name> --memory 512Mi # [Serverless - Cloud Run] - Update service configuration
+gcp run services update <name> --memory 512Mi # [Serverless - Cloud Run] - Update service configuration
 
     # Change memory allocation, timeout, or environment
-gcloud run revisions list --service <service> # [Serverless - Cloud Run] - List service revisions
+gcp run revisions list --service <service> # [Serverless - Cloud Run] - List service revisions
 
     # Show all deployed versions of service
 
 
 
-gcloud app create --region=us-central # [App Engine] - Managed application hosting and deployment platform
+gcp app create --region=us-central # [App Engine] - Managed application hosting and deployment platform
 
     # Initialize App Engine for project in region
-gcloud app deploy # [App Engine] - Deploy app to App Engine
+gcp app deploy # [App Engine] - Deploy app to App Engine
 
     # Upload application code and deploy
-gcloud app describe # [App Engine] - Get App Engine configuration
+gcp app describe # [App Engine] - Get App Engine configuration
 
     # Display application settings and services
-gcloud app versions list # [App Engine] - List deployed application versions
+gcp app versions list # [App Engine] - List deployed application versions
 
     # Show all versions of application
-gcloud app browse # [App Engine] - Open application in browser
+gcp app browse # [App Engine] - Open application in browser
 
     # Launch default service in default browser
-gcloud app logs read # [App Engine] - Stream application logs
+gcp app logs read # [App Engine] - Stream application logs
 
     # Show recent application logs
 
 
 
-gcloud compute autoscaling-policies list # [Load Balancing] - Distribute traffic across instances
+gcp compute autoscaling-policies list # [Load Balancing] - Distribute traffic across instances
 
     # List all autoscaling policies
-gcloud compute backend-services list # [Load Balancing] - Backend service configuration for load balancers
+gcp compute backend-services list # [Load Balancing] - Backend service configuration for load balancers
 
     # Show all backend services
-gcloud compute backend-services create <name> --protocol HTTP --health-checks <check> # [Load Balancing] - Create backend service
+gcp compute backend-services create <name> --protocol HTTP --health-checks <check> # [Load Balancing] - Create backend service
 
     # Define backend pool with health checks
-gcloud compute forwarding-rules list # [Load Balancing] - Forwarding rules for routing traffic
+gcp compute forwarding-rules list # [Load Balancing] - Forwarding rules for routing traffic
 
     # List all forwarding rules
-gcloud compute http-health-checks create <name> # [Load Balancing] - Create HTTP health check
+gcp compute http-health-checks create <name> # [Load Balancing] - Create HTTP health check
 
     # Define health check for backends
-gcloud compute target-http-proxies create <name> --url-map <map> # [Load Balancing] - Create HTTP proxy
+gcp compute target-http-proxies create <name> --url-map <map> # [Load Balancing] - Create HTTP proxy
 
     # Create request handler for load balancer
 
 
 
-gcloud monitoring dashboards list # [Monitoring] - Metrics and alerting for resources
+gcp monitoring dashboards list # [Monitoring] - Metrics and alerting for resources
 
     # List all Monitoring dashboards
-gcloud monitoring dashboards create --config-from-file=dashboard.json # [Monitoring] - Create dashboard
+gcp monitoring dashboards create --config-from-file=dashboard.json # [Monitoring] - Create dashboard
 
     # Create custom monitoring dashboard from config
-gcloud monitoring dashboards delete <dashboard-id> # [Monitoring] - Delete dashboard
+gcp monitoring dashboards delete <dashboard-id> # [Monitoring] - Delete dashboard
 
     # Remove monitoring dashboard
-gcloud monitoring alert-policies list # [Monitoring] - List alert policies
+gcp monitoring alert-policies list # [Monitoring] - List alert policies
 
     # Show all configured alerts
-gcloud monitoring alert-policies create --display-name <name> --condition-display-name <cond> # [Monitoring] - Create alert policy
+gcp monitoring alert-policies create --display-name <name> --condition-display-name <cond> # [Monitoring] - Create alert policy
 
     # Define alert to trigger on metric threshold
-gcloud logging list-sinks # [Monitoring] - List log sinks
+gcp logging list-sinks # [Monitoring] - List log sinks
 
     # Show all log routing destinations
 
 
 
-gcloud logging read "resource.type=gce_instance" --limit 50 # [Monitoring] - Query logs for resources
+gcp logging read "resource.type=gce_instance" --limit 50 # [Monitoring] - Query logs for resources
 
     # Read logs filtered by resource type and limit
-gcloud logging write my-log "Test message" # [Monitoring] - Write log entry
+gcp logging write my-log "Test message" # [Monitoring] - Write log entry
 
     # Manually write to Cloud Logging
-gcloud logging sinks create <name> gs://bucket # [Monitoring] - Create log sink
+gcp logging sinks create <name> gs://bucket # [Monitoring] - Create log sink
 
     # Route logs to Cloud Storage, BigQuery, Pub/Sub
-gcloud monitoring time-series list --filter='metric.type="compute.googleapis.com/instance/cpu/utilization"' # [Monitoring] - List time series
+gcp monitoring time-series list --filter='metric.type="compute.googleapis.com/instance/cpu/utilization"' # [Monitoring] - List time series
 
     # Query metric time series
-gcloud logging buckets list # [Monitoring] - List Cloud Logging buckets
+gcp logging buckets list # [Monitoring] - List Cloud Logging buckets
 
     # Show all log storage buckets
-gcloud logging buckets create <bucket> --location=us # [Monitoring] - Create log bucket
+gcp logging buckets create <bucket> --location=us # [Monitoring] - Create log bucket
 
     # Create regional log storage
 
 
 
-gcloud resource-manager folders list # [Organization & IAM] - Manage GCP resource hierarchy
+gcp resource-manager folders list # [Organization & IAM] - Manage GCP resource hierarchy
 
     # List all folders in organization
-gcloud resource-manager folders create --display-name <name> # [Organization & IAM] - Create folder
+gcp resource-manager folders create --display-name <name> # [Organization & IAM] - Create folder
 
     # Create organizational folder
-gcloud resource-manager folders delete <folder-id> # [Organization & IAM] - Delete folder
+gcp resource-manager folders delete <folder-id> # [Organization & IAM] - Delete folder
 
     # Remove folder (must be empty)
-gcloud iam service-accounts list # [Organization & IAM] - Service account authentication
+gcp iam service-accounts list # [Organization & IAM] - Service account authentication
 
     # List all service accounts in project
-gcloud iam service-accounts create <name> --display-name="My Service Account" # [Organization & IAM] - Create service account
+gcp iam service-accounts create <name> --display-name="My Service Account" # [Organization & IAM] - Create service account
 
     # Create service account for application/automation
-gcloud iam service-accounts delete <service-account-email> # [Organization & IAM] - Delete service account
+gcp iam service-accounts delete <service-account-email> # [Organization & IAM] - Delete service account
 
     # Remove service account
-gcloud iam service-accounts keys create key.json --iam-account=<email> # [Organization & IAM] - Create service account key
+gcp iam service-accounts keys create key.json --iam-account=<email> # [Organization & IAM] - Create service account key
 
     # Generate JSON key for service account
-gcloud iam roles list # [Organization & IAM] - List IAM roles
+gcp iam roles list # [Organization & IAM] - List IAM roles
 
     # Show all available roles
-gcloud projects add-iam-policy-binding <project> --member=user:<email> --role=roles/viewer # [Organization & IAM] - Grant IAM role
+gcp projects add-iam-policy-binding <project> --member=user:<email> --role=roles/viewer # [Organization & IAM] - Grant IAM role
 
     # Assign role to user/service account
-gcloud projects remove-iam-policy-binding <project> --member=user:<email> --role=roles/viewer # [Organization & IAM] - Revoke IAM role
+gcp projects remove-iam-policy-binding <project> --member=user:<email> --role=roles/viewer # [Organization & IAM] - Revoke IAM role
 
     # Remove role from principal
 
 
 
-gcloud billing accounts list # [Billing] - Track and manage GCP costs
+gcp billing accounts list # [Billing] - Track and manage GCP costs
 
     # List all billing accounts
-gcloud billing budgets list --billing-account=<id> # [Billing] - List budgets for billing account
+gcp billing budgets list --billing-account=<id> # [Billing] - List budgets for billing account
 
     # Show all cost budgets
-gcloud billing budgets create --billing-account=<id> --display-name <name> --budget-amount 100 # [Billing] - Create budget
+gcp billing budgets create --billing-account=<id> --display-name <name> --budget-amount 100 # [Billing] - Create budget
 
     # Set monthly budget with alert threshold
-gcloud billing budgets delete <budget-id> --billing-account=<id> # [Billing] - Delete budget
+gcp billing budgets delete <budget-id> --billing-account=<id> # [Billing] - Delete budget
 
     # Remove budget alert
-gcloud billing projects list # [Billing] - List projects linked to billing account
+gcp billing projects list # [Billing] - List projects linked to billing account
 
     # Show all projects in billing account
-gcloud billing accounts describe <account-id> # [Billing] - Get billing account details
+gcp billing accounts describe <account-id> # [Billing] - Get billing account details
 
     # Display account configuration and linked projects
 
 
 
-gcloud dataflow jobs list # [Data Processing - Dataflow] - Unified stream and batch data processing
+gcp dataflow jobs list # [Data Processing - Dataflow] - Unified stream and batch data processing
 
     # List all Dataflow jobs
-gcloud dataflow jobs run <job> --gcs-location gs://bucket/templates/<template> # [Data Processing - Dataflow] - Run Dataflow job
+gcp dataflow jobs run <job> --gcs-location gs://bucket/templates/<template> # [Data Processing - Dataflow] - Run Dataflow job
 
     # Execute Dataflow pipeline from template
-gcloud dataflow jobs cancel <job-id> # [Data Processing - Dataflow] - Cancel running Dataflow job
+gcp dataflow jobs cancel <job-id> # [Data Processing - Dataflow] - Cancel running Dataflow job
 
     # Stop Dataflow pipeline
-gcloud dataflow jobs update <job-id> # [Data Processing - Dataflow] - Update job configuration
+gcp dataflow jobs update <job-id> # [Data Processing - Dataflow] - Update job configuration
 
     # Modify autoscaling or other settings
-gcloud dataflow sql query "SELECT * FROM dataset.table" # [Data Processing - Dataflow] - Run SQL query on Dataflow
+gcp dataflow sql query "SELECT * FROM dataset.table" # [Data Processing - Dataflow] - Run SQL query on Dataflow
 
     # Execute SQL query using Dataflow backend
-gcloud dataflow logs read <job-id> # [Data Processing - Dataflow] - Read Dataflow job logs
+gcp dataflow logs read <job-id> # [Data Processing - Dataflow] - Read Dataflow job logs
 
     # Show job execution logs
 
 
 
-gcloud dataproc clusters list # [Data Processing - Dataproc] - Managed Spark and Hadoop clusters
+gcp dataproc clusters list # [Data Processing - Dataproc] - Managed Spark and Hadoop clusters
 
     # List all Dataproc clusters
-gcloud dataproc clusters create <name> --num-workers 2 # [Data Processing - Dataproc] - Create Dataproc cluster
+gcp dataproc clusters create <name> --num-workers 2 # [Data Processing - Dataproc] - Create Dataproc cluster
 
     # Provision new Spark/Hadoop cluster
-gcloud dataproc clusters delete <name> # [Data Processing - Dataproc] - Delete Dataproc cluster
+gcp dataproc clusters delete <name> # [Data Processing - Dataproc] - Delete Dataproc cluster
 
     # Remove cluster and terminate nodes
-gcloud dataproc jobs submit spark --cluster <cluster> --jar gs://bucket/job.jar # [Data Processing - Dataproc] - Submit Spark job
+gcp dataproc jobs submit spark --cluster <cluster> --jar gs://bucket/job.jar # [Data Processing - Dataproc] - Submit Spark job
 
     # Execute Spark job on cluster
-gcloud dataproc jobs submit hadoop --cluster <cluster> --jar gs://bucket/job.jar # [Data Processing - Dataproc] - Submit Hadoop job
+gcp dataproc jobs submit hadoop --cluster <cluster> --jar gs://bucket/job.jar # [Data Processing - Dataproc] - Submit Hadoop job
 
     # Execute Hadoop job on cluster
-gcloud dataproc jobs list --cluster=<cluster> # [Data Processing - Dataproc] - List jobs on cluster
+gcp dataproc jobs list --cluster=<cluster> # [Data Processing - Dataproc] - List jobs on cluster
 
     # Show all submitted jobs and status
 
 
 
-gcloud bigquery datasets list # [Analytics - BigQuery] - Petabyte-scale data warehouse and analytics
+gcp bigquery datasets list # [Analytics - BigQuery] - Petabyte-scale data warehouse and analytics
 
     # List all BigQuery datasets
-gcloud bigquery datasets create <dataset-id> # [Analytics - BigQuery] - Create dataset
+gcp bigquery datasets create <dataset-id> # [Analytics - BigQuery] - Create dataset
 
     # Create new dataset for tables
-gcloud bigquery datasets delete <dataset-id> # [Analytics - BigQuery] - Delete dataset
+gcp bigquery datasets delete <dataset-id> # [Analytics - BigQuery] - Delete dataset
 
     # Remove dataset (must be empty or force deletion)
-gcloud bigquery tables list --dataset-id <dataset> # [Analytics - BigQuery] - List tables in dataset
+gcp bigquery tables list --dataset-id <dataset> # [Analytics - BigQuery] - List tables in dataset
 
     # Show all tables
-gcloud bigquery tables create <dataset>.<table> --schema field1:STRING,field2:INTEGER # [Analytics - BigQuery] - Create table
+gcp bigquery tables create <dataset>.<table> --schema field1:STRING,field2:INTEGER # [Analytics - BigQuery] - Create table
 
     # Create table with schema
-gcloud bigquery query --sql "SELECT * FROM dataset.table LIMIT 10" # [Analytics - BigQuery] - Query BigQuery
+gcp bigquery query --sql "SELECT * FROM dataset.table LIMIT 10" # [Analytics - BigQuery] - Query BigQuery
 
     # Execute SQL query on data warehouse
 
 
 
-gcloud bigquery load <dataset>.<table> gs://bucket/data.csv # [Analytics - BigQuery] - Load data into table
+gcp bigquery load <dataset>.<table> gs://bucket/data.csv # [Analytics - BigQuery] - Load data into table
 
     # Import CSV file to BigQuery table
-gcloud bigquery export <dataset>.<table> gs://bucket/export.csv # [Analytics - BigQuery] - Export table data
+gcp bigquery export <dataset>.<table> gs://bucket/export.csv # [Analytics - BigQuery] - Export table data
 
     # Download table to Cloud Storage as CSV
-gcloud bigquery show <dataset>.<table> # [Analytics - BigQuery] - Describe table schema
+gcp bigquery show <dataset>.<table> # [Analytics - BigQuery] - Describe table schema
 
     # Display table columns and data types
-gcloud bigquery ls -a # [Analytics - BigQuery] - List all datasets and tables
+gcp bigquery ls -a # [Analytics - BigQuery] - List all datasets and tables
 
     # Show recursive view of all datasets/tables
-gcloud bigquery update <dataset>.<table> --schema schema.json # [Analytics - BigQuery] - Update table schema
+gcp bigquery update <dataset>.<table> --schema schema.json # [Analytics - BigQuery] - Update table schema
 
     # Modify table columns and types
 
 
 
-gcloud ai platform models list # [AI/ML - Vertex AI] - Unified platform for training and deploying ML models
+gcp ai platform models list # [AI/ML - Vertex AI] - Unified platform for training and deploying ML models
 
     # List all Vertex AI models
-gcloud ai platform models create <name> --display-name="My Model" # [AI/ML - Vertex AI] - Create model
+gcp ai platform models create <name> --display-name="My Model" # [AI/ML - Vertex AI] - Create model
 
     # Register model in Vertex AI
-gcloud ai platform models delete <model-id> # [AI/ML - Vertex AI] - Delete model
+gcp ai platform models delete <model-id> # [AI/ML - Vertex AI] - Delete model
 
     # Remove model
-gcloud ai platform models predict <model-id> --json-instance '{"key":"value"}' # [AI/ML - Vertex AI] - Get predictions from model
+gcp ai platform models predict <model-id> --json-instance '{"key":"value"}' # [AI/ML - Vertex AI] - Get predictions from model
 
     # Run inference on deployed model
-gcloud ai training-jobs list # [AI/ML - Vertex AI] - List training jobs
+gcp ai training-jobs list # [AI/ML - Vertex AI] - List training jobs
 
     # Show all model training jobs
-gcloud ai training-jobs submit custom <name> --python-package-uris=gs://bucket/package.tar.gz # [AI/ML - Vertex AI] - Submit training job
+gcp ai training-jobs submit custom <name> --python-package-uris=gs://bucket/package.tar.gz # [AI/ML - Vertex AI] - Submit training job
 
     # Start custom training job on Vertex AI
-gcloud ai endpoints list # [AI/ML - Vertex AI] - List model endpoints
+gcp ai endpoints list # [AI/ML - Vertex AI] - List model endpoints
 
     # Show all deployed model endpoints
-gcloud ai endpoints create --display-name <name> # [AI/ML - Vertex AI] - Create model endpoint
+gcp ai endpoints create --display-name <name> # [AI/ML - Vertex AI] - Create model endpoint
 
     # Create endpoint for model serving
 
 
 
-gcloud vision detect-labels gs://bucket/image.jpg # [AI/ML - Vertex AI Vision] - Detect objects in images
+gcp vision detect-labels gs://bucket/image.jpg # [AI/ML - Vertex AI Vision] - Detect objects in images
 
     # Identify objects, places, activities in image
-gcloud vision detect-text gs://bucket/image.jpg # [AI/ML - Vertex AI Vision] - Detect text in images
+gcp vision detect-text gs://bucket/image.jpg # [AI/ML - Vertex AI Vision] - Detect text in images
 
     # Extract text from image using OCR
-gcloud vision detect-faces gs://bucket/image.jpg # [AI/ML - Vertex AI Vision] - Detect faces in images
+gcp vision detect-faces gs://bucket/image.jpg # [AI/ML - Vertex AI Vision] - Detect faces in images
 
     # Find faces and analyze emotions/attributes
-gcloud vision detect-logos gs://bucket/image.jpg # [AI/ML - Vertex AI Vision] - Detect logos in images
+gcp vision detect-logos gs://bucket/image.jpg # [AI/ML - Vertex AI Vision] - Detect logos in images
 
     # Identify brand logos in image
-gcloud vision detect-safe-search gs://bucket/image.jpg # [AI/ML - Vertex AI Vision] - Check image safety
+gcp vision detect-safe-search gs://bucket/image.jpg # [AI/ML - Vertex AI Vision] - Check image safety
 
     # Evaluate image for adult/violent/racy content
 
 
 
-gcloud language analyze-sentiment --content="This is great!" # [AI/ML - Vertex AI NLP] - Analyze sentiment/entities in text
+gcp language analyze-sentiment --content="This is great!" # [AI/ML - Vertex AI NLP] - Analyze sentiment/entities in text
 
     # Determine emotional tone of text
-gcloud language analyze-entities --content="Apple is in California" # [AI/ML - Vertex AI NLP] - Extract entities from text
+gcp language analyze-entities --content="Apple is in California" # [AI/ML - Vertex AI NLP] - Extract entities from text
 
     # Identify people, places, organizations in text
-gcloud language analyze-syntax --content="I love pizza" # [AI/ML - Vertex AI NLP] - Analyze text syntax
+gcp language analyze-syntax --content="I love pizza" # [AI/ML - Vertex AI NLP] - Analyze text syntax
 
     # Extract grammar structure and parts-of-speech
-gcloud language classify-text --content="Long text here..." # [AI/ML - Vertex AI NLP] - Classify text categories
+gcp language classify-text --content="Long text here..." # [AI/ML - Vertex AI NLP] - Classify text categories
 
     # Assign topic categories to text
-gcloud language analyze-entity-sentiment --content="Google is awesome" # [AI/ML - Vertex AI NLP] - Analyze entity sentiment
+gcp language analyze-entity-sentiment --content="Google is awesome" # [AI/ML - Vertex AI NLP] - Analyze entity sentiment
 
     # Get sentiment per entity (not just overall text)
 
 
 
-gcloud speech recognize gs://bucket/audio.wav # [AI/ML - Vertex AI Speech] - Convert speech to text
+gcp speech recognize gs://bucket/audio.wav # [AI/ML - Vertex AI Speech] - Convert speech to text
 
     # Transcribe audio file to text
-gcloud speech recognize gs://bucket/audio.wav --language-code en-US # [AI/ML - Vertex AI Speech] - Recognize speech with language
+gcp speech recognize gs://bucket/audio.wav --language-code en-US # [AI/ML - Vertex AI Speech] - Recognize speech with language
 
     # Transcribe audio with specific language setting
-gcloud text-to-speech synthesize-speech --text="Hello world" --output-file audio.mp3 # [AI/ML - Vertex AI Speech] - Convert text to speech
+gcp text-to-speech synthesize-speech --text="Hello world" --output-file audio.mp3 # [AI/ML - Vertex AI Speech] - Convert text to speech
 
     # Generate audio from text with voice
-gcloud text-to-speech list-voices # [AI/ML - Vertex AI Speech] - List available voices
+gcp text-to-speech list-voices # [AI/ML - Vertex AI Speech] - List available voices
 
     # Show available voice models and languages
 
 
 
-gcloud pub-sub topics list # [Messaging - Pub/Sub] - Real-time messaging service for event streaming
+gcp pub-sub topics list # [Messaging - Pub/Sub] - Real-time messaging service for event streaming
 
     # List all Pub/Sub topics
-gcloud pub-sub topics create <name> # [Messaging - Pub/Sub] - Create topic
+gcp pub-sub topics create <name> # [Messaging - Pub/Sub] - Create topic
 
     # Create topic for publishing events
-gcloud pub-sub topics delete <name> # [Messaging - Pub/Sub] - Delete topic
+gcp pub-sub topics delete <name> # [Messaging - Pub/Sub] - Delete topic
 
     # Remove topic and all messages
-gcloud pub-sub subscriptions list # [Messaging - Pub/Sub] - List subscriptions
+gcp pub-sub subscriptions list # [Messaging - Pub/Sub] - List subscriptions
 
     # Show all subscriptions to topics
-gcloud pub-sub subscriptions create <name> --topic <topic> # [Messaging - Pub/Sub] - Create subscription
+gcp pub-sub subscriptions create <name> --topic <topic> # [Messaging - Pub/Sub] - Create subscription
 
     # Subscribe to topic to receive messages
-gcloud pub-sub subscriptions delete <name> # [Messaging - Pub/Sub] - Delete subscription
+gcp pub-sub subscriptions delete <name> # [Messaging - Pub/Sub] - Delete subscription
 
     # Remove subscription
-gcloud pub-sub topics publish <name> --message "Hello" # [Messaging - Pub/Sub] - Publish message to topic
+gcp pub-sub topics publish <name> --message "Hello" # [Messaging - Pub/Sub] - Publish message to topic
 
     # Send message to topic for subscribers
 
 
 
-gcloud redis instances list # [Caching] - In-memory data store for caching and sessions
+gcp redis instances list # [Caching] - In-memory data store for caching and sessions
 
     # List all Redis instances
-gcloud redis instances create <name> --size=1 # [Caching] - Create Redis instance
+gcp redis instances create <name> --size=1 # [Caching] - Create Redis instance
 
     # Provision new Redis cache
-gcloud redis instances delete <name> # [Caching] - Delete Redis instance
+gcp redis instances delete <name> # [Caching] - Delete Redis instance
 
     # Remove cache instance
-gcloud redis instances describe <name> # [Caching] - Get Redis configuration
+gcp redis instances describe <name> # [Caching] - Get Redis configuration
 
     # Display memory, nodes, version
-gcloud redis instances update <name> --size=2 # [Caching] - Scale Redis instance
+gcp redis instances update <name> --size=2 # [Caching] - Scale Redis instance
 
     # Increase memory capacity
-gcloud redis operations list # [Caching] - List Redis operations
+gcp redis operations list # [Caching] - List Redis operations
 
     # Show creation, update, and backup operations
 
 
 
-gcloud compute security-policies list # [Security] - DDoS and web attack protection
+gcp compute security-policies list # [Security] - DDoS and web attack protection
 
     # List all security policies
-gcloud compute security-policies create <name> # [Security] - Create security policy
+gcp compute security-policies create <name> # [Security] - Create security policy
 
     # Create Cloud Armor policy for DDoS/WAF
-gcloud compute security-policies rules create 1000 --security-policy <policy> --action deny-403 --expression "origin.region_code == 'CN'" # [Security] - Add policy rule
+gcp compute security-policies rules create 1000 --security-policy <policy> --action deny-403 --expression "origin.region_code == 'CN'" # [Security] - Add policy rule
 
     # Add rule to block traffic by criteria
-gcloud compute security-policies delete <name> # [Security] - Delete security policy
+gcp compute security-policies delete <name> # [Security] - Delete security policy
 
     # Remove security policy
-gcloud compute network-attachments list # [Security] - Private service connections
+gcp compute network-attachments list # [Security] - Private service connections
 
     # List network attachments
-gcloud compute packet-mirrorings list # [Security] - Mirror network traffic for monitoring
+gcp compute packet-mirrorings list # [Security] - Mirror network traffic for monitoring
 
     # List traffic mirroring policies
 
 
 
-gcloud secrets create <name> --data-file=file.txt # [Security - Secret Manager] - Secure storage for secrets and credentials
+gcp secrets create <name> --data-file=file.txt # [Security - Secret Manager] - Secure storage for secrets and credentials
 
     # Create secret from file
-gcloud secrets versions access latest --secret=<name> # [Security - Secret Manager] - Retrieve secret value
+gcp secrets versions access latest --secret=<name> # [Security - Secret Manager] - Retrieve secret value
 
     # Get current secret version
-gcloud secrets delete <name> # [Security - Secret Manager] - Delete secret
+gcp secrets delete <name> # [Security - Secret Manager] - Delete secret
 
     # Remove secret (versions remain temporarily)
-gcloud secrets list # [Security - Secret Manager] - List all secrets
+gcp secrets list # [Security - Secret Manager] - List all secrets
 
     # Show all stored secrets
-gcloud secrets versions list <name> # [Security - Secret Manager] - List secret versions
+gcp secrets versions list <name> # [Security - Secret Manager] - List secret versions
 
     # Show all versions of a secret
-gcloud secrets add-iam-policy-binding <name> --member=user:<email> --role=roles/secretmanager.secretAccessor # [Security - Secret Manager] - Grant secret access
+gcp secrets add-iam-policy-binding <name> --member=user:<email> --role=roles/secretmanager.secretAccessor # [Security - Secret Manager] - Grant secret access
 
     # Allow principal to read secret
 
 
 
-gcloud compute interconnects list # [Hybrid Connectivity] - Direct network connection to Google Cloud
+gcp compute interconnects list # [Hybrid Connectivity] - Direct network connection to Google Cloud
 
     # List Interconnect connections
-gcloud compute interconnects create <name> --interconnect-type=DEDICATED # [Hybrid Connectivity] - Create Interconnect
+gcp compute interconnects create <name> --interconnect-type=DEDICATED # [Hybrid Connectivity] - Create Interconnect
 
     # Create dedicated connection (months lead time)
-gcloud compute vpn-gateways list # [Hybrid Connectivity] - VPN gateway for encrypted site-to-site
+gcp compute vpn-gateways list # [Hybrid Connectivity] - VPN gateway for encrypted site-to-site
 
     # List VPN gateways
-gcloud compute vpn-tunnels list # [Hybrid Connectivity] - VPN tunnel connections
+gcp compute vpn-tunnels list # [Hybrid Connectivity] - VPN tunnel connections
 
     # List active VPN tunnels
-gcloud compute routers list # [Hybrid Connectivity] - Dynamic routing for hybrid networks
+gcp compute routers list # [Hybrid Connectivity] - Dynamic routing for hybrid networks
 
     # List Cloud Routers
-gcloud compute routers create <name> --network=default --asn=64514 # [Hybrid Connectivity] - Create router
+gcp compute routers create <name> --network=default --asn=64514 # [Hybrid Connectivity] - Create router
 
     # Create router for hybrid connectivity
