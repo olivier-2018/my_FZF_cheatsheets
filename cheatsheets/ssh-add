@@ -1,0 +1,156 @@
+# ssh-add - add private key identities to the OpenSSH authentication agent
+
+ssh-add --help # Usage: ssh-add [-cCDdKkLlqvXx] [-E fingerprint_hash]
+#              [-H hostkey_file] [-h destination_constraint] [-S provider]
+#              [-t life] [file ...]
+#         ssh-add -s pkcs11 [-vC] [certificate ...]
+#         ssh-add -e pkcs11
+#         ssh-add -T pubkey ...
+
+#  Key Management:
+#    -c                  Require confirmation before using added identities
+#    -C                  Process certificates only, skip plain keys
+#    -D                  Delete all identities from agent
+#    -d                  Remove identities from agent (instead of adding)
+#    -K                  Load resident keys from FIDO authenticator
+#    -k                  Process plain private keys only, skip certificates
+#    -L                  List public key parameters of all identities
+#    -l                  List fingerprints of all identities
+#    -T pubkey ...       Test if private keys for pubkeys are usable
+#
+#  Options:
+#    -E fingerprint_hash  Hash algorithm for fingerprints (md5|sha256, default: sha256)
+#    -e pkcs11            Remove keys provided by PKCS#11 library
+#    -H hostkey_file      Known hosts file for destination-constrained keys
+#    -h destination_constraint  Constrain key to specific hosts/destinations
+#    -S provider          Path to FIDO authenticator provider library
+#    -s pkcs11            Add keys from PKCS#11 shared library
+#    -t life              Set maximum lifetime for added identities (seconds or time format)
+#    -v                   Verbose mode (repeat for more verbosity: -vv, -vvv)
+#    -q                   Quiet after successful operation
+#    -X                   Unlock the agent
+#    -x                   Lock the agent with password
+#
+#  Environment:
+#    SSH_AUTH_SOCK        Path to authentication agent socket
+#    DISPLAY              For SSH_ASKPASS when no terminal available
+#    SSH_ASKPASS          Program to prompt for passphrase (X11)
+#    SSH_ASKPASS_REQUIRE  Control askpass usage (never|prefer|force)
+#    SSH_SK_PROVIDER      FIDO authenticator provider library path
+
+
+
+ssh-add # [Basic Usage] - Add default SSH keys to agent
+
+    # Adds ~/.ssh/id_rsa, ~/.ssh/id_ecdsa, ~/.ssh/id_ed25519, ~/.ssh/id_dsa
+ssh-add ~/.ssh/id_rsa # [Basic Usage] - Add specific private key
+
+    # Load specific private key (and corresponding certificate if it exists)
+ssh-add -l # [List Keys] - List fingerprints of all identities
+
+    # Show fingerprints of all keys currently loaded in agent
+ssh-add -L # [List Keys] - List public key parameters
+
+    # Display full public key information for all loaded identities
+ssh-add -d ~/.ssh/id_rsa # [Remove Keys] - Remove specific key from agent
+
+    # Delete specific key from authentication agent
+ssh-add -D # [Remove Keys] - Delete all identities from agent
+
+    # Clear all keys from agent (requires re-adding later)
+
+
+
+ssh-add -t 3600 ~/.ssh/id_rsa # [Lifetime] - Add key with 1-hour lifetime
+
+    # Key expires from agent after 3600 seconds
+ssh-add -t 1d ~/.ssh/id_ed25519 # [Lifetime] - Add key for 1 day
+
+    # Key remains in agent for 24 hours
+ssh-add -t 30m ~/.ssh/id_rsa # [Lifetime] - Add key for 30 minutes
+
+    # Short-lived key (useful for temporary access)
+ssh-add -c ~/.ssh/id_rsa # [Confirmation] - Require confirmation before use
+
+    # Each key use requires manual confirmation via ssh-askpass
+ssh-add -c -t 1h ~/.ssh/id_rsa # [Confirmation] - Confirmation + 1-hour lifetime
+
+    # Combine confirmation requirement with time limit
+
+
+
+ssh-add -v ~/.ssh/id_rsa # [Debug] - Verbose output showing progress
+
+    # Display detailed messages about loading process
+ssh-add -vv ~/.ssh/id_rsa # [Debug] - Very verbose (more detail)
+
+    # Even more detailed debugging information
+ssh-add -q ~/.ssh/id_rsa # [Quiet] - Suppress success messages
+
+    # Silent operation if key loads successfully
+ssh-add -v -l # [Debug] - Verbose list of all keys
+
+    # Show fingerprints with additional information
+
+
+
+ssh-add -s /usr/lib/opensc-pkcs11.so # [PKCS#11] - Load keys from PKCS#11 token
+
+    # Add keys from smartcard or hardware token
+ssh-add -e /usr/lib/opensc-pkcs11.so # [PKCS#11] - Remove PKCS#11 keys
+
+    # Remove all keys from specified PKCS#11 provider
+ssh-add -s /usr/lib/softhsm/libsofthsm.so cert.pub # [PKCS#11] - Load with certificate
+
+    # Load PKCS#11 keys and associate with certificate
+ssh-add -K # [FIDO] - Load resident keys from FIDO authenticator
+
+    # Add keys stored on FIDO2/U2F hardware key
+ssh-add -S /usr/lib/fido2/libfido2.so -K # [FIDO] - Custom FIDO provider
+
+    # Load FIDO keys using specific provider library
+
+
+
+ssh-add -T ~/.ssh/id_rsa.pub # [Testing] - Test if private key is usable
+
+    # Verify that corresponding private key can sign/verify correctly
+ssh-add -T ~/.ssh/id_rsa.pub ~/.ssh/id_ed25519.pub # [Testing] - Test multiple keys
+
+    # Test multiple public keys in one command
+ssh-add -v -T ~/.ssh/id_rsa.pub # [Testing] - Test with verbose output
+
+    # Show detailed testing process for debugging
+
+
+
+ssh-add -x # [Lock/Unlock] - Lock the agent with password
+
+    # Protect loaded keys with passphrase (password-protect agent)
+ssh-add -X # [Lock/Unlock] - Unlock the agent
+
+    # Remove password protection from agent
+ssh-add -h 'user@host.example.com' ~/.ssh/id_rsa # [Destination Constraint] - Constrain to single host
+
+    # Key only usable for authentication to specified destination
+ssh-add -h 'host1>user@host2' ~/.ssh/id_rsa # [Destination Constraint] - Chain constraint
+
+    # Key usable through host1 to authenticate to host2 only
+ssh-add -H ~/.ssh/known_hosts -h 'host.example.com' ~/.ssh/id_rsa # [Destination Constraint] - With known_hosts
+
+    # Use custom known_hosts for destination validation
+
+
+
+ssh-add ~/.ssh/id_rsa ~/.ssh/id_ed25519 ~/.ssh/id_ecdsa # [Multiple Keys] - Add multiple keys at once
+
+    # Load several keys in one command
+ssh-add -l && ssh-add ~/.ssh/backup_key # [Workflow] - List then add
+
+    # Check current keys before adding new one
+ssh-add -D && ssh-add ~/.ssh/id_ed25519 # [Workflow] - Clear and reload
+
+    # Remove all keys and add only primary key
+eval "$(ssh-agent)" && ssh-add # [Agent Start] - Start agent and add keys
+
+    # Initialize ssh-agent and load default keys
