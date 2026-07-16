@@ -1,0 +1,135 @@
+# tar - archive files and directories into a single file
+
+tar --help  # Usage: tar [OPTION...] [FILE]...
+
+#   Main operations (choose one):
+#    -c, --create               Create a new archive
+#    -x, --extract              Extract files from archive
+#    -t, --list                 List archive contents
+#    -A, --concatenate          Append archives
+#    -u, --update               Update archive with newer files
+#    -r, --append               Append files to end of archive
+#
+#   Compression:
+#    -z, --gzip                 Filter through gzip (compress/decompress)
+#    -j, --bzip2                Filter through bzip2 (better compression)
+#    -J, --xz                   Filter through xz (best compression)
+#    -Z, --compress             Filter through compress
+#
+#   File handling:
+#    -f, --file=FILE            Archive file (use - for stdin/stdout)
+#    -C, --directory=DIR        Change to directory before archiving
+#    -v, --verbose              List files processed
+#    -p, --preserve-permissions Preserve file permissions
+#    -P, --absolute-names       Don't strip leading '/' from names
+#
+#   Selection & filtering:
+#    -N, --newer=DATE           Only store files newer than DATE
+#    --newer-mtime=DATE         Compare only modification time
+#    --one-file-system          Stay in local file system
+#    --exclude=PATTERN          Skip files matching pattern
+#    --exclude-from=FILE        Exclude patterns from file
+#    -h, --dereference          Follow symlinks; archive target files
+#    -K, --starting-file=NAME   Begin at member NAME when extracting
+#
+#   Output control:
+#    -b, --blocking-factor=N    Set block size (default 20)
+#    --checkpoint[=N]           Display progress every N records
+#    --totals                   Print total bytes after processing
+#    --show-transformed-names   Show file names after transformation
+#    -R, --block-number         Show block number with each message
+#    -w, --interactive          Confirm each action
+
+
+tar -cvf archive.tar file1 file2 # [Create] - Create archive from files
+
+    # Create new tar archive with verbose output
+tar -cvf archive.tar /path/to/dir # [Create] - Archive entire directory
+
+    # Recursively add all files in directory
+tar -cvf - file1 file2 # [Create] - Write archive to stdout
+
+    # Pipe archive to another command or file
+tar -xvf archive.tar # [Extract] - Extract all files
+
+    # Extract archive and list files being processed
+tar -xvf archive.tar -C /path/to/dir # [Extract] - Extract to specific directory
+
+    # Extract into target directory instead of current
+tar -xvf archive.tar file1.txt # [Extract] - Extract specific files
+
+    # Extract only file1.txt from archive
+tar -tvf archive.tar # [List] - List archive contents
+
+    # Show files in archive without extracting
+
+
+tar -cvzf archive.tar.gz file1 file2 # [Gzip] - Create gzip-compressed archive
+
+    # Compress with gzip during creation
+tar -xvzf archive.tar.gz # [Gzip] - Extract gzip archive
+
+    # Automatically detect and decompress gzip
+tar -cvjf archive.tar.bz2 file1 file2 # [Bzip2] - Create bzip2-compressed archive
+
+    # Better compression than gzip
+tar -xvjf archive.tar.bz2 # [Bzip2] - Extract bzip2 archive
+
+    # Decompress bzip2 archive
+tar -cvJf archive.tar.xz file1 file2 # [XZ] - Create xz-compressed archive (best compression)
+
+    # Highest compression ratio, slower
+tar -xvJf archive.tar.xz # [XZ] - Extract xz archive
+
+    # Decompress xz archive
+tar -cvzf backup.tar.gz --exclude='*.log' --exclude='*.tmp' /path # [Exclude] - Compress excluding patterns
+
+    # Create gzip archive, skipping log and temp files
+tar -xvzf archive.tar.gz --exclude='*.cfg' # [Exclude] - Extract excluding patterns
+
+    # Extract but skip config files
+
+
+tar -cvf archive.tar -N '2025-01-01' /path # [Incremental] - Archive files modified after date
+
+    # Back up only recently changed files
+tar -rvf archive.tar file3.txt # [Append] - Add file to existing archive
+
+    # Append file to end of tar archive
+tar -uf archive.tar file1.txt # [Update] - Update archive if file is newer
+
+    # Add or update file only if newer than archive version
+tar -Af archive1.tar archive2.tar # [Merge] - Concatenate archives
+
+    # Combine two tar archives into one
+
+
+tar -xvf archive.tar --strip-components=1 # [Strip Paths] - Remove directory levels
+
+    # Extract stripping first directory level
+tar -xvf archive.tar --transform 's/^old/new/' # [Transform Names] - Rename files during extract
+
+    # Rename files using sed-style patterns
+tar -cvf archive.tar -h /path/with/symlinks # [Symlinks] - Follow symlinks and archive targets
+
+    # Archive actual files pointed to by symlinks
+tar -cvf archive.tar -P /absolute/path # [Absolute Paths] - Keep absolute path names
+
+    # Preserve leading slashes in archive
+
+
+tar -cvzf archive.tar.gz --checkpoint=100 . # [Progress] - Show progress during archiving
+
+    # Display status every 100 records
+tar -cvzf archive.tar.gz --totals . # [Progress] - Show total bytes
+
+    # Print total bytes processed at end
+tar -cvf archive.tar -C /path file.txt # [Directory] - Change to directory before adding
+
+    # Add file relative to specified directory
+tar -xvf archive.tar -C /restore/to # [Directory] - Extract to different directory
+
+    # Extract all files into target path
+tar -tvf archive.tar | grep pattern # [Search] - Find file in archive
+
+    # Search archive contents without extracting

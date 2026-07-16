@@ -7,27 +7,45 @@ useful commands.
 
 ## Installation
 
-### [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
+### Requirements: zsh (or better oh-my-zsh)
 
-This can be used as a plugin, so just
+- Install: [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
+- Use the fzf plugin --> .zshrc line 75 --> plugins=(fzf ...)
 
-    git clone https://github.com/james-w/fzf-cheatsheets ~/.oh-my-zsh/plugins/fzf-cheatsheets
+The "fzf-cheatsheets" repo folder is used as a oh-my-zsh plugin just like fzf, so just
 
-### zsh
+    git clone git@github.com:olivier-2018/my_FZF_cheatsheets.git  ~/.oh-my-zsh/plugins/fzf-cheatsheets
+
+### Requirements: fzf
 
 Clone the repo somewhere, and then in your `.zshrc` add
 
-    FZF_CHEATSHEETS_DIR=<directory where you cloned this repo>
+Enable Fuzyy search by adding the following to the ~/.zshrc:
+'''bash
+    # FUZZY-SEARCH
+    # ---------
+    # source: https://github.com/junegunn/fzf#using-git
+    # activate with Ctrl-t (files), ALT-c (folder),  Ctrl-r (history)
+    if [[ ! "$PATH" == *${HOME}/.fzf/bin* ]]; then
+    PATH="${PATH:+${PATH}:}${HOME}/.fzf/bin"
+    fi
+    export FZF_DEFAULT_OPTS="--height 80% --preview 'batcat --style=numbers --color=always --line-range=:500 {}' --preview-window=right:60%"
+    export FZF_CTRL_T_OPTS="--height 80% --preview 'batcat --style=numbers --color=always --line-range=:500 {}' --preview-window=right:60%"
+    export FZF_ALT_C_OPTS="--height 80% --preview 'tree -C {} | head -200' --preview-window=right:60%"
+    source <(fzf --zsh)
+'''
+
+### fzf-cheatsheets
+
+Once Fuzyy search is enabled, add the following to the ~/.zshrc:
+'''bash
+    # FZF_CHEATSHEETS
+    # activate: Ctrl-x Ctrl-y   OR fzf-cheatsheets <cmd>
+    FZF_CHEATSHEETS_DIR=${HOME}/.oh-my-zsh/plugins/fzf-cheatsheets
     export PATH="$PATH:${FZF_CHEATSHEETS_DIR}/bin"
-    source "${FZF_CHEATSHEETS_DIR}/shell/fzf-cheatsheets.zsh
+    source ${FZF_CHEATSHEETS_DIR}/shell/fzf-cheatsheets.zsh
+'''
 
-### bash
-
-Clone the repo somewhere, and then in your `.bashrc` add
-
-    FZF_CHEATSHEETS_DIR=<directory where you cloned this repo>
-    export PATH="$PATH:${FZF_CHEATSHEETS_DIR}/bin"
-    source "${FZF_CHEATSHEETS_DIR}/shell/fzf-cheatsheets.bash"
 
 ## Usage
 
@@ -70,6 +88,7 @@ You can also use the command directly if you prefer:
 
 In this case the command will be executed when you have finished, it won't be
 added to your command line.
+
 
 ## Available Cheatsheets
 
@@ -140,6 +159,7 @@ Each cheatsheet includes:
 - **Grouped categories** — Commands sorted by purpose for easy navigation
 - **Extended descriptions** — 1-3 line explanations optimized for the fzf preview pane
 
+
 ## Adding cheatsheets
 
 You can add your own cheatsheets.
@@ -166,6 +186,7 @@ further.
 Everything up to the next command will be considered comments for that
 command.
 
+
 ### Awesome Cheatsheets
 
 You can also use the [awesome-cheatsheets](https://github.com/LeCoupa/awesome-cheatsheets)
@@ -180,6 +201,7 @@ and point your `FZF_CHEATSHEETS_DIR` to that directory in your `zshrc` or
 `bashrc`:
 
     FZF_CHEATSHEETS_DIR=path/to/awesome-cheatsheets
+
 
 ## Acknowledgements:
 
