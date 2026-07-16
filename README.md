@@ -18,10 +18,19 @@ The "fzf-cheatsheets" repo folder is used as a oh-my-zsh plugin just like fzf, s
 
 ### Requirements: fzf
 
-Clone the repo somewhere, and then in your `.zshrc` add
+Clone the FZF repo 
+
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+
+
+Install FZF: 
+
+    ~/.fzf/install
+    # Note: No need to update your shell configuration files
+
 
 Enable Fuzyy search by adding the following to the ~/.zshrc:
-'''bash
+
     # FUZZY-SEARCH
     # ---------
     # source: https://github.com/junegunn/fzf#using-git
@@ -33,18 +42,20 @@ Enable Fuzyy search by adding the following to the ~/.zshrc:
     export FZF_CTRL_T_OPTS="--height 80% --preview 'batcat --style=numbers --color=always --line-range=:500 {}' --preview-window=right:60%"
     export FZF_ALT_C_OPTS="--height 80% --preview 'tree -C {} | head -200' --preview-window=right:60%"
     source <(fzf --zsh)
-'''
+
 
 ### fzf-cheatsheets
 
 Once Fuzyy search is enabled, add the following to the ~/.zshrc:
-'''bash
+
     # FZF_CHEATSHEETS
     # activate: Ctrl-x Ctrl-y   OR fzf-cheatsheets <cmd>
     FZF_CHEATSHEETS_DIR=${HOME}/.oh-my-zsh/plugins/fzf-cheatsheets
     export PATH="$PATH:${FZF_CHEATSHEETS_DIR}/bin"
     source ${FZF_CHEATSHEETS_DIR}/shell/fzf-cheatsheets.zsh
-'''
+
+
+Then restart your shell.
 
 
 ## Usage
